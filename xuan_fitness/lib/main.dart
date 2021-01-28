@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:xuan_fitness/pages/loginhome/login.dart';
+import 'package:intl/intl.dart';
 
 void main() {
-  runApp(MyApp());
+  initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
