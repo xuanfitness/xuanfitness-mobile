@@ -33,34 +33,56 @@ class _State extends State<LoginPage> {
                   child: PhotoWidget(),
                   //constraints: BoxConstraints.tightForFinite(width: 20),
                 ),
+                /*Container(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  child: TextField(),
+                ),*/
                 Container(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: TextField(
-                    controller: nameController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Username',
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
                   child: TextField(
                     obscureText: true,
                     controller: passwordController,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Password',
-                    ),
-                    style: TextStyle(color: Colors.green[800]),
+                        enabledBorder: new OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.lightGreen[900],
+                          ),
+                        ),
+                        labelText: 'Username',
+                        labelStyle: TextStyle(color: Colors.lightGreen[900])),
                   ),
                 ),
                 Container(
-                    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    child: OutlineButton(
-                      textColor: Colors.green[800],
-                      color: Colors.green[800],
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  child: TextField(
+                    obscureText: true,
+                    controller: passwordController,
+                    decoration: InputDecoration(
+                        enabledBorder: new OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.lightGreen[900],
+                          ),
+                        ),
+                        labelText: 'Password',
+                        labelStyle: TextStyle(color: Colors.lightGreen[900])),
+                  ),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    //forgot password screen
+                  },
+                  textColor: Colors.brown[200],
+                  child: Text(''),
+                ),
+                Container(
+                    height: 50,
+                    padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    child: ElevatedButton(
                       child: Text('Login'),
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.white,
+                          onPrimary: Colors.lightGreen[900],
+                          side: BorderSide(color: Colors.lightGreen[900])),
                       onPressed: () {
                         Navigator.push(
                           context,

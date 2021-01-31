@@ -8,6 +8,9 @@ class PhotoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image(
-        image: AssetImage('images/xuan_logo.png'), height: 150, width: 150);
+        alignment: Alignment.bottomLeft,
+        image: AssetImage('images/xuan_logo.png'),
+        height: 300,
+        width: 300);
   }
 }
