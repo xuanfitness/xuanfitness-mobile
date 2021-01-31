@@ -8,6 +8,6 @@ class PhotoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image(
-        image: AssetImage('images/xuan_logo.png'), height: 350, width: 350);
+        image: AssetImage('images/xuan_logo.png'), height: 150, width: 150);
   }
 }

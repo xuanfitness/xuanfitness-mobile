@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xuan_fitness/widgets/logo_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -24,21 +25,16 @@ class _State extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Padding(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(20),
             child: ListView(
               children: <Widget>[
                 Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.brown[200]),
-                    )),
+                  alignment: Alignment.bottomLeft,
+                  child: PhotoWidget(),
+                  //constraints: BoxConstraints.tightForFinite(width: 20),
+                ),
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                   child: TextField(
                     controller: nameController,
                     decoration: InputDecoration(
@@ -56,14 +52,14 @@ class _State extends State<LoginPage> {
                       border: OutlineInputBorder(),
                       labelText: 'Password',
                     ),
+                    style: TextStyle(color: Colors.green[800]),
                   ),
                 ),
                 Container(
-                    height: 50,
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: RaisedButton(
-                      textColor: Colors.white,
-                      color: Colors.brown[200],
+                    padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: OutlineButton(
+                      textColor: Colors.green[800],
+                      color: Colors.green[800],
                       child: Text('Login'),
                       onPressed: () {
                         Navigator.push(
