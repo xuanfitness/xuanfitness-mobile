@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xuan_fitness/widgets/logo_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:xuan_fitness/pages/loginhome/home_calendar.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -48,7 +49,7 @@ class _State extends State<LoginPage> {
                             color: Colors.lightGreen[900],
                           ),
                         ),
-                        labelText: 'Username',
+                        labelText: 'Email',
                         labelStyle: TextStyle(color: Colors.lightGreen[900])),
                   ),
                 ),
@@ -87,8 +88,8 @@ class _State extends State<LoginPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              //builder: (context) => Tabs(),
-                              ),
+                            builder: (context) => HomeCalendar(),
+                          ),
                         );
                         print(nameController.text);
                         print(passwordController.text);
