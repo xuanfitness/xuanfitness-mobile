@@ -22,6 +22,29 @@ class _State extends State<LoginPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  /*String _email = "";
+  String _password = "";
+
+  _State() {
+    //nameController.addListener();
+    //passwordController.addListener();
+
+    void _emailListen() {
+      if (nameController.text.isEmpty) {
+        _email = "";
+      } else {
+        _email = nameController.text;
+      }
+    }
+
+    void _passwordListen() {
+      if (passwordController.text.isEmpty) {
+        _password = "";
+      } else {
+        _password = passwordController.text;
+      }
+    }*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,35 +62,38 @@ class _State extends State<LoginPage> {
                   child: TextField(),
                 ),*/
                 Container(
-                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                  child: TextField(
-                    obscureText: true,
-                    controller: passwordController,
-                    decoration: InputDecoration(
-                        enabledBorder: new OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.lightGreen[900],
-                          ),
-                        ),
-                        labelText: 'Email',
-                        labelStyle: TextStyle(color: Colors.lightGreen[900])),
-                  ),
-                ),
+                    padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                    decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              width: 1.0,
+                              //height: 1.0,
+                              color: Colors.lightGreen[900])),
+                    ),
+                    child: TextField(
+                      obscureText: true,
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Username',
+                        hintStyle: TextStyle(color: Colors.lightGreen[900]),
+                      ),
+                    )),
                 Container(
-                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
-                  child: TextField(
-                    obscureText: true,
-                    controller: passwordController,
-                    decoration: InputDecoration(
-                        enabledBorder: new OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.lightGreen[900],
-                          ),
-                        ),
-                        labelText: 'Password',
-                        labelStyle: TextStyle(color: Colors.lightGreen[900])),
-                  ),
-                ),
+                    padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                    decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: Colors.lightGreen[900])),
+                    ),
+                    child: TextField(
+                      obscureText: true,
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Password',
+                        hintStyle: TextStyle(color: Colors.lightGreen[900]),
+                      ),
+                    )),
                 FlatButton(
                   onPressed: () {
                     //forgot password screen
