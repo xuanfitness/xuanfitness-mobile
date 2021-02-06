@@ -32,8 +32,8 @@ class _TaskBarState extends State<TaskBar> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Notifications(),
-                  ),
+                      //builder: (context) => Notifications(),
+                      ),
                 );
               }),
           // action button
@@ -50,6 +50,36 @@ class _TaskBarState extends State<TaskBar> {
           ),
           // overflow menu
         ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        unselectedItemColor: Colors.black,
+        selectedItemColor: Colors.orange,
+        backgroundColor: Colors.yellow[100],
+        // this will be set when a new tab is tapped
+        items: [
+          //first icon
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.home),
+            title: new Text('Fitness'),
+          ),
+          //second icon
+          BottomNavigationBarItem(
+            icon: new Icon(
+              Icons.favorite,
+              //color: Colors.black,
+            ),
+            title: new Text('Habits'),
+            //third icon
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+                //color: Colors.black,
+              ),
+              title: Text('Nutrition'))
+        ],
+        //changes the colour of the selected item - can change later.
       ),
     );
   }
