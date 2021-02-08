@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class CheckBoxListTileDemo extends StatefulWidget {
+class WorkoutList extends StatefulWidget {
   @override
-  CheckBoxListTileDemoState createState() => new CheckBoxListTileDemoState();
+  WorkoutListState createState() => new WorkoutListState();
 }
 
-class CheckBoxListTileDemoState extends State<CheckBoxListTileDemo> {
+class WorkoutListState extends State<WorkoutList> {
   List<CheckBoxListTileModel> checkBoxListTileModel =
       CheckBoxListTileModel.getUsers();
 

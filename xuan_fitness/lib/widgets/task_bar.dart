@@ -18,6 +18,7 @@ class _TaskBarState extends State<TaskBar> {
     super.initState();
   }
 
+  int index = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,8 +52,14 @@ class _TaskBarState extends State<TaskBar> {
           // overflow menu
         ],
       ),
+      //https://stackoverflow.com/questions/45235570/how-to-use-bottomnavigationbar-with-navigator
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
+        currentIndex: index,
+        onTap: (int index) {
+          setState(() {
+            this.index = index;
+          });
+        },
         unselectedItemColor: Colors.black,
         selectedItemColor: Colors.orange,
         backgroundColor: Colors.yellow[100],

@@ -2,11 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:xuan_fitness/widgets/logo_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:xuan_fitness/pages/loginhome/home_calendar.dart';
+import 'package:xuan_fitness/widgets/task_bar.dart';
+import 'package:xuan_fitness/widgets/placeholder_widget.dart';
+import 'package:xuan_fitness/widgets/home_widget.dart';
 
 void main() {
   runApp(MaterialApp(
     home: LoginPage(),
   ));
+}
+
+class App extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'My Flutter App',
+      home: TaskBar(),
+    );
+  }
 }
 
 const users = const {'emilybunny100': '12345'};
