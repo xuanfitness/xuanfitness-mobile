@@ -1,38 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:xuan_fitness/widgets/task_bar.dart';
-
-class HomeCalendar extends StatefulWidget {
-  HomeCalendar({Key key}) : super(key: key);
-
-  @override
-  _HomeCalendar createState() => _HomeCalendar();
-}
-
-class _HomeCalendar extends State<HomeCalendar> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Home',
-      theme: ThemeData(
-        primaryColor: Colors.amber[100],
-      ),
-      home: TaskBar(title: "Calendar"),
-    );
-  }
-}
-
-//column with calendar and info
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class CalendarWidget extends StatefulWidget {
+  CalendarWidget({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _CalendarWidgetState createState() => _CalendarWidgetState();
 }
-class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStateMixin {
   Map<DateTime, List> _events;
   List _selectedEvents;
   AnimationController _animationController;
@@ -76,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         'Event D8'
       ],
       _selectedDay.add(Duration(days: 3)):
-          Set.from(['Event A9', 'Event A9', 'Event B9']).toList(),
+      Set.from(['Event A9', 'Event A9', 'Event B9']).toList(),
       _selectedDay.add(Duration(days: 7)): [
         'Event A10',
         'Event B10',
@@ -164,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ),
       headerStyle: HeaderStyle(
         formatButtonTextStyle:
-            TextStyle().copyWith(color: Colors.white, fontSize: 15.0),
+        TextStyle().copyWith(color: Colors.white, fontSize: 15.0),
         formatButtonDecoration: BoxDecoration(
           color: Colors.deepOrange[400],
           borderRadius: BorderRadius.circular(16.0),
@@ -276,8 +252,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         color: _calendarController.isSelected(date)
             ? Colors.brown[500]
             : _calendarController.isToday(date)
-                ? Colors.brown[300]
-                : Colors.blue[400],
+            ? Colors.brown[300]
+            : Colors.blue[400],
       ),
       width: 16.0,
       height: 16.0,
@@ -356,17 +332,17 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     return ListView(
       children: _selectedEvents
           .map((event) => Container(
-                decoration: BoxDecoration(
-                  border: Border.all(width: 0.8),
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                child: ListTile(
-                  title: Text(event.toString()),
-                  onTap: () => print('$event tapped!'),
-                ),
-              ))
+        decoration: BoxDecoration(
+          border: Border.all(width: 0.8),
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        margin:
+        const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        child: ListTile(
+          title: Text(event.toString()),
+          onTap: () => print('$event tapped!'),
+        ),
+      ))
           .toList(),
     );
   }

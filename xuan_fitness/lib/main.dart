@@ -5,6 +5,7 @@ import 'package:xuan_fitness/pages/loginhome/home_calendar.dart';
 
 void main() {
   runApp(MaterialApp(
+    title: "XUAN FITNESS",
     home: LoginPage(),
   ));
 }
