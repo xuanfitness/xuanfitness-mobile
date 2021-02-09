@@ -8,6 +8,7 @@ import 'package:xuan_fitness/widgets/home_widget.dart';
 
 void main() {
   runApp(MaterialApp(
+    title: "XUAN FITNESS",
     home: LoginPage(),
   ));
 }
