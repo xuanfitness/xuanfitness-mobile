@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:xuan_fitness/pages/fitness/workout_list.dart';
 import 'package:xuan_fitness/widgets/calendar_widget_test.dart';
+import 'package:xuan_fitness/pages/nutrition/nutrition_home.dart';
+import 'package:xuan_fitness/pages/habits/habit_home.dart';
 
 class TaskBar extends StatefulWidget {
   TaskBar({Key key, this.title}) : super(key: key);
@@ -14,12 +16,8 @@ class _TaskBarState extends State<TaskBar> {
   int _selectedIndex;
   List<Widget> _widgetOptions = <Widget>[
     WorkoutList(),
-    Text(
-      'Index 1: Habits',
-    ),
-    Text(
-      'Index 2: Nutrition',
-    ),
+    HabitsHome(),
+    NutritionHome(),
   ];
 
   @override

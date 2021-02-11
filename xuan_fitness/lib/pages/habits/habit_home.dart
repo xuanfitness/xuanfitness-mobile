@@ -7,101 +7,92 @@ class HabitsHome extends StatefulWidget {
 }
 
 class HabitsHomeState extends State<HabitsHome> {
-  List<CheckBoxListTileModel> checkBoxListTileModel =
-      CheckBoxListTileModel.getUsers();
-
+  TextEditingController q1 = TextEditingController();
+  TextEditingController q2 = TextEditingController();
+  TextEditingController q3 = TextEditingController();
+  TextEditingController q4 = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: new Text(
-          'CheckBox ListTile Demo',
-          style: TextStyle(color: Colors.black),
+    return MaterialApp(
+      home: Scaffold(
+        body: Padding(
+          padding: EdgeInsets.all(20),
+          child: ListView(children: <Widget>[
+            Container(
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                decoration: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(
+                          width: 1.0,
+                          //height: 1.0,
+                          color: Colors.lightGreen[900])),
+                ),
+                child: TextField(
+                  obscureText: true,
+                  controller: q1,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'How much water did you drink today?',
+                    hintStyle: TextStyle(color: Colors.lightGreen[900]),
+                  ),
+                )),
+            Container(
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                decoration: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(
+                          width: 1.0,
+                          //height: 1.0,
+                          color: Colors.lightGreen[900])),
+                ),
+                child: TextField(
+                  obscureText: true,
+                  controller: q2,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Did you practice basketball today?',
+                    hintStyle: TextStyle(color: Colors.lightGreen[900]),
+                  ),
+                )),
+            Container(
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                decoration: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(
+                          width: 1.0,
+                          //height: 1.0,
+                          color: Colors.lightGreen[900])),
+                ),
+                child: TextField(
+                  obscureText: true,
+                  controller: q3,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'What made you smile today?',
+                    hintStyle: TextStyle(color: Colors.lightGreen[900]),
+                  ),
+                )),
+            Container(
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                decoration: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(
+                          width: 1.0,
+                          //height: 1.0,
+                          color: Colors.lightGreen[900])),
+                ),
+                child: TextField(
+                  obscureText: true,
+                  controller: q4,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Did you practice piano today?',
+                    hintStyle: TextStyle(color: Colors.lightGreen[900]),
+                  ),
+                )),
+          ]),
         ),
       ),
-      body: new ListView.builder(
-          itemCount: checkBoxListTileModel.length,
-          itemBuilder: (BuildContext context, int index) {
-            return new Card(
-              child: new Container(
-                padding: new EdgeInsets.all(10.0),
-                child: Column(
-                  children: <Widget>[
-                    new CheckboxListTile(
-                        activeColor: Colors.pink[300],
-                        dense: true,
-                        //font change
-                        title: new Text(
-                          checkBoxListTileModel[index].title,
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.5),
-                        ),
-                        value: checkBoxListTileModel[index].isCheck,
-                        secondary: Container(
-                          height: 50,
-                          width: 50,
-                          child: Image.asset(
-                            checkBoxListTileModel[index].img,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        onChanged: (bool val) {
-                          itemChange(val, index);
-                        })
-                  ],
-                ),
-              ),
-            );
-          }),
     );
-  }
-
-  void itemChange(bool val, int index) {
-    setState(() {
-      checkBoxListTileModel[index].isCheck = val;
-    });
-  }
-}
-
-class CheckBoxListTileModel {
-  int userId;
-  String img;
-  String title;
-  bool isCheck;
-
-  CheckBoxListTileModel({this.userId, this.img, this.title, this.isCheck});
-
-  static List<CheckBoxListTileModel> getUsers() {
-    return <CheckBoxListTileModel>[
-      CheckBoxListTileModel(
-          userId: 1,
-          img: 'assets/images/android_img.png',
-          title: "Android",
-          isCheck: true),
-      CheckBoxListTileModel(
-          userId: 2,
-          img: 'assets/images/flutter.jpeg',
-          title: "Flutter",
-          isCheck: false),
-      CheckBoxListTileModel(
-          userId: 3,
-          img: 'assets/images/ios_img.webp',
-          title: "IOS",
-          isCheck: false),
-      CheckBoxListTileModel(
-          userId: 4,
-          img: 'assets/images/php_img.png',
-          title: "PHP",
-          isCheck: false),
-      CheckBoxListTileModel(
-          userId: 5,
-          img: 'assets/images/node_img.png',
-          title: "Node",
-          isCheck: false),
-    ];
   }
 }
