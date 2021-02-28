@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class CheckBoxListTileDemo extends StatefulWidget {
+class WorkoutList extends StatefulWidget {
   @override
-  CheckBoxListTileDemoState createState() => new CheckBoxListTileDemoState();
+  WorkoutListState createState() => new WorkoutListState();
 }
 
-class CheckBoxListTileDemoState extends State<CheckBoxListTileDemo> {
+class WorkoutListState extends State<WorkoutList> {
   List<CheckBoxListTileModel> checkBoxListTileModel =
       CheckBoxListTileModel.getUsers();
 
@@ -17,7 +17,7 @@ class CheckBoxListTileDemoState extends State<CheckBoxListTileDemo> {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: new Text(
-          'CheckBox ListTile Demo',
+          'Workout list',
           style: TextStyle(color: Colors.black),
         ),
       ),
@@ -52,6 +52,7 @@ class CheckBoxListTileDemoState extends State<CheckBoxListTileDemo> {
                         onChanged: (bool val) {
                           itemChange(val, index);
                         })
+                    //_showPage();
                   ],
                 ),
               ),
@@ -104,4 +105,23 @@ class CheckBoxListTileModel {
           isCheck: false),
     ];
   }
+}
+
+void _showPage() {
+  showDialog(builder: (BuildContext context) {
+    // return object of type Dialog
+    return AlertDialog(
+      title: new Text("Alert Dialog title"),
+      content: new Text("Alert Dialog body"),
+      actions: <Widget>[
+        // usually buttons at the bottom of the dialog
+        new FlatButton(
+          child: new Text("Close"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+  });
 }

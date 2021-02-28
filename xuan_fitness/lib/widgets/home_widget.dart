@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:xuan_fitness/pages/fitness/workout_list.dart';
 import 'package:xuan_fitness/widgets/placeholder_widget.dart';
+import 'package:xuan_fitness/pages/nutrition/nutrition_home.dart';
+import 'package:xuan_fitness/pages/habits/habit_home.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -11,9 +14,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _currentIndex;
   final List<Widget> _children = [
-    PlaceholderWidget(Colors.white),
-    PlaceholderWidget(Colors.deepOrange),
-    PlaceholderWidget(Colors.green)
+    WorkoutList(),
+    NutritionHome(),
+    HabitsHome(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -29,14 +32,11 @@ class _HomeState extends State<Home> {
         items: [
           BottomNavigationBarItem(
             icon: new Icon(Icons.home),
-            title: new Text('Home'),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Icons.mail),
-            title: new Text('Messages'),
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person), title: Text('Profile'))
+              icon: new Icon(Icons.mail), label: 'Messages'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile')
         ],
       ),
     );
