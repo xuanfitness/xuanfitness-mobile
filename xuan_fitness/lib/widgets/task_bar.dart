@@ -14,29 +14,38 @@ class TaskBar extends StatefulWidget {
 
 class _TaskBarState extends State<TaskBar> {
   int _selectedIndex;
+  Color _selectedColor= Colors.amber;
+  Color _unSelectedColor = Colors.black;
   List<Widget> _widgetOptions = <Widget>[
     WorkoutList(),
     HabitsHome(),
     NutritionHome(),
   ];
-
+  List<Color> _colorList = <Color>[
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.amber,
+  ];
   @override
   void initState() {
     super.initState();
-    _selectedIndex = 0;
+    _selectedIndex = 3;
   }
 
   void _onNavBarItemTapped(int index) {
     setState(() {
+      _colorList[_selectedIndex] = _unSelectedColor;
+      _colorList[index] = _selectedColor;
       _selectedIndex = index;
     });
   }
 
   Widget _renderTabBody() {
-    /*if (_selectedIndex == -1)
+    if (_selectedIndex == 3)
       return CalendarWidget(title: "test");
-    else*/
-    return _widgetOptions.elementAt(_selectedIndex);
+    else
+      return _widgetOptions.elementAt(_selectedIndex);
   }
 
   int index = 0;
@@ -49,12 +58,11 @@ class _TaskBarState extends State<TaskBar> {
         actions: <Widget>[
           // action button
           IconButton(
-            icon: Icon(Icons.home),
-            onPressed: () {
-              setState(() {
-                //_selectedIndex = -1;
-              });
-            },
+            icon: Icon(
+                Icons.home,
+                color:_colorList[3]
+            ),
+            onPressed: () {_onNavBarItemTapped(3);},
           ),
           // overflow menu
         ],
@@ -71,30 +79,28 @@ class _TaskBarState extends State<TaskBar> {
         items: <BottomNavigationBarItem>[
           //first icon
           BottomNavigationBarItem(
-            icon: new Icon(Icons.home),
-            title: new Text('Fitness'),
+            icon: new Icon(
+                Icons.home,
+                color: _colorList[0]
+            ),
+            title: new Text('Fitness', style: TextStyle(color: _colorList[0]))
           ),
-          //second icon
           BottomNavigationBarItem(
             icon: new Icon(
               Icons.favorite,
-              //color: Colors.black,
+              color: _colorList[1]
             ),
-            title: new Text('Habits'),
-            //third icon
+            title: new Text('Habits', style: TextStyle(color: _colorList[1])),
           ),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.person,
-                //color: Colors.black,
+                color: _colorList[2]
               ),
-              title: Text('Nutrition'))
+              title: Text('Nutrition', style: TextStyle(color: _colorList[2]))
+          )
         ],
-        unselectedItemColor: Colors.black,
-        selectedItemColor: Colors.orange,
         onTap: _onNavBarItemTapped,
-        currentIndex: _selectedIndex,
-        //changes the colour of the selected item - can change later.
       ),
     );
   }
