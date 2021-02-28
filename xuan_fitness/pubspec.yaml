@@ -37,6 +37,7 @@ dependencies:
   rxdart: ^0.23.1
   intl: ^0.15.7
   flutter_calendar_carousel: ^1.5.2
+  flutter_icons: ^1.1.0
 
 
 
@@ -62,6 +63,7 @@ flutter:
     - images/spagetti.jpg
     - images/sushi.jpg
     - images/waffles.jpg
+    - images/smiley.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

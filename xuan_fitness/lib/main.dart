@@ -5,6 +5,7 @@ import 'package:xuan_fitness/pages/loginhome/home_calendar.dart';
 import 'package:xuan_fitness/widgets/task_bar.dart';
 import 'package:xuan_fitness/widgets/placeholder_widget.dart';
 import 'package:xuan_fitness/widgets/home_widget.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 
 void main() {
   runApp(MaterialApp(
