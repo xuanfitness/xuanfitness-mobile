@@ -23,7 +23,7 @@ class _TaskBarState extends State<TaskBar> {
   @override
   void initState() {
     super.initState();
-    _selectedIndex = -1;
+    _selectedIndex = 0;
   }
 
   void _onNavBarItemTapped(int index) {
@@ -33,10 +33,10 @@ class _TaskBarState extends State<TaskBar> {
   }
 
   Widget _renderTabBody() {
-    if (_selectedIndex == -1)
+    /*if (_selectedIndex == -1)
       return CalendarWidget(title: "test");
-    else
-      return _widgetOptions.elementAt(_selectedIndex);
+    else*/
+    return _widgetOptions.elementAt(_selectedIndex);
   }
 
   int index = 0;
@@ -52,7 +52,7 @@ class _TaskBarState extends State<TaskBar> {
             icon: Icon(Icons.home),
             onPressed: () {
               setState(() {
-                _selectedIndex = -1;
+                //_selectedIndex = -1;
               });
             },
           ),
