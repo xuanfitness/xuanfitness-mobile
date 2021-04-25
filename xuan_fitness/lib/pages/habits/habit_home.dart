@@ -28,7 +28,7 @@ class HabitsHomeState extends State<HabitsHome> {
                           color: Colors.lightGreen[900])),
                 ),
                 child: TextField(
-                  obscureText: true,
+                  //obscureText: true,
                   controller: q1,
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -46,7 +46,7 @@ class HabitsHomeState extends State<HabitsHome> {
                           color: Colors.lightGreen[900])),
                 ),
                 child: TextField(
-                  obscureText: true,
+                  //obscureText: true,
                   controller: q2,
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -90,6 +90,20 @@ class HabitsHomeState extends State<HabitsHome> {
                     hintStyle: TextStyle(color: Colors.lightGreen[900]),
                   ),
                 )),
+            Container(
+                margin: const EdgeInsets.only(top: 0.0),
+                child: FractionallySizedBox(
+                    widthFactor: 0.6,
+                    child: FlatButton(
+                        color: Color(0xFF00A0BE),
+                        textColor: Color(0xFF525252),
+                        shape: RoundedRectangleBorder(side: BorderSide.none),
+                        child: Text('Save',
+                            style: TextStyle(
+                                fontFamily: 'Lato',
+                                fontSize: 12.0,
+                                color: Color(0xFF525252),
+                                letterSpacing: 2.0)))))
           ]),
         ),
       ),

@@ -46,6 +46,7 @@ class _TaskBarState extends State<TaskBar> {
       body: _renderTabBody(),
       appBar: AppBar(
         title: Text(this.widget.title),
+        backgroundColor: Colors.white,
         actions: <Widget>[
           // action button
           IconButton(
@@ -66,7 +67,7 @@ class _TaskBarState extends State<TaskBar> {
             this.index = index;
           });
         },*/
-        backgroundColor: Colors.yellow[100],
+        backgroundColor: Colors.white,
         // this will be set when a new tab is tapped
         items: <BottomNavigationBarItem>[
           //first icon

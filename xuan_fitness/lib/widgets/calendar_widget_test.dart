@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+
 class CalendarWidget extends StatefulWidget {
   CalendarWidget({Key key, this.title}) : super(key: key);
 
@@ -8,7 +9,9 @@ class CalendarWidget extends StatefulWidget {
   @override
   _CalendarWidgetState createState() => _CalendarWidgetState();
 }
-class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStateMixin {
+
+class _CalendarWidgetState extends State<CalendarWidget>
+    with TickerProviderStateMixin {
   Map<DateTime, List> _events;
   List _selectedEvents;
   AnimationController _animationController;
@@ -52,7 +55,7 @@ class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStat
         'Event D8'
       ],
       _selectedDay.add(Duration(days: 3)):
-      Set.from(['Event A9', 'Event A9', 'Event B9']).toList(),
+          Set.from(['Event A9', 'Event A9', 'Event B9']).toList(),
       _selectedDay.add(Duration(days: 7)): [
         'Event A10',
         'Event B10',
@@ -140,7 +143,7 @@ class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStat
       ),
       headerStyle: HeaderStyle(
         formatButtonTextStyle:
-        TextStyle().copyWith(color: Colors.white, fontSize: 15.0),
+            TextStyle().copyWith(color: Colors.white, fontSize: 15.0),
         formatButtonDecoration: BoxDecoration(
           color: Colors.deepOrange[400],
           borderRadius: BorderRadius.circular(16.0),
@@ -252,8 +255,8 @@ class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStat
         color: _calendarController.isSelected(date)
             ? Colors.brown[500]
             : _calendarController.isToday(date)
-            ? Colors.brown[300]
-            : Colors.blue[400],
+                ? Colors.brown[300]
+                : Colors.blue[400],
       ),
       width: 16.0,
       height: 16.0,
@@ -332,17 +335,17 @@ class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStat
     return ListView(
       children: _selectedEvents
           .map((event) => Container(
-        decoration: BoxDecoration(
-          border: Border.all(width: 0.8),
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        margin:
-        const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-        child: ListTile(
-          title: Text(event.toString()),
-          onTap: () => print('$event tapped!'),
-        ),
-      ))
+                decoration: BoxDecoration(
+                  border: Border.all(width: 0.8),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                child: ListTile(
+                  title: Text(event.toString()),
+                  onTap: () => print('$event tapped!'),
+                ),
+              ))
           .toList(),
     );
   }
