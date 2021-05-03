@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:xuan_fitness/pages/fitness/workout_detail.dart';
+import 'package:xuan_fitness/widgets/week_view.dart';
 
 class WorkoutList extends StatefulWidget {
   WorkoutList({Key key}) : super(key: key);
@@ -52,13 +53,12 @@ class _WorkoutListState extends State<WorkoutList> {
         title: Text(widget.title),
         backgroundColor: Colors.green.shade400,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const Divider(color: Colors.brown),
-            ListTile(
+      body: ListView(children: <Widget>[
+        Card(
+            color: Colors.green[200],
+            child: ListTile(
                 title: Text('$formattedDate'),
+                //primarySwatch: Colors.green[200],
                 subtitle: Text('Rest Day'),
                 trailing: new Icon(FontAwesome.smile_o, color: Colors.green),
                 onTap: () {
@@ -66,76 +66,92 @@ class _WorkoutListState extends State<WorkoutList> {
                     context,
                     MaterialPageRoute(builder: (context) => WorkoutDetail()),
                   );
-                }),
-            const Divider(color: Colors.brown),
-            ListTile(
+                })),
+        Card(
+            color: Colors.green[200],
+            child: ListTile(
                 title: Text('$today'),
-                subtitle: Text('Leg Day'),
+                subtitle: Text('Rest Day'),
                 trailing: new Icon(FontAwesome.smile_o, color: Colors.green),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => WorkoutDetail()),
                   );
-                }),
-            const Divider(color: Colors.brown),
-            ListTile(
+                })),
+        Card(
+            color: Colors.white,
+            child: ListTile(
                 title: Text('$today1'),
-                subtitle: Text('Arm Day'),
+                subtitle: Text('Rest Day'),
                 trailing: new Icon(FontAwesome.smile_o, color: Colors.green),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => WorkoutDetail()),
                   );
-                }),
-            const Divider(color: Colors.brown),
-            ListTile(
+                })),
+        Card(
+            color: Colors.white,
+            child: ListTile(
                 title: Text('$today2'),
-                subtitle: Text('Arm Day'),
+                subtitle: Text('Rest Day'),
                 trailing: new Icon(FontAwesome.smile_o, color: Colors.green),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => WorkoutDetail()),
                   );
-                }),
-            const Divider(color: Colors.brown),
-            ListTile(
+                })),
+        Card(
+            color: Colors.white,
+            child: ListTile(
                 title: Text('$today3'),
-                subtitle: Text('Arm Day'),
+                subtitle: Text('Rest Day'),
                 trailing: new Icon(FontAwesome.smile_o, color: Colors.green),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => WorkoutDetail()),
                   );
-                }),
-            const Divider(color: Colors.brown),
-            ListTile(
+                })),
+        Card(
+            color: Colors.white,
+            child: ListTile(
                 title: Text('$today4'),
-                subtitle: Text('Arm Day'),
+                subtitle: Text('Rest Day'),
                 trailing: new Icon(FontAwesome.smile_o, color: Colors.green),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => WorkoutDetail()),
                   );
-                }),
-            const Divider(color: Colors.brown),
-            ListTile(
+                })),
+        Card(
+            color: Colors.white,
+            child: ListTile(
                 title: Text('$today5'),
-                subtitle: Text('Arm Day'),
+                subtitle: Text('Rest Day'),
                 trailing: new Icon(FontAwesome.smile_o, color: Colors.green),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => WorkoutDetail()),
                   );
-                }),
-          ],
-        ),
-      ),
+                })),
+        Card(
+            color: Colors.white,
+            child: ListTile(
+                title: Text('$today6'),
+                subtitle: Text('Rest Day'),
+                trailing: new Icon(FontAwesome.smile_o, color: Colors.green),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => WorkoutDetail()),
+                  );
+                })),
+      ]),
     );
   }
 }
