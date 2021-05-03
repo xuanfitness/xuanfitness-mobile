@@ -15,23 +15,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0-nullsafety.1"
-<<<<<<< HEAD
-  calendar_strip:
-    dependency: "direct main"
-    description:
-      name: calendar_strip
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.7"
-  camera:
-    dependency: "direct main"
-    description:
-      name: camera
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.8+10"
-=======
->>>>>>> 672aa146cf7cf2b0c634ca753ba20233ae0e9183
   characters:
     dependency: transitive
     description:

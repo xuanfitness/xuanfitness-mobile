@@ -44,154 +44,207 @@ class HabitsHomeState extends State<HabitsHome> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: ListView(children: <Widget>[
-            Ink(color: Colors.green[200]),
-            new Card(
-              color: Colors.green[200],
-              child: new Container(
-                padding: EdgeInsets.all(10.0),
-                child: new Column(
-                  children: <Widget>[
-                    new Row(
-                      children: <Widget>[
-                        new Expanded(
-                            child: new Text(
-                          "How much water did you drink today?",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              decorationColor: Colors.red,
-                              fontFamily: 'Cabin',
-                              color: Colors.green[800]),
-                        )),
-                        new Expanded(
-                          child: new TextField(),
-                        ),
-                      ],
-                    ),
-                  ],
+    return Scaffold(
+      //backgroundColor: Color(0xFFFFEB3),
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        //backgroundColor: Color(0xFFFFEB3),
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          Container(
+            margin: EdgeInsets.all(8.0),
+
+            decoration: BoxDecoration(
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: Colors.white,
+                  blurRadius: 1,
+                  //offset: Offset(0, 2),
                 ),
+              ],
+            ),
+            //color: Colors.green,
+            padding: const EdgeInsets.only(bottom: 8),
+            //child: Scrollbar(isAlwaysShown:true, controller:_scrollController,)
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Habits',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontFamily: 'cabin',
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF6A8D73),
+
+                        //fontWeight: w600
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  Text('Today',
+                      style: TextStyle(
+                        fontFamily: 'cabin',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFFCFE8D5),
+                      )),
+                  Text('$formattedDate',
+                      style: TextStyle(
+                        fontFamily: 'cabin',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF6A8D73),
+                      )),
+                ]),
+          ),
+
+          Ink(color: Color(0xFFCFE8D5)),
+
+          new Card(
+            color: Color(0xFFCFE8D5),
+            child: new Container(
+              padding: EdgeInsets.all(10.0),
+              child: new Column(
+                children: <Widget>[
+                  new Row(children: <Widget>[
+                    new Expanded(
+                        child: new Text(
+                      "How much water did you drink today?",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          decorationColor: Colors.red,
+                          fontFamily: 'Cabin',
+                          color: Color(0xFF6A8D73)),
+                    )),
+                    new Expanded(
+                      child: new TextField(),
+                    ),
+                  ]),
+                ],
               ),
             ),
-            new Card(
-              color: Colors.green[200],
-              child: new Container(
-                padding: EdgeInsets.all(10.0),
-                child: new Column(
-                  children: <Widget>[
-                    new Row(
-                      children: <Widget>[
-                        new Expanded(
-                            child: new Text(
-                          "How long did you practice DJ for today?",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              decorationColor: Colors.red,
-                              fontFamily: 'Cabin',
-                              color: Colors.green[800]),
-                        )),
-                        new Expanded(
-                          child: new TextField(),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+          ),
+          new Card(
+            color: Color(0xFFCFE8D5),
+            child: new Container(
+              padding: EdgeInsets.all(10.0),
+              child: new Column(
+                children: <Widget>[
+                  new Row(
+                    children: <Widget>[
+                      new Expanded(
+                          child: new Text(
+                        "How long did you practice DJ for today?",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            decorationColor: Colors.red,
+                            fontFamily: 'Cabin',
+                            color: Color(0xFF6A8D73)),
+                      )),
+                      new Expanded(
+                        child: new TextField(),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-            new Card(
-              color: Colors.green[200],
-              child: new Container(
-                padding: EdgeInsets.all(10.0),
-                child: new Column(
-                  children: <Widget>[
-                    new Row(
-                      children: <Widget>[
-                        new Expanded(
-                            child: new Text(
-                          "How long did you do yoga for today?",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              decorationColor: Colors.red,
-                              fontFamily: 'Cabin',
-                              color: Colors.green[800]),
-                        )),
-                        new Expanded(
-                          child: new TextField(),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+          ),
+          new Card(
+            color: Color(0xFFCFE8D5),
+            child: new Container(
+              padding: EdgeInsets.all(10.0),
+              child: new Column(
+                children: <Widget>[
+                  new Row(
+                    children: <Widget>[
+                      new Expanded(
+                          child: new Text(
+                        "How long did you do yoga for today?",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            decorationColor: Colors.red,
+                            fontFamily: 'Cabin',
+                            color: Color(0xFF6A8D73)),
+                      )),
+                      new Expanded(
+                        child: new TextField(),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-            new Card(
-              color: Colors.green[200],
-              child: new Container(
-                padding: EdgeInsets.all(10.0),
-                child: new Column(
-                  children: <Widget>[
-                    new Row(
-                      children: <Widget>[
-                        new Expanded(
-                            child: new Text(
+          ),
+          new Card(
+            color: Color(0xFFCFE8D5),
+            child: new Container(
+              padding: EdgeInsets.all(10.0),
+              child: new Column(
+                children: <Widget>[
+                  new Row(
+                    children: <Widget>[
+                      new Expanded(
+                        child: new Text(
                           "How happy are you today?",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               decorationColor: Colors.red,
                               fontFamily: 'Cabin',
-                              color: Colors.green[800]),
-                        )),
-                        new Expanded(
-                          child: new TextField(),
+                              color: Color(0xFF6A8D73)),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                      new Expanded(
+                        child: new TextField(),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-            new Card(
-              color: Colors.green[200],
-              child: new Container(
-                padding: EdgeInsets.all(10.0),
-                child: new Column(
-                  children: <Widget>[
-                    new Row(
-                      children: <Widget>[
-                        new Expanded(
-                            child: new Text(
-                          "How much did you sleep today?",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              decorationColor: Colors.red,
-                              fontFamily: 'Cabin',
-                              color: Colors.green[800]),
-                        )),
-                        new Expanded(
-                          child: new TextField(),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+          ),
+          new Card(
+            color: Color(0xFFCFE8D5),
+            child: new Container(
+              padding: EdgeInsets.all(10.0),
+              child: new Column(
+                children: <Widget>[
+                  new Row(
+                    children: <Widget>[
+                      new Expanded(
+                          child: new Text(
+                        "How much did you sleep today?",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            decorationColor: Colors.red,
+                            fontFamily: 'Cabin',
+                            color: Color(0xFF6A8D73)),
+                      )),
+                      new Expanded(
+                        child: new TextField(),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-            new Card(
-              color: Colors.white,
-              //child: new Container(
-              //padding: EdgeInsets.all(0),
-              child: RaisedButton(
-                onPressed: () => {},
-                child: Text('Submit'),
-              ),
+          ),
+          new Card(
+            color: Colors.white,
+            //child: new Container(
+            //padding: EdgeInsets.all(0),
+            child: RaisedButton(
+              color: Color(0xFF6A8D73),
+              onPressed: () => {},
+              child: Text('Submit', style: TextStyle(color: Colors.white)),
             ),
-            // ),
-          ]),
-        ),
+          ),
+          // ),
+        ]),
       ),
     );
   }

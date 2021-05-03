@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:calendar_strip/calendar_strip.dart';
+/*import 'package:flutter/material.dart';
+//import 'package:calendar_strip/calendar_strip.dart';
 
 class WeekView extends StatefulWidget {
   WeekView({Key key, this.title}) : super(key: key);
@@ -122,4 +122,4 @@ class _WeekViewState extends State<WeekView> {
       );
     }
   }
-}
+}*/
