@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:timelines/timelines.dart';
+import 'package:xuan_fitness/pages/nutrition/nutrition_details.dart';
 
 class NutritionHome extends StatefulWidget {
   final ScrollController _scrollController = ScrollController();
@@ -13,6 +14,7 @@ class NutritionHome extends StatefulWidget {
 
 class NutritionHomeState extends State<NutritionHome> {
   static String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  var _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,7 +135,7 @@ class NutritionHomeState extends State<NutritionHome> {
                         title: Text(
                           'Lunch',
                           style: TextStyle(
-                            color: Colors.green[200],
+                            color: Color(0xFFA2C2A9),
                             fontWeight: FontWeight.bold,
                           ),
                           //subtitle: Text('Location 1'),
@@ -168,7 +170,7 @@ class NutritionHomeState extends State<NutritionHome> {
                         title: Text(
                           'Dinner',
                           style: TextStyle(
-                            color: Colors.green[200],
+                            color: Color(0xFFA2C2A9),
                             fontWeight: FontWeight.bold,
                           ),
                           //subtitle: Text('Location 1'),
@@ -179,6 +181,28 @@ class NutritionHomeState extends State<NutritionHome> {
                 ),
               ),
             ),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 16),
+                child: TextField(
+                  style: TextStyle(color: Color(0xFFA2C2A9)),
+                  controller: _controller,
+                  decoration: InputDecoration(
+                    hintText: "Add more food",
+                    hintStyle: TextStyle(color: Color(0xFFA2C2A9)),
+                    fillColor: Color(0xFFA2C2A9),
+                    suffixIcon: IconButton(
+                        icon: Icon(Icons.add, color: Color(0xFFA2C2A9)),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NutritionDetail(),
+                            ),
+                          );
+                          print(_controller.text);
+                        }),
+                  ),
+                ))
           ],
         ),
       ),
