@@ -39,6 +39,7 @@ dependencies:
   flutter_calendar_carousel: ^1.5.2
   flutter_icons: ^1.1.0
   timelines: ^0.0.2+1 
+#youtube_player_flutter: ^8.0.0
 
 #youtube_player_flutter: ^8.0.0
 

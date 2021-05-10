@@ -17,9 +17,9 @@ class WorkoutList extends StatefulWidget {
 
 class _WorkoutListState extends State<WorkoutList> {
   @override
-  static String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  static String formattedDate = DateFormat('MM-dd-yyyy').format(DateTime.now());
 
-  static final dateFormatter = DateFormat('yyyy-MM-dd');
+  static final dateFormatter = DateFormat('MM-dd-yyyy');
 
   static DateTime today_7 = DateTime.now().subtract(new Duration(days: 7));
   static DateTime today_6 = DateTime.now().subtract(new Duration(days: 6));
@@ -179,7 +179,7 @@ class _WorkoutListState extends State<WorkoutList> {
                         );
                       })),
               Card(
-                  color: Color(0xFFCFE8D5),
+                  color: Colors.white,
                   child: ListTile(
                       title: Text('$today3',
                           style: TextStyle(
@@ -198,7 +198,7 @@ class _WorkoutListState extends State<WorkoutList> {
                         );
                       })),
               Card(
-                  color: Color(0xFFCFE8D5),
+                  color: Colors.white,
                   child: ListTile(
                       title: Text('$today4',
                           style: TextStyle(
@@ -215,7 +215,7 @@ class _WorkoutListState extends State<WorkoutList> {
                         );
                       })),
               Card(
-                  color: Color(0xFFCFE8D5),
+                  color: Colors.white,
                   child: ListTile(
                       title: Text('$today5',
                           style: TextStyle(
@@ -232,7 +232,7 @@ class _WorkoutListState extends State<WorkoutList> {
                         );
                       })),
               Card(
-                  color: Color(0xFFCFE8D5),
+                  color: Colors.white,
                   child: ListTile(
                       title: Text('$today6',
                           style: TextStyle(
