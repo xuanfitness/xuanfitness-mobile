@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
 class Meal {
-  String id, title, imageId;
+  String title, imageId;
   Image img;
 
-  Meal(this.id, this.title, this.imageId) {
+  Meal(this.title, this.imageId) {
     this.img = Image.network(imageId);
   }
 
   Meal.fromJson(Map<String, dynamic>json):
-        id = json["id"],
         title = json["title"],
         imageId = json["imageId"];
 }
