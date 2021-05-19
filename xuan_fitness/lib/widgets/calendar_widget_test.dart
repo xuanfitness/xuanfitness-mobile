@@ -16,7 +16,6 @@ class CalendarWidget extends StatefulWidget {
 }
 
 class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStateMixin {
-  Map<DateTime, List> _events;
   List _selectedEvents;
   AnimationController _animationController;
   CalendarController _calendarController;
@@ -24,33 +23,12 @@ class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStat
   @override
   void initState() {
     super.initState();
-    final _selectedDay = DateTime.now();
-    _events = {
-      _selectedDay : [
-        'Habits',
-      ],
-      _selectedDay.add(Duration(days: 5)): [
-        'Comment',
-        'Habits',
-        'Fitness',
-        'Nutrition'
-      ],
-      _selectedDay.add(Duration(days: 10)): [
-        'Fitness',
-      ],
-      _selectedDay.add(Duration(days: 12)): [
-        'Habits',
-      ],
-    };
 
-    _selectedEvents = _events[_selectedDay] ?? [];
     _calendarController = CalendarController();
-
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
-
     _animationController.forward();
   }
 
@@ -63,84 +41,90 @@ class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStat
 
   void _onDaySelected(DateTime day, List events, List holidays) {
     print('CALLBACK: _onDaySelected');
-    print(day);
     setState(() {
       _selectedEvents = events;
     });
   }
 
-  void _onVisibleDaysChanged(DateTime first, DateTime last, CalendarFormat format) {
-    print(first);
-    print(last);
-    DateTime monthDate = last.subtract(Duration(days:14));
-    print("${monthDate.year}-${monthDate.month}");
-    print('CALLBACK: _onVisibleDaysChanged');
-  }
-
-  void _onCalendarCreated(
-      DateTime first, DateTime last, CalendarFormat format) {
+  void _onCalendarCreated(DateTime first, DateTime last, CalendarFormat format) {
     print('CALLBACK: _onCalendarCreated');
   }
 
   @override
   Widget build(BuildContext context) {
-    final calendarRepo = Provider.of<CalendarRepository>(context);
-    print(calendarRepo);
-    return Container(
-      color: Theme.of(context).primaryColorDark,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          Container(
-            // padding: EdgeInsets.fromLTRB(5, 0, 5, 15),
-            child: _buildTableCalendarWithBuilders(_events), // _buildTableCalendar(calendarRepo.calendar)
-            color: Theme.of(context).primaryColorDark,
-          ),
-          // SizedBox(height: 10,),
-          Expanded(
-              child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    border: Border.all(
-                        color:
-                            Theme.of(context).primaryColor, // Set border color
-                        width: 3.0),
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20)),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                        child: Text("Today",
-                            style: GoogleFonts.cabin(
-                              textStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 24),
-                            )),
+    return Consumer(
+      builder: (context, CalendarRepository calendarRepository, _) {
+        final calendarRepo = Provider.of<CalendarRepository>(context);
+        if(_selectedEvents == null && calendarRepo.calendar != null){
+          DateTime now = DateTime.now();
+          DateTime nowParsed = DateTime(now.year,now.month, now.day);
+          _selectedEvents = calendarRepo.calendar[nowParsed] ?? [];
+        }
+
+        return Container(
+          color: Theme
+              .of(context)
+              .primaryColorDark,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Container(
+                child: _buildTableCalendarWithBuilders(calendarRepo),
+                // _buildTableCalendar(calendarRepo.calendar)
+                color: Theme
+                    .of(context)
+                    .primaryColorDark,
+              ),
+              Expanded(
+                  child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                      decoration: BoxDecoration(
+                        color: Theme
+                            .of(context)
+                            .primaryColor,
+                        border: Border.all(
+                            color:
+                            Theme
+                                .of(context)
+                                .primaryColor, // Set border color
+                            width: 3.0),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20)),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
-                        child: Text("If not now, when?",
-                            style: GoogleFonts.cabin(
-                              textStyle:
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                            child: Text("Today",
+                                style: GoogleFonts.cabin(
+                                  textStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 24),
+                                )),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                            child: Text("If not now, when?",
+                                style: GoogleFonts.cabin(
+                                  textStyle:
                                   TextStyle(color: Colors.white, fontSize: 16),
-                            )),
-                      ),
-                      Expanded(
-                        child: _buildCards()
-                      )
-                    ],
-                  ))),
-          // Expanded(child: _buildEventList()),
-        ],
-      ),
+                                )),
+                          ),
+                          Expanded(
+                              child: _buildCards()
+                          )
+                        ],
+                      ))),
+              // Expanded(child: _buildEventList()),
+            ],
+          ),
+        );
+      }
     );
   }
 
@@ -158,10 +142,10 @@ class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStat
   );
 
   // More advanced TableCalendar configuration (using Builders & Styles)
-  Widget _buildTableCalendarWithBuilders( Map<DateTime, List> _events) {
+  Widget _buildTableCalendarWithBuilders(CalendarRepository calendarRepository) {
     return TableCalendar(
       calendarController: _calendarController,
-      events: _events,
+      events: calendarRepository.calendar,
       initialCalendarFormat: CalendarFormat.month,
       formatAnimation: FormatAnimation.slide,
       startingDayOfWeek: StartingDayOfWeek.sunday,
@@ -210,7 +194,6 @@ class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStat
                 bottom: 1,
                 child: _buildEventsMarker(date, events)
             )
-
             );
           }
           return children;
@@ -220,7 +203,11 @@ class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStat
         _onDaySelected(date, events, holidays);
         _animationController.forward(from: 0.0);
       },
-      onVisibleDaysChanged: _onVisibleDaysChanged,
+      onVisibleDaysChanged: (first, last, format){
+        DateTime monthDate = last.subtract(Duration(days:14));
+        calendarRepository.addMonth(monthDate);
+        print('CALLBACK: _onVisibleDaysChanged');
+      },
       onCalendarCreated: _onCalendarCreated,
     );
   }
@@ -249,6 +236,9 @@ class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStat
     );
   }
   Widget _buildCards(){
+    if(_selectedEvents == null)
+      return Container();
+
     List<Widget> cards=[];
     cards.add(CalendarCard("Fitness", _selectedEvents.contains("Fitness"), FontAwesomeIcons.dumbbell));
     cards.add(CalendarCard("Habits", _selectedEvents.contains("Habits"), FontAwesomeIcons.solidHeart));

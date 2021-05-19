@@ -64,9 +64,7 @@ class _TaskBarState extends State<TaskBar> {
       providers: [
         ChangeNotifierProvider(create: (_)=>CalendarRepository.instance(user.user),)
       ],
-      child: Consumer(
-          builder: (context, CalendarRepository calendarRepository, _) {
-            return Scaffold(
+      child: Scaffold(
               body: _renderTabBody(),
               appBar: AppBar(
                 elevation: 0,
@@ -107,11 +105,6 @@ class _TaskBarState extends State<TaskBar> {
               ),
               //https://stackoverflow.com/questions/45235570/how-to-use-bottomnavigationbar-with-navigator
               bottomNavigationBar: BottomNavigationBar(
-                /*onTap: (int index) {
-              setState(() {
-                this.index = index;
-              });
-            },*/
                 backgroundColor: Colors.white,
                 // this will be set when a new tab is tapped
                 items: <BottomNavigationBarItem>[
@@ -134,9 +127,7 @@ class _TaskBarState extends State<TaskBar> {
                 ],
                 onTap: _onNavBarItemTapped,
               ),
-            );
-          }
-      ),
-    );
+            )
+      );
   }
 }

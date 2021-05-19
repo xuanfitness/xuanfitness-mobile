@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 class CalendarRepository with ChangeNotifier{
   CollectionReference _db;
   Map<DateTime, List> _events;
+  List<String> months;
   User user;
 
   CalendarRepository.instance(User user){
@@ -13,25 +14,52 @@ class CalendarRepository with ChangeNotifier{
     _db = FirebaseFirestore.instance.collection('users/test/calendar/');
 
     final today = DateTime.now();
-    print('${today.year}-${today.month}');
-    initCalendar('${today.year}-${today.month}');
+    initCalendar('${today.year}-${today.month<10?'0'+today.month.toString():today.month}');
   }
 
   Map<DateTime, List> get calendar => _events;
 
   Future<void> initCalendar(String month) async{
     var temp = await _db.doc(month).get();
-    print("CALENDAR INIT");
-    print(temp.data());
-    temp.data().forEach((key, value) => print('${key}'));
-
+    months = [month];
+    _events = {};
+    temp.data().forEach((key, value){
+      DateTime parsedDate = DateTime.parse(key);
+      _events.putIfAbsent(parsedDate, () => value);
+    });
+    notifyListeners();
   }
 
-  Future<void> addMonth(String month){
-
+  Future<void> addMonth(DateTime monthDate) async{
+    String date = '${monthDate.year}-${monthDate.month<10?'0'+monthDate.month.toString():monthDate.month}';
+    if(!months.contains(date)){
+      print(date);
+      months.add(date);
+      var temp = await _db.doc(date).get();
+      if(temp.data() != null){
+        temp.data().forEach((key, value){
+          DateTime parsedDate = DateTime.parse(key);
+          _events.putIfAbsent(parsedDate, () => value);
+        });
+        notifyListeners();
+      }
+    }
   }
 
-  Future<void> refreshCalendar(){
+  Future<void> addEvent(String event, DateTime day){
+    day = DateTime(day.year, day.month, day.day);
+    String date = '${day.year}-${day.month<10?'0'+day.month.toString():day.month}-${day.day<10?'0'+day.day.toString():day.day}';
+    String month = '${day.year}-${day.month<10?'0'+day.month.toString():day.month}';
 
+    if(_events[day] == null){
+      _events.addAll({day:[event]});
+      _db.doc(month).set({date: _events[day]}, SetOptions(merge: true));
+      notifyListeners();
+    }else if(!_events[day].contains(event)){
+      _events[day].add(event);
+      _db.doc(month).set({date: _events[day]}, SetOptions(merge: true));
+      notifyListeners();
+    }
+    return null;
   }
 }
