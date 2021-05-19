@@ -41,14 +41,16 @@ dependencies:
   table_calendar: ^2.3.3
   flutter_local_notifications: ^1.4.2
   rxdart: ^0.23.1
+  intl: ^0.15.7
   font_awesome_flutter: 8.12.0
 #  intl: ^0.15.7
-  flutter_calendar_carousel: ^1.5.2
+  flutter_icons: ^1.1.0
+  timelines: ^0.0.2+1
+#youtube_player_flutter: ^8.0.0
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.0
 
+
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -70,6 +72,7 @@ flutter:
     - images/spagetti.jpg
     - images/sushi.jpg
     - images/waffles.jpg
+    - images/smiley.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

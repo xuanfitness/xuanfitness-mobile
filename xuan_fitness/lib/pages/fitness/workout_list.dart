@@ -1,127 +1,253 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter/material.dart';
+import 'package:xuan_fitness/pages/fitness/workout_detail.dart';
+import 'package:xuan_fitness/widgets/week_view.dart';
 
 class WorkoutList extends StatefulWidget {
+  WorkoutList({Key key}) : super(key: key);
+
+  final String title = "Workouts";
+
   @override
-  WorkoutListState createState() => new WorkoutListState();
+  _WorkoutListState createState() => _WorkoutListState();
 }
 
-class WorkoutListState extends State<WorkoutList> {
-  List<CheckBoxListTileModel> checkBoxListTileModel =
-      CheckBoxListTileModel.getUsers();
-
+class _WorkoutListState extends State<WorkoutList> {
   @override
+  static String formattedDate = DateFormat('MM-dd-yyyy').format(DateTime.now());
+
+  static final dateFormatter = DateFormat('MM-dd-yyyy');
+
+  static DateTime today_7 = DateTime.now().subtract(new Duration(days: 7));
+  static DateTime today_6 = DateTime.now().subtract(new Duration(days: 6));
+  static DateTime today_5 = DateTime.now().subtract(new Duration(days: 5));
+  static DateTime today_4 = DateTime.now().subtract(new Duration(days: 4));
+  static DateTime today_3 = DateTime.now().subtract(new Duration(days: 3));
+  static DateTime today_2 = DateTime.now().subtract(new Duration(days: 2));
+  static DateTime today_1 = DateTime.now().subtract(new Duration(days: 1));
+  static String today = dateFormatter.format(today_1);
+  static String today1 = dateFormatter.format(today_2);
+  static String today2 = dateFormatter.format(today_3);
+  static String today3 = dateFormatter.format(today_4);
+  static String today4 = dateFormatter.format(today_5);
+  static String today5 = dateFormatter.format(today_6);
+  static String today6 = dateFormatter.format(today_7);
+
+  final List<String> entries = <String>[
+    today,
+    today1,
+    today2,
+    today3,
+    today4,
+    today5,
+    today6
+  ];
+  final List<int> colorCodes = <int>[600, 500, 400, 300, 200, 100];
+
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+
+        //backgroundColor: Color(0xFFFFEB3),
         backgroundColor: Colors.white,
-        centerTitle: true,
-        title: new Text(
-          'Workout list',
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
-      body: new ListView.builder(
-          itemCount: checkBoxListTileModel.length,
-          itemBuilder: (BuildContext context, int index) {
-            return new Card(
-              child: new Container(
-                padding: new EdgeInsets.all(10.0),
-                child: Column(
-                  children: <Widget>[
-                    new CheckboxListTile(
-                        activeColor: Colors.pink[300],
-                        dense: true,
-                        //font change
-                        title: new Text(
-                          checkBoxListTileModel[index].title,
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.5),
-                        ),
-                        value: checkBoxListTileModel[index].isCheck,
-                        secondary: Container(
-                          height: 50,
-                          width: 50,
-                          child: Image.asset(
-                            checkBoxListTileModel[index].img,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        onChanged: (bool val) {
-                          itemChange(val, index);
-                        })
-                    //_showPage();
+        body: SingleChildScrollView(
+            //backgroundColor: Color(0xFFFFEB3),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+              Container(
+                margin: EdgeInsets.all(8.0),
+
+                decoration: BoxDecoration(
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.white,
+                      blurRadius: 1,
+                      //offset: Offset(0, 2),
+                    ),
                   ],
                 ),
+                //color: Colors.green,
+                padding: const EdgeInsets.only(bottom: 8),
+                //child: Scrollbar(isAlwaysShown:true, controller:_scrollController,)
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Workouts',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontFamily: 'cabin',
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF6A8D73),
+
+                            //fontWeight: w600
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      Text('Today',
+                          style: TextStyle(
+                            fontFamily: 'cabin',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFA2C2A9),
+                          )),
+                      Text('$formattedDate',
+                          style: TextStyle(
+                            fontFamily: 'cabin',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF6A8D73),
+                          )),
+                    ]),
               ),
-            );
-          }),
-    );
+              //ListView(children: <Widget>[
+              Card(
+                  color: Color(0xFFCFE8D5),
+                  child: ListTile(
+                      title: Text('$formattedDate',
+                          style: TextStyle(
+                              color: Color(0xFF6A8D73),
+                              fontWeight: FontWeight.bold)),
+                      //primarySwatch: Color(0xFFA2C2A9),
+                      subtitle: Text('Rest Day'),
+                      trailing: new Icon(FontAwesome.smile_o,
+                          color: Color(0xFF6A8D73)),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WorkoutDetail()),
+                        );
+                      })),
+              Card(
+                  color: Color(0xFFCFE8D5),
+                  child: ListTile(
+                      title: Text('$today',
+                          style: TextStyle(
+                              color: Color(0xFF6A8D73),
+                              fontWeight: FontWeight.bold)),
+                      subtitle: Text('Rest Day'),
+                      trailing: new Icon(FontAwesome.smile_o,
+                          color: Color(0xFF6A8D73)),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WorkoutDetail()),
+                        );
+                      })),
+              Card(
+                  color: Color(0xFFCFE8D5),
+                  child: ListTile(
+                      title: Text('$today1',
+                          style: TextStyle(
+                              color: Color(0xFF6A8D73),
+                              fontWeight: FontWeight.bold)),
+                      subtitle: Text('Rest Day'),
+                      trailing: new Icon(FontAwesome.smile_o,
+                          color: Color(0xFF6A8D73)),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WorkoutDetail()),
+                        );
+                      })),
+              Card(
+                  color: Color(0xFFCFE8D5),
+                  child: ListTile(
+                      title: Text('$today2',
+                          style: TextStyle(
+                            color: Color(0xFF6A8D73),
+                            fontWeight: FontWeight.bold,
+                          )),
+                      subtitle: Text('Rest Day'),
+                      trailing: new Icon(FontAwesome.smile_o,
+                          color: Color(0xFF6A8D73)),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WorkoutDetail()),
+                        );
+                      })),
+              Card(
+                  color: Colors.white,
+                  child: ListTile(
+                      title: Text('$today3',
+                          style: TextStyle(
+                              color: Color(0xFF6A8D73),
+                              fontWeight: FontWeight.bold)),
+                      subtitle: Text(
+                        'Rest Day',
+                      ),
+                      trailing: new Icon(FontAwesome.smile_o,
+                          color: Color(0xFF6A8D73)),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WorkoutDetail()),
+                        );
+                      })),
+              Card(
+                  color: Colors.white,
+                  child: ListTile(
+                      title: Text('$today4',
+                          style: TextStyle(
+                              color: Color(0xFF6A8D73),
+                              fontWeight: FontWeight.bold)),
+                      subtitle: Text('Rest Day'),
+                      trailing: new Icon(FontAwesome.smile_o,
+                          color: Color(0xFF6A8D73)),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WorkoutDetail()),
+                        );
+                      })),
+              Card(
+                  color: Colors.white,
+                  child: ListTile(
+                      title: Text('$today5',
+                          style: TextStyle(
+                              color: Color(0xFF6A8D73),
+                              fontWeight: FontWeight.bold)),
+                      subtitle: Text('Rest Day'),
+                      trailing: new Icon(FontAwesome.smile_o,
+                          color: Color(0xFF6A8D73)),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WorkoutDetail()),
+                        );
+                      })),
+              Card(
+                  color: Colors.white,
+                  child: ListTile(
+                      title: Text('$today6',
+                          style: TextStyle(
+                              color: Color(0xFF6A8D73),
+                              fontWeight: FontWeight.bold)),
+                      subtitle: Text('Rest Day'),
+                      trailing: new Icon(FontAwesome.smile_o,
+                          color: Color(0xFF6A8D73)),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WorkoutDetail()),
+                        );
+                      })),
+            ])));
   }
-
-  void itemChange(bool val, int index) {
-    setState(() {
-      checkBoxListTileModel[index].isCheck = val;
-    });
-  }
-}
-
-class CheckBoxListTileModel {
-  int userId;
-  String img;
-  String title;
-  bool isCheck;
-
-  CheckBoxListTileModel({this.userId, this.img, this.title, this.isCheck});
-
-  static List<CheckBoxListTileModel> getUsers() {
-    return <CheckBoxListTileModel>[
-      CheckBoxListTileModel(
-          userId: 1,
-          img: 'assets/images/android_img.png',
-          title: "Android",
-          isCheck: true),
-      CheckBoxListTileModel(
-          userId: 2,
-          img: 'assets/images/flutter.jpeg',
-          title: "Flutter",
-          isCheck: false),
-      CheckBoxListTileModel(
-          userId: 3,
-          img: 'assets/images/ios_img.webp',
-          title: "IOS",
-          isCheck: false),
-      CheckBoxListTileModel(
-          userId: 4,
-          img: 'assets/images/php_img.png',
-          title: "PHP",
-          isCheck: false),
-      CheckBoxListTileModel(
-          userId: 5,
-          img: 'assets/images/node_img.png',
-          title: "Node",
-          isCheck: false),
-    ];
-  }
-}
-
-void _showPage() {
-  showDialog(builder: (BuildContext context) {
-    // return object of type Dialog
-    return AlertDialog(
-      title: new Text("Alert Dialog title"),
-      content: new Text("Alert Dialog body"),
-      actions: <Widget>[
-        // usually buttons at the bottom of the dialog
-        new FlatButton(
-          child: new Text("Close"),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
-    );
-  });
 }
