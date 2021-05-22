@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:timelines/timelines.dart';
 import 'package:xuan_fitness/pages/nutrition/nutrition_details.dart';
 
 class NutritionHome extends StatefulWidget {
