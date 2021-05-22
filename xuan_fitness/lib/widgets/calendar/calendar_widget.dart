@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:xuan_fitness/repositories/calendar_repository.dart';
-import 'package:xuan_fitness/widgets/calendar_card.dart';
+import 'package:xuan_fitness/widgets/calendar/calendar_card.dart';
 
 class CalendarWidget extends StatefulWidget {
   CalendarWidget({Key key, this.title}) : super(key: key);
