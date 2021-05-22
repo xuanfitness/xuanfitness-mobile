@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:timelines/timelines.dart';
 import 'package:xuan_fitness/pages/nutrition/nutrition_home.dart';
+import 'package:xuan_fitness/widgets/camera.dart';
 //import 'package:image_picker/image_picker.dart';
 
 class NutritionDetail extends StatefulWidget {
@@ -150,7 +150,13 @@ class NutritionDetailState extends State<NutritionDetail> {
                         child: InkWell(
                           splashColor: Color(0xFF6A8D73), // splash color
                           onTap: () {
-                            Navigator.of(context).pop();
+                            //Navigator.of(context).pop();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Camera(title: "test"),
+                              ),
+                            );
                             // show the camera
                           }, // button pressed
                           child: Column(
