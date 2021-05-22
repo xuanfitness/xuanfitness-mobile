@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xuan_fitness/pages/fitness/workout_list.dart';
-import 'package:xuan_fitness/widgets/calendar_widget_test.dart';
+import 'package:xuan_fitness/widgets/calendar/calendar_widget.dart';
 import 'package:xuan_fitness/pages/nutrition/nutrition_home.dart';
 import 'package:xuan_fitness/pages/habits/habit_home.dart';
 
