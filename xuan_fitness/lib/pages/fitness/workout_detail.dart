@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:xuan_fitness/widgets/workout/workouts.dart';
+
 //import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 //import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -30,13 +32,14 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
   String formattedDate = DateFormat('MM-dd-yyyy').format(DateTime.now());
   YoutubePlayerController _controller;
 
-  void initState(){
+  void initState() {
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: 'uZbig5yMlN8',
       flags: const YoutubePlayerFlags(),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -121,13 +124,12 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
                               // ),
                               child: Container(
                                 child: YoutubePlayerBuilder(
-                                  player: YoutubePlayer(
-                                    controller: _controller,
-                                  ),
-                                  builder: (context, player){
-                                    return player;
-                                  }
-                                ),
+                                    player: YoutubePlayer(
+                                      controller: _controller,
+                                    ),
+                                    builder: (context, player) {
+                                      return player;
+                                    }),
                               ),
                             ),
                             Container(

@@ -13,9 +13,9 @@ class HabitsHomeState extends State<HabitsHome> {
   TextEditingController q3 = TextEditingController();
   TextEditingController q4 = TextEditingController();
 
-  static String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  static String formattedDate = DateFormat('MM-dd-yyyy').format(DateTime.now());
 
-  static final dateFormatter = DateFormat('yyyy-MM-dd');
+  static final dateFormatter = DateFormat('MM-dd-yyyy');
 
   static DateTime today_7 = DateTime.now().subtract(new Duration(days: 7));
   static DateTime today_6 = DateTime.now().subtract(new Duration(days: 6));
@@ -233,8 +233,9 @@ class HabitsHomeState extends State<HabitsHome> {
               ),
             ),
           ),
-          new Card(
-            color: Colors.white,
+          ButtonTheme(
+            minWidth: 200.0,
+            // color: Colors.white,
             //child: new Container(
             //padding: EdgeInsets.all(0),
             child: RaisedButton(

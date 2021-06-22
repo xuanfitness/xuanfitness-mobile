@@ -67,6 +67,7 @@ class _TaskBarState extends State<TaskBar> {
         child: Scaffold(
           body: _renderTabBody(),
           appBar: AppBar(
+            centerTitle: false,
             elevation: 0,
             backgroundColor: (_selectedIndex == 3)
                 ? Theme.of(context).primaryColorDark
@@ -74,8 +75,10 @@ class _TaskBarState extends State<TaskBar> {
             title: Padding(
                 padding: EdgeInsets.all(0.0),
                 child: Image(
-                    alignment: Alignment.bottomLeft,
-                    image: AssetImage((_selectedIndex == 3)?'images/xuan_logo_white.png':'images/xuan_logo.png'),
+                    alignment: Alignment.centerLeft,
+                    image: AssetImage((_selectedIndex == 3)
+                        ? 'images/xuan_logo_white.png'
+                        : 'images/xuan_logo.png'),
                     height: 30,
                     width: 30)),
             textTheme: TextTheme(
