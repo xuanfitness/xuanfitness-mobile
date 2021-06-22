@@ -14,18 +14,27 @@ class HabitRepository with ChangeNotifier{
   DateTime get day => _day;
 
   HabitRepository.instance(User user, DateTime day, Map<String, dynamic> habitData){
-    user = _user;
-    print('test/${user.uid}');
-    _db = FirebaseFirestore.instance.collection('users/test/calendar/');
-
+    _user = user;
     _day = day;
     _dateString = '${day.year}-${day.month}-${day.day}';
 
+    print('test/${user.uid}');
+    _db = FirebaseFirestore.instance.collection('users/test/$_dateString/');
     _habits = [];
-    habitData.forEach((key, value){
-      _habits.add(new Habit.fromJson(value));
-    });
 
+
+    // habitData.forEach((key, value){
+    //   //_habits.add(new Habit.fromJson(value));
+    // });
+    getHabits();
+
+  }
+
+  void getHabits() async{
+    var habitData = await _db.doc('habits').get();
+    habitData.data().forEach((key, value) {
+      _habits.add(new Habit(value["question"],value["response"]));
+    });
   }
 
   void updateHabit(int index, String response){

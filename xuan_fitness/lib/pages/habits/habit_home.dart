@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:xuan_fitness/pages/habits/habit_widget.dart';
+import 'package:xuan_fitness/repositories/habits_repository.dart';
 
 class HabitsHome extends StatefulWidget {
   @override
@@ -44,208 +47,92 @@ class HabitsHomeState extends State<HabitsHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //backgroundColor: Color(0xFFFFEB3),
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        //backgroundColor: Color(0xFFFFEB3),
-        child:
-            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          Container(
-            margin: EdgeInsets.all(8.0),
+    return Consumer(
+        builder: (context, HabitRepository habitRepository, _) {
+          final habitRepo = Provider.of<HabitRepository>(context);
+          return Scaffold(
+            //backgroundColor: Color(0xFFFFEB3),
+            backgroundColor: Colors.white,
+            body: SingleChildScrollView(
+              //backgroundColor: Color(0xFFFFEB3),
+              child:
+              Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                Container(
+                  margin: EdgeInsets.all(8.0),
 
-            decoration: BoxDecoration(
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: Colors.white,
-                  blurRadius: 1,
-                  //offset: Offset(0, 2),
-                ),
-              ],
-            ),
-            //color: Colors.green,
-            padding: const EdgeInsets.only(bottom: 8),
-            //child: Scrollbar(isAlwaysShown:true, controller:_scrollController,)
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Habits',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontFamily: 'cabin',
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF6A8D73),
-
-                        //fontWeight: w600
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 30),
-                  Text('Today',
-                      style: TextStyle(
-                        fontFamily: 'cabin',
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFFCFE8D5),
-                      )),
-                  Text('$formattedDate',
-                      style: TextStyle(
-                        fontFamily: 'cabin',
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF6A8D73),
-                      )),
-                ]),
-          ),
-
-          Ink(color: Color(0xFFCFE8D5)),
-
-          new Card(
-            color: Color(0xFFCFE8D5),
-            child: new Container(
-              padding: EdgeInsets.all(10.0),
-              child: new Column(
-                children: <Widget>[
-                  new Row(children: <Widget>[
-                    new Expanded(
-                        child: new Text(
-                      "How much water did you drink today?",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          decorationColor: Colors.red,
-                          fontFamily: 'Cabin',
-                          color: Color(0xFF6A8D73)),
-                    )),
-                    new Expanded(
-                      child: new TextField(),
-                    ),
-                  ]),
-                ],
-              ),
-            ),
-          ),
-          new Card(
-            color: Color(0xFFCFE8D5),
-            child: new Container(
-              padding: EdgeInsets.all(10.0),
-              child: new Column(
-                children: <Widget>[
-                  new Row(
-                    children: <Widget>[
-                      new Expanded(
-                          child: new Text(
-                        "How long did you practice DJ for today?",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            decorationColor: Colors.red,
-                            fontFamily: 'Cabin',
-                            color: Color(0xFF6A8D73)),
-                      )),
-                      new Expanded(
-                        child: new TextField(),
+                  decoration: BoxDecoration(
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: Colors.white,
+                        blurRadius: 1,
+                        //offset: Offset(0, 2),
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
-          ),
-          new Card(
-            color: Color(0xFFCFE8D5),
-            child: new Container(
-              padding: EdgeInsets.all(10.0),
-              child: new Column(
-                children: <Widget>[
-                  new Row(
-                    children: <Widget>[
-                      new Expanded(
-                          child: new Text(
-                        "How long did you do yoga for today?",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            decorationColor: Colors.red,
-                            fontFamily: 'Cabin',
-                            color: Color(0xFF6A8D73)),
-                      )),
-                      new Expanded(
-                        child: new TextField(),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          new Card(
-            color: Color(0xFFCFE8D5),
-            child: new Container(
-              padding: EdgeInsets.all(10.0),
-              child: new Column(
-                children: <Widget>[
-                  new Row(
-                    children: <Widget>[
-                      new Expanded(
-                        child: new Text(
-                          "How happy are you today?",
-                          style: TextStyle(
+                  //color: Colors.green,
+                  padding: const EdgeInsets.only(bottom: 8),
+                  //child: Scrollbar(isAlwaysShown:true, controller:_scrollController,)
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Habits',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontFamily: 'cabin',
+                              fontSize: 40,
                               fontWeight: FontWeight.bold,
-                              decorationColor: Colors.red,
-                              fontFamily: 'Cabin',
-                              color: Color(0xFF6A8D73)),
+                              color: Color(0xFF6A8D73),
+
+                              //fontWeight: w600
+                            ),
+                          ),
                         ),
-                      ),
-                      new Expanded(
-                        child: new TextField(),
-                      ),
-                    ],
+                        SizedBox(height: 30),
+                        Text('Today',
+                            style: TextStyle(
+                              fontFamily: 'cabin',
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFFCFE8D5),
+                            )),
+                        Text('$formattedDate',
+                            style: TextStyle(
+                              fontFamily: 'cabin',
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF6A8D73),
+                            )),
+                      ]),
+                ),
+
+                Ink(color: Color(0xFFCFE8D5)),
+                ListView.builder(
+                  itemCount: habitRepo.habits.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return new HabitCard(habitRepo.habits[index], index);
+                  },
+
+                ),
+
+                new Card(
+                  color: Colors.white,
+                  //child: new Container(
+                  //padding: EdgeInsets.all(0),
+                  child: RaisedButton(
+                    color: Color(0xFF6A8D73),
+                    onPressed: () => {},
+                    child: Text('Submit', style: TextStyle(color: Colors.white)),
                   ),
-                ],
-              ),
+                ),
+                // ),
+              ]),
             ),
           ),
-          new Card(
-            color: Color(0xFFCFE8D5),
-            child: new Container(
-              padding: EdgeInsets.all(10.0),
-              child: new Column(
-                children: <Widget>[
-                  new Row(
-                    children: <Widget>[
-                      new Expanded(
-                          child: new Text(
-                        "How much did you sleep today?",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            decorationColor: Colors.red,
-                            fontFamily: 'Cabin',
-                            color: Color(0xFF6A8D73)),
-                      )),
-                      new Expanded(
-                        child: new TextField(),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-          new Card(
-            color: Colors.white,
-            //child: new Container(
-            //padding: EdgeInsets.all(0),
-            child: RaisedButton(
-              color: Color(0xFF6A8D73),
-              onPressed: () => {},
-              child: Text('Submit', style: TextStyle(color: Colors.white)),
-            ),
-          ),
-          // ),
-        ]),
-      ),
+          );
+        }
     );
   }
 }

@@ -252,6 +252,40 @@ class _WorkoutListState extends State<WorkoutList> {
                                 builder: (context) => WorkoutDetail()),
                           );
                         })),
+                    Card(
+                        color: Colors.white,
+                        child: ListTile(
+                            title: Text('$today6',
+                                style: TextStyle(
+                                    color: Color(0xFF6A8D73),
+                                    fontWeight: FontWeight.bold)),
+                            subtitle: Text('Rest Day'),
+                            trailing: new Icon(FontAwesome.smile_o,
+                                color: Color(0xFF6A8D73)),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WorkoutDetail()),
+                              );
+                            })),
+                    Card(
+                        color: Colors.white,
+                        child: ListTile(
+                            title: Text('$today6',
+                                style: TextStyle(
+                                    color: Color(0xFF6A8D73),
+                                    fontWeight: FontWeight.bold)),
+                            subtitle: Text('Rest Day'),
+                            trailing: new Icon(FontAwesome.smile_o,
+                                color: Color(0xFF6A8D73)),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WorkoutDetail()),
+                              );
+                            })),
               ])),
         ));
   }
