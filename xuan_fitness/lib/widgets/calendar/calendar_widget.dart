@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:xuan_fitness/repositories/calendar_repository.dart';
 import 'package:xuan_fitness/widgets/calendar/calendar_card.dart';
@@ -15,7 +16,8 @@ class CalendarWidget extends StatefulWidget {
   _CalendarWidgetState createState() => _CalendarWidgetState();
 }
 
-class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStateMixin {
+class _CalendarWidgetState extends State<CalendarWidget>
+    with TickerProviderStateMixin {
   List _selectedEvents;
   AnimationController _animationController;
   CalendarController _calendarController;
@@ -46,86 +48,112 @@ class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStat
     });
   }
 
-  void _onCalendarCreated(DateTime first, DateTime last, CalendarFormat format) {
+  void _onCalendarCreated(
+      DateTime first, DateTime last, CalendarFormat format) {
     print('CALLBACK: _onCalendarCreated');
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer(
-      builder: (context, CalendarRepository calendarRepository, _) {
-        final calendarRepo = Provider.of<CalendarRepository>(context);
-        if(_selectedEvents == null && calendarRepo.calendar != null){
-          DateTime now = DateTime.now();
-          DateTime nowParsed = DateTime(now.year,now.month, now.day);
-          _selectedEvents = calendarRepo.calendar[nowParsed] ?? [];
-        }
+        builder: (context, CalendarRepository calendarRepository, _) {
+      final calendarRepo = Provider.of<CalendarRepository>(context);
+      if (_selectedEvents == null && calendarRepo.calendar != null) {
+        DateTime now = DateTime.now();
+        DateTime nowParsed = DateTime(now.year, now.month, now.day);
+        _selectedEvents = calendarRepo.calendar[nowParsed] ?? [];
+      }
 
-        return Container(
-          color: Theme
-              .of(context)
-              .primaryColorDark,
-          child: Column(
+      return Container(
+        color: Theme.of(context).primaryColorDark,
+        child: SlidingUpPanel(
+          panel: Center(
+            child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  border: Border.all(
+                      color: Theme.of(context).primaryColor, // Set border color
+                      width: 3.0),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                ),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                        child: Text("Today",
+                            style: GoogleFonts.cabin(
+                              textStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 24),
+                            )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                        child: Text("If not now, when?",
+                            style: GoogleFonts.cabin(
+                              textStyle:
+                                  TextStyle(color: Colors.white, fontSize: 16),
+                            )),
+                      ),
+                      Expanded(child: _buildCards())
+                    ])),
+          ),
+          maxHeight: 300,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+          collapsed: Container(
+              width: double.infinity,
+              padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                border: Border.all(
+                    color: Theme.of(context).primaryColor, // Set border color
+                    width: 3.0),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20)),
+              ),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Today",
+                        style: GoogleFonts.cabin(
+                          textStyle: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 24),
+                        )),
+                    Text("If not now, when?",
+                        style: GoogleFonts.cabin(
+                          textStyle:
+                              TextStyle(color: Colors.white, fontSize: 16),
+                        )),
+                  ])),
+          body: Column(
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Container(
-                child: _buildTableCalendarWithBuilders(calendarRepo),
-                // _buildTableCalendar(calendarRepo.calendar)
-                color: Theme
-                    .of(context)
-                    .primaryColorDark,
-              ),
               Expanded(
-                  child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                      decoration: BoxDecoration(
-                        color: Theme
-                            .of(context)
-                            .primaryColor,
-                        border: Border.all(
-                            color:
-                            Theme
-                                .of(context)
-                                .primaryColor, // Set border color
-                            width: 3.0),
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20)),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                            child: Text("Today",
-                                style: GoogleFonts.cabin(
-                                  textStyle: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 24),
-                                )),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
-                            child: Text("If not now, when?",
-                                style: GoogleFonts.cabin(
-                                  textStyle:
-                                  TextStyle(color: Colors.white, fontSize: 16),
-                                )),
-                          ),
-                          Expanded(
-                              child: _buildCards()
-                          )
-                        ],
-                      ))),
-              // Expanded(child: _buildEventList()),
+                flex: 2,
+                child: Container(
+                  child: _buildTableCalendarWithBuilders(calendarRepo),
+                  // _buildTableCalendar(calendarRepo.calendar)
+                  color: Theme.of(context).primaryColorDark,
+                ),
+              ),
+
             ],
           ),
-        );
-      }
-    );
+        ),
+      );
+    });
   }
 
   TextStyle daysOfWeekStyle = GoogleFonts.cabin(
@@ -142,7 +170,8 @@ class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStat
   );
 
   // More advanced TableCalendar configuration (using Builders & Styles)
-  Widget _buildTableCalendarWithBuilders(CalendarRepository calendarRepository) {
+  Widget _buildTableCalendarWithBuilders(
+      CalendarRepository calendarRepository) {
     return TableCalendar(
       calendarController: _calendarController,
       events: calendarRepository.calendar,
@@ -150,9 +179,7 @@ class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStat
       formatAnimation: FormatAnimation.slide,
       startingDayOfWeek: StartingDayOfWeek.sunday,
       availableGestures: AvailableGestures.all,
-      availableCalendarFormats: const {
-        CalendarFormat.month: ''
-      },
+      availableCalendarFormats: const {CalendarFormat.month: ''},
       calendarStyle: CalendarStyle(
           todayColor: Color(0x33CFE8D5),
           selectedColor: Color(0x77CFE8D5),
@@ -190,11 +217,8 @@ class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStat
         markersBuilder: (context, date, events, holidays) {
           final children = <Widget>[];
           if (events.isNotEmpty) {
-            children.add(Positioned(
-                bottom: 1,
-                child: _buildEventsMarker(date, events)
-            )
-            );
+            children.add(
+                Positioned(bottom: 1, child: _buildEventsMarker(date, events)));
           }
           return children;
         },
@@ -203,31 +227,41 @@ class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStat
         _onDaySelected(date, events, holidays);
         _animationController.forward(from: 0.0);
       },
-      onVisibleDaysChanged: (first, last, format){
-        DateTime monthDate = last.subtract(Duration(days:14));
+      onVisibleDaysChanged: (first, last, format) {
+        DateTime monthDate = last.subtract(Duration(days: 14));
         calendarRepository.addMonth(monthDate);
         print('CALLBACK: _onVisibleDaysChanged');
       },
       onCalendarCreated: _onCalendarCreated,
     );
   }
+
   Widget _buildEventsMarker(DateTime date, List events) {
-    List<Widget> icons=[];
-    if(events.contains("Comment")){
-      icons.add(FaIcon(FontAwesomeIcons.comments,
+    List<Widget> icons = [];
+    if (events.contains("Comment")) {
+      icons.add(FaIcon(
+        FontAwesomeIcons.comments,
         color: Colors.white,
         size: 12,
       ));
     }
 
-    if(events.contains("Fitness") && events.contains("Habits") && events.contains("Nutrition")){
-      icons.add(FaIcon(FontAwesomeIcons.solidSmile,
-            color: Colors.white,
-            size: 12,));
-    }else if(events.contains("Fitness") || events.contains("Habits") || events.contains("Nutrition")){
-      icons.add(FaIcon(FontAwesomeIcons.smile,
+    if (events.contains("Fitness") &&
+        events.contains("Habits") &&
+        events.contains("Nutrition")) {
+      icons.add(FaIcon(
+        FontAwesomeIcons.solidSmile,
         color: Colors.white,
-        size: 12,));
+        size: 12,
+      ));
+    } else if (events.contains("Fitness") ||
+        events.contains("Habits") ||
+        events.contains("Nutrition")) {
+      icons.add(FaIcon(
+        FontAwesomeIcons.smile,
+        color: Colors.white,
+        size: 12,
+      ));
     }
 
     return Row(
@@ -235,14 +269,18 @@ class _CalendarWidgetState extends State<CalendarWidget> with TickerProviderStat
       children: icons,
     );
   }
-  Widget _buildCards(){
-    if(_selectedEvents == null)
-      return Container();
 
-    List<Widget> cards=[];
-    cards.add(CalendarCard("Fitness", _selectedEvents.contains("Fitness"), FontAwesomeIcons.dumbbell));
-    cards.add(CalendarCard("Habits", _selectedEvents.contains("Habits"), FontAwesomeIcons.solidHeart));
-    cards.add(CalendarCard("Nutrition", _selectedEvents.contains("Nutrition"), FontAwesomeIcons.utensils));
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: cards);
+  Widget _buildCards() {
+    if (_selectedEvents == null) return Container();
+
+    List<Widget> cards = [];
+    cards.add(CalendarCard("Fitness", _selectedEvents.contains("Fitness"),
+        FontAwesomeIcons.dumbbell));
+    cards.add(CalendarCard("Habits", _selectedEvents.contains("Habits"),
+        FontAwesomeIcons.solidHeart));
+    cards.add(CalendarCard("Nutrition", _selectedEvents.contains("Nutrition"),
+        FontAwesomeIcons.utensils));
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround, children: cards);
   }
 }

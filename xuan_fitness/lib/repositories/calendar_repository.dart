@@ -23,11 +23,13 @@ class CalendarRepository with ChangeNotifier{
     var temp = await _db.doc(month).get();
     months = [month];
     _events = {};
-    temp.data().forEach((key, value){
-      DateTime parsedDate = DateTime.parse(key);
-      _events.putIfAbsent(parsedDate, () => value);
-    });
-    notifyListeners();
+    if(temp.data() != null){
+      temp.data().forEach((key, value){
+        DateTime parsedDate = DateTime.parse(key);
+        _events.putIfAbsent(parsedDate, () => value);
+      });
+      notifyListeners();
+    }
   }
 
   Future<void> addMonth(DateTime monthDate) async{
