@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:xuan_fitness/pages/auth/login.dart';
+import 'package:xuan_fitness/pages/splash.dart';
 import 'package:xuan_fitness/repositories/user_repository.dart';
 import 'package:xuan_fitness/navigation/task_bar.dart';
 
@@ -61,13 +62,13 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class Splash extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      child: Center(
-        child: Text("Splash Screen"),
-      ),
-    );
-  }
-}
+// class Splash extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Material(
+//       child: Center(
+//         child: Text("Splash Screen"),
+//       ),
+//     );
+//   }
+// }
