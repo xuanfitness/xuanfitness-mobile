@@ -5,6 +5,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:xuan_fitness/pages/fitness/workout_detail.dart';
+import 'package:xuan_fitness/pages/fitness/workout_circuit.dart';
 import 'package:xuan_fitness/widgets/week_view.dart';
 
 class WorkoutList extends StatefulWidget {
@@ -127,7 +128,7 @@ class _WorkoutListState extends State<WorkoutList> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => WorkoutDetail()),
+                                builder: (context) => WorkoutCircuit()),
                           );
                         })),
                 Card(

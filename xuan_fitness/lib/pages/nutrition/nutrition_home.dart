@@ -12,7 +12,7 @@ class NutritionHome extends StatefulWidget {
 }
 
 class NutritionHomeState extends State<NutritionHome> {
-  static String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  static String formattedDate = DateFormat('MM-dd-yyyy').format(DateTime.now());
   var _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -180,28 +180,50 @@ class NutritionHomeState extends State<NutritionHome> {
                 ),
               ),
             ),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 16),
-                child: TextField(
-                  style: TextStyle(color: Color(0xFFA2C2A9)),
-                  controller: _controller,
-                  decoration: InputDecoration(
-                    hintText: "Add more food",
-                    hintStyle: TextStyle(color: Color(0xFFA2C2A9)),
-                    fillColor: Color(0xFFA2C2A9),
-                    suffixIcon: IconButton(
-                        icon: Icon(Icons.add, color: Color(0xFFA2C2A9)),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => NutritionDetail(),
-                            ),
-                          );
-                          print(_controller.text);
-                        }),
-                  ),
-                ))
+            // Padding(
+            // padding: EdgeInsets.symmetric(horizontal: 5, vertical: 16),
+            // child: TextField(
+            //   style: TextStyle(color: Color(0xFFA2C2A9)),
+            //   controller: _controller,
+            //   decoration: InputDecoration(
+            //     hintText: "Add more food",
+            //     hintStyle: TextStyle(color: Color(0xFFA2C2A9)),
+            //     fillColor: Color(0xFFA2C2A9),
+            //     suffixIcon: IconButton(
+            //         icon: Icon(Icons.add, color: Color(0xFFA2C2A9)),
+            //         onPressed: () {
+            //           Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //               builder: (context) => NutritionDetail(),
+            //             ),
+            //           );
+            //           print(_controller.text);
+            //         }),
+            //   ),
+            // )
+
+            ButtonTheme(
+              minWidth: 200.0,
+              // color: Colors.white,
+              //child: new Container(
+              //padding: EdgeInsets.all(0),
+              child: RaisedButton(
+                color: Color(0xFF6A8D73),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NutritionDetail(),
+                    ),
+                  );
+                  print(_controller.text);
+                },
+                child:
+                    Text('Add new meal', style: TextStyle(color: Colors.white)),
+              ),
+            ),
+            //)
           ],
         ),
       ),

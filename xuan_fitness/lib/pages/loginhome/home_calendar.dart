@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'file:///C:/Users/wuviv/OneDrive/Documents/xuanfitness/xuanfitness-mobile/xuan_fitness/lib/navigation/task_bar.dart';
+//import 'file:///C:/Users/wuviv/OneDrive/Documents/xuanfitness/xuanfitness-mobile/xuan_fitness/lib/navigation/task_bar.dart';
 
 class HomeCalendar extends StatefulWidget {
   HomeCalendar({Key key}) : super(key: key);
@@ -18,7 +18,7 @@ class _HomeCalendar extends State<HomeCalendar> {
       theme: ThemeData(
         primaryColor: Colors.amber[100],
       ),
-      home: TaskBar(),
+      //home: TaskBar(),
     );
   }
 }
@@ -32,6 +32,7 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
+
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Map<DateTime, List> _events;
   List _selectedEvents;
