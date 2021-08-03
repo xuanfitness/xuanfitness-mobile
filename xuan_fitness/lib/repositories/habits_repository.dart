@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,25 +18,14 @@ class HabitRepository with ChangeNotifier{
   HabitRepository.instance(User user, DateTime day, Map<String, dynamic> habitData){
     _user = user;
     _day = day;
-    _dateString = '${day.year}-${day.month}-${day.day}';
+    // _dateString = '${day.year}-${day.month}-${day.day}';
+    _dateString = "2021-06-21";
+    _db = FirebaseFirestore.instance.collection('users/test/$_dateString');
 
-    print('test/${user.uid}');
-    _db = FirebaseFirestore.instance.collection('users/test/$_dateString/');
     _habits = [];
-
-
-    // habitData.forEach((key, value){
-    //   //_habits.add(new Habit.fromJson(value));
-    // });
-    getHabits();
-
-  }
-
-  void getHabits() async{
-    var habitData = await _db.doc('habits').get();
-    habitData.data().forEach((key, value) {
-      _habits.add(new Habit(value["question"],value["response"]));
-    });
+    for(Map<String, dynamic> raw in habitData["data"]){
+      _habits.add(new Habit(raw["question"],raw["response"]));
+    }
   }
 
   void updateHabit(int index, String response){
@@ -42,7 +33,7 @@ class HabitRepository with ChangeNotifier{
   }
 
   Future<void> saveHabits() async{
-    _db.doc(_dateString).set({"habits": _habits}, SetOptions(merge: true));
+    await _db.doc("habits").update({"data": _habits.map((h)=> h.toJson()).toList()});
     notifyListeners();
   }
 }

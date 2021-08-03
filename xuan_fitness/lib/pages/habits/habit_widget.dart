@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xuan_fitness/models/habit.dart';
 
-class HabitCard extends StatelessWidget{
+class HabitCard extends StatelessWidget {
   HabitCard(this.habit, this.index);
   final Habit habit;
   final int index;
@@ -18,16 +18,19 @@ class HabitCard extends StatelessWidget{
               children: <Widget>[
                 new Expanded(
                     child: new Text(
-                      habit.question,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          decorationColor: Colors.red,
-                          fontFamily: 'Cabin',
-                          color: Color(0xFF6A8D73)),
-                    )),
+                  habit.question,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      decorationColor: Colors.red,
+                      fontFamily: 'Cabin',
+                      color: Color(0xFF6A8D73)),
+                )),
                 new Expanded(
-                  child: (habit.response == null)?new TextField():Text(habit.response),
-                ),
+                    //(habit.response == null)?new TextField():Text(habit.response),
+                    child: TextFormField(
+                  initialValue: habit.response == null ? "" : habit.response,
+                  onChanged: (response) => {habit.update(response)},
+                )),
               ],
             ),
           ],
@@ -35,5 +38,4 @@ class HabitCard extends StatelessWidget{
       ),
     );
   }
-
 }
