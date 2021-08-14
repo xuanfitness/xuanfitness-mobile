@@ -10,7 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:xuan_fitness/pages/nutrition/nutrition_home.dart';
 import 'package:xuan_fitness/repositories/nutrition_repository.dart';
 import 'package:xuan_fitness/widgets/camera.dart';
+// import 'package:firebase_database/firebase_database.dart';
+
+
 //import 'package:image_picker/image_picker.dart';
+
+// final databaseReference = FirebaseDatabase.instance.reference();
 
 class NutritionDetail extends StatefulWidget {
   final NutritionRepository nutritionRepository;
@@ -238,4 +243,16 @@ class NutritionDetailState extends State<NutritionDetail> {
       ),
     );
   }
+
+  // void createHabits(){
+  //     databaseReference.child("0").set({
+  //   'description': 'test-description',
+  //   'meal': 'breakfast'
+  //   'photoID' 'testID'
+  // });
+  // databaseReference.child("1").set({
+  //   'title': 'Flutter in Action',
+  //   'description': 'Complete Programming Guide to learn Flutter'
+  // });
+  // }
 }

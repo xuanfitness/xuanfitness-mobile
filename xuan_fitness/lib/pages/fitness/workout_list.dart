@@ -38,6 +38,22 @@ class _WorkoutListState extends State<WorkoutList> {
   static String today5 = dateFormatter.format(today_6);
   static String today6 = dateFormatter.format(today_7);
 
+  //four categories of workouts
+  static String warmup = "Warm Up";
+  static String workout = "Work Out";
+  static String circuit = "Cicuit";
+  static String cooldown = "Cool Down";
+
+  //the types of workouts
+  static String mountainClimbers = "Mountain Climbers";
+  static String jumpingJacks = "Jumping Jacks";
+  static String stretch = "Strech";
+  static String jog = "Jog in Place";
+  static String squats = "squats";
+  static String lunges = "Lunges";
+  static String crunches = "Crunches";
+
+  //list of dates for a week
   final List<String> entries = <String>[
     today,
     today1,
@@ -47,7 +63,19 @@ class _WorkoutListState extends State<WorkoutList> {
     today5,
     today6
   ];
+
+  //all elements in lists
+  final List<String> entries1 = <String>[warmup, workout, circuit, cooldown];
   final List<int> colorCodes = <int>[600, 500, 400, 300, 200, 100];
+  final List<String> entriesWorkout = <String>[
+    mountainClimbers,
+    jumpingJacks,
+    stretch,
+    jog,
+    squats,
+    lunges,
+    crunches
+  ];
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,236 +86,87 @@ class _WorkoutListState extends State<WorkoutList> {
             child: Text("This is the sliding Widget"),
           ),
           body: SingleChildScrollView(
+              physics: ScrollPhysics(),
               //backgroundColor: Color(0xFFFFEB3),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                Container(
-                  margin: EdgeInsets.all(8.0),
-
-                  decoration: BoxDecoration(
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: Colors.white,
-                        blurRadius: 1,
-                        //offset: Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  //color: Colors.green,
-                  padding: const EdgeInsets.only(bottom: 8),
-                  //child: Scrollbar(isAlwaysShown:true, controller:_scrollController,)
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Workouts',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontFamily: 'cabin',
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF6A8D73),
-
-                              //fontWeight: w600
-                            ),
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.white,
+                            blurRadius: 1,
+                            //offset: Offset(0, 2),
                           ),
-                        ),
-                        SizedBox(height: 30),
-                        Text('Today',
-                            style: TextStyle(
-                              fontFamily: 'cabin',
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFFA2C2A9),
-                            )),
-                        Text('$formattedDate',
-                            style: TextStyle(
-                              fontFamily: 'cabin',
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF6A8D73),
-                            )),
-                      ]),
-                ),
-                //ListView(children: <Widget>[
-                Card(
-                    color: Color(0xFFCFE8D5),
-                    child: ListTile(
-                        title: Text('$formattedDate',
-                            style: TextStyle(
-                                color: Color(0xFF6A8D73),
-                                fontWeight: FontWeight.bold)),
-                        //primarySwatch: Color(0xFFA2C2A9),
-                        subtitle: Text('Rest Day'),
-                        trailing: new Icon(FontAwesome.smile_o,
-                            color: Color(0xFF6A8D73)),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WorkoutCircuit()),
-                          );
-                        })),
-                Card(
-                    color: Color(0xFFCFE8D5),
-                    child: ListTile(
-                        title: Text('$today',
-                            style: TextStyle(
-                                color: Color(0xFF6A8D73),
-                                fontWeight: FontWeight.bold)),
-                        subtitle: Text('Rest Day'),
-                        trailing: new Icon(FontAwesome.smile_o,
-                            color: Color(0xFF6A8D73)),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WorkoutDetail()),
-                          );
-                        })),
-                Card(
-                    color: Color(0xFFCFE8D5),
-                    child: ListTile(
-                        title: Text('$today1',
-                            style: TextStyle(
-                                color: Color(0xFF6A8D73),
-                                fontWeight: FontWeight.bold)),
-                        subtitle: Text('Rest Day'),
-                        trailing: new Icon(FontAwesome.smile_o,
-                            color: Color(0xFF6A8D73)),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WorkoutDetail()),
-                          );
-                        })),
-                Card(
-                    color: Color(0xFFCFE8D5),
-                    child: ListTile(
-                        title: Text('$today2',
-                            style: TextStyle(
-                              color: Color(0xFF6A8D73),
-                              fontWeight: FontWeight.bold,
-                            )),
-                        subtitle: Text('Rest Day'),
-                        trailing: new Icon(FontAwesome.smile_o,
-                            color: Color(0xFF6A8D73)),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WorkoutDetail()),
-                          );
-                        })),
-                Card(
-                    color: Colors.white,
-                    child: ListTile(
-                        title: Text('$today3',
-                            style: TextStyle(
-                                color: Color(0xFF6A8D73),
-                                fontWeight: FontWeight.bold)),
-                        subtitle: Text(
-                          'Rest Day',
-                        ),
-                        trailing: new Icon(FontAwesome.smile_o,
-                            color: Color(0xFF6A8D73)),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WorkoutDetail()),
-                          );
-                        })),
-                Card(
-                    color: Colors.white,
-                    child: ListTile(
-                        title: Text('$today4',
-                            style: TextStyle(
-                                color: Color(0xFF6A8D73),
-                                fontWeight: FontWeight.bold)),
-                        subtitle: Text('Rest Day'),
-                        trailing: new Icon(FontAwesome.smile_o,
-                            color: Color(0xFF6A8D73)),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WorkoutDetail()),
-                          );
-                        })),
-                Card(
-                    color: Colors.white,
-                    child: ListTile(
-                        title: Text('$today5',
-                            style: TextStyle(
-                                color: Color(0xFF6A8D73),
-                                fontWeight: FontWeight.bold)),
-                        subtitle: Text('Rest Day'),
-                        trailing: new Icon(FontAwesome.smile_o,
-                            color: Color(0xFF6A8D73)),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WorkoutDetail()),
-                          );
-                        })),
-                Card(
-                    color: Colors.white,
-                    child: ListTile(
-                        title: Text('$today6',
-                            style: TextStyle(
-                                color: Color(0xFF6A8D73),
-                                fontWeight: FontWeight.bold)),
-                        subtitle: Text('Rest Day'),
-                        trailing: new Icon(FontAwesome.smile_o,
-                            color: Color(0xFF6A8D73)),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WorkoutDetail()),
-                          );
-                        })),
-                    Card(
-                        color: Colors.white,
-                        child: ListTile(
-                            title: Text('$today6',
+                        ],
+                      ),
+                      //color: Colors.green,
+                      padding: const EdgeInsets.only(bottom: 8),
+                      //child: Scrollbar(isAlwaysShown:true, controller:_scrollController,)
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Workouts',
+                                textAlign: TextAlign.left,
                                 style: TextStyle(
-                                    color: Color(0xFF6A8D73),
-                                    fontWeight: FontWeight.bold)),
-                            subtitle: Text('Rest Day'),
-                            trailing: new Icon(FontAwesome.smile_o,
-                                color: Color(0xFF6A8D73)),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => WorkoutDetail()),
-                              );
-                            })),
-                    Card(
-                        color: Colors.white,
-                        child: ListTile(
-                            title: Text('$today6',
+                                  fontFamily: 'cabin',
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF6A8D73),
+
+                                  //fontWeight: w600
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 30),
+                            Text('Today',
                                 style: TextStyle(
-                                    color: Color(0xFF6A8D73),
-                                    fontWeight: FontWeight.bold)),
-                            subtitle: Text('Rest Day'),
-                            trailing: new Icon(FontAwesome.smile_o,
-                                color: Color(0xFF6A8D73)),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => WorkoutDetail()),
-                              );
-                            })),
-              ])),
+                                  fontFamily: 'cabin',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFA2C2A9),
+                                )),
+                            Text('$formattedDate',
+                                style: TextStyle(
+                                  fontFamily: 'cabin',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF6A8D73),
+                                )),
+                          ]),
+                    ),
+
+                    //the listview of the workouts
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: entriesWorkout.length, // your List
+                      itemBuilder: (context, index) {
+                        return Card(
+                            color: Colors.white,
+                            child: ListTile(
+                                title: Text(entriesWorkout[index],
+                                    style: TextStyle(
+                                        color: Color(0xFF6A8D73),
+                                        fontWeight: FontWeight.bold)),
+                                subtitle: Text(entries1[index]),
+                                // trailing: new Icon(FontAwesome.smile_o,
+                                //     color: Color(0xFF6A8D73)),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => WorkoutDetail()),
+                                  );
+                                }));
+                      },
+                    )
+                  ])),
         ));
   }
 }
