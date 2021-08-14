@@ -5,8 +5,9 @@ import 'package:xuan_fitness/pages/auth/login.dart';
 import 'package:xuan_fitness/repositories/user_repository.dart';
 import 'package:xuan_fitness/navigation/task_bar.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   runApp(App());
 }
 

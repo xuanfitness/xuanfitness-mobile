@@ -44,6 +44,7 @@ class HabitsHomeState extends State<HabitsHome> {
 
   @override
   Widget build(BuildContext context) {
+    // DatabaseReference _testRef = FirebaseDatabase.instance.reference().child("test");
     return Scaffold(
       //backgroundColor: Color(0xFFFFEB3),
       backgroundColor: Colors.white,
