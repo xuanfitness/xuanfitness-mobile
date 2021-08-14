@@ -86,82 +86,87 @@ class _WorkoutListState extends State<WorkoutList> {
         body: SlidingUpPanel(
           panel: Center(),
           body: SingleChildScrollView(
+              physics: ScrollPhysics(),
               //backgroundColor: Color(0xFFFFEB3),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                Container(
-                  margin: EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: Colors.white,
-                        blurRadius: 1,
-                        //offset: Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  //color: Colors.green,
-                  padding: const EdgeInsets.only(bottom: 8),
-                  //child: Scrollbar(isAlwaysShown:true, controller:_scrollController,)
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            '$workout',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontFamily: 'cabin',
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF6A8D73),
-
-                              //fontWeight: w600
-                            ),
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.white,
+                            blurRadius: 1,
+                            //offset: Offset(0, 2),
                           ),
-                        ),
-                        SizedBox(height: 30),
-                        Text('Today',
-                            style: TextStyle(
-                              fontFamily: 'cabin',
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFFA2C2A9),
-                            )),
-                        Text('$formattedDate',
-                            style: TextStyle(
-                              fontFamily: 'cabin',
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF6A8D73),
-                            )),
-                      ]),
-                ),
-                ListView.builder(
-                  itemCount: entriesWorkout.length, // your List
-                  itemBuilder: (context, index) {
-                    return Card(
-                        color: Colors.white,
-                        child: ListTile(
-                            title: Text(entriesWorkout[index],
+                        ],
+                      ),
+                      //color: Colors.green,
+                      padding: const EdgeInsets.only(bottom: 8),
+                      //child: Scrollbar(isAlwaysShown:true, controller:_scrollController,)
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Workouts',
+                                textAlign: TextAlign.left,
                                 style: TextStyle(
-                                    color: Color(0xFF6A8D73),
-                                    fontWeight: FontWeight.bold)),
-                            subtitle: Text(entries1[index]),
-                            trailing: new Icon(FontAwesome.smile_o,
-                                color: Color(0xFF6A8D73)),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => WorkoutDetail()),
-                              );
-                            }));
-                  },
-                )
-              ])),
+                                  fontFamily: 'cabin',
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF6A8D73),
+
+                                  //fontWeight: w600
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 30),
+                            Text('Today',
+                                style: TextStyle(
+                                  fontFamily: 'cabin',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFA2C2A9),
+                                )),
+                            Text('$formattedDate',
+                                style: TextStyle(
+                                  fontFamily: 'cabin',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF6A8D73),
+                                )),
+                          ]),
+                    ),
+
+                    //the listview of the workouts
+                    ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: entriesWorkout.length, // your List
+                      itemBuilder: (context, index) {
+                        return Card(
+                            color: Colors.white,
+                            child: ListTile(
+                                title: Text(entriesWorkout[index],
+                                    style: TextStyle(
+                                        color: Color(0xFF6A8D73),
+                                        fontWeight: FontWeight.bold)),
+                                subtitle: Text(entries1[index]),
+                                // trailing: new Icon(FontAwesome.smile_o,
+                                //     color: Color(0xFF6A8D73)),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => WorkoutDetail()),
+                                  );
+                                }));
+                      },
+                    )
+                  ])),
         ));
   }
 }

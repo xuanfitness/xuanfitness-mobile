@@ -104,6 +104,16 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
                                           color: Color(0xFF6A8D73),
                                         )),
                                     SizedBox(height: 15),
+                                    FlatButton(
+                                      color: Color(0xFF6A8D73),
+                                      child: Text("Back",
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                      onPressed: () {
+                                        // Navigate back to first route when tapped.
+                                        Navigator.pop(context);
+                                      },
+                                    ),
                                     Text('Squats',
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
