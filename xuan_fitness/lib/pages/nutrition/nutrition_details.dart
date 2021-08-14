@@ -1,26 +1,63 @@
 //this is where you get navigated to after you click "add meal"
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:xuan_fitness/pages/nutrition/nutrition_home.dart';
+import 'package:xuan_fitness/repositories/nutrition_repository.dart';
 import 'package:xuan_fitness/widgets/camera.dart';
 //import 'package:image_picker/image_picker.dart';
 
 class NutritionDetail extends StatefulWidget {
-  final ScrollController _scrollController = ScrollController();
+  final NutritionRepository nutritionRepository;
+  NutritionDetail(this.nutritionRepository);
+
   @override
   NutritionDetailState createState() => new NutritionDetailState();
 }
 
 class NutritionDetailState extends State<NutritionDetail> {
   static String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-  //var _controller = TextEditingController();
+  String mealName, mealDetails;
+  PickedFile _imageFile;
+
+  Widget _previewImage() {
+    if (_imageFile != null) {
+      if (kIsWeb) {
+        // Why network?
+        // See https://pub.dev/packages/image_picker#getting-ready-for-the-web-platform
+        return Image.network(_imageFile.path);
+      } else {
+        return Semantics(
+            child: Image.file(File(_imageFile.path)),
+            label: 'image_picker_example_picked_image');
+      }
+    } else {
+      return const Text(
+        'You have not yet picked an image.',
+        textAlign: TextAlign.center,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Theme
+            .of(context)
+            .primaryColorLight,
+        iconTheme: IconThemeData(
+          color: Theme
+              .of(context)
+              .primaryColor,
+        ),
+      ),
       //backgroundColor: Color(0xFFFFEB3),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -90,7 +127,7 @@ class NutritionDetailState extends State<NutritionDetail> {
                   new Row(children: <Widget>[
                     new Expanded(
                       child: new Text(
-                        "Breakfast, Lunch, Dinner, or Snack?",
+                        "Meal Name:",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             decorationColor: Colors.red,
@@ -99,7 +136,9 @@ class NutritionDetailState extends State<NutritionDetail> {
                       ),
                     ),
                     new Expanded(
-                      child: new TextField(),
+                      child: new TextField(
+                        onChanged: (text)=> mealName = text,
+                      ),
                     ),
                   ]),
                 ],
@@ -125,7 +164,9 @@ class NutritionDetailState extends State<NutritionDetail> {
                             color: Color(0xFF6A8D73)),
                       )),
                       new Expanded(
-                        child: new TextField(),
+                        child: new TextField(
+                          onChanged: (text)=> mealDetails = text,
+                        ),
                       ),
                     ],
                   ),
@@ -149,14 +190,19 @@ class NutritionDetailState extends State<NutritionDetail> {
                         color: Color(0xFF6A8D73), // button color
                         child: InkWell(
                           splashColor: Color(0xFF6A8D73), // splash color
-                          onTap: () {
+                          onTap: () async{
                             //Navigator.of(context).pop();
-                            Navigator.push(
+                            var navigationResult = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Camera(title: "test"),
+                                builder: (context) => Camera(title: mealName??"Image for New Meal"),
                               ),
                             );
+                            if(navigationResult != null){
+                              setState(() {
+                                _imageFile = navigationResult;
+                              });
+                            }
                             // show the camera
                           }, // button pressed
                           child: Column(
@@ -175,19 +221,18 @@ class NutritionDetailState extends State<NutritionDetail> {
                   RaisedButton(
                     padding: EdgeInsets.all(10.0),
                     color: Color(0xFF6A8D73),
-                    onPressed: () => {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NutritionHome(),
-                        ),
-                      ),
+                    onPressed: () {
+                      if(_imageFile != null){
+                        widget.nutritionRepository.addMeal(mealName, mealDetails, _imageFile.path);
+                        Navigator.of(context).pop(null);
+                      }
                     },
                     child:
                         Text('Submit', style: TextStyle(color: Colors.white)),
                   ),
                 ]),
           ),
+              _previewImage()
           // ),
         ]),
       ),

@@ -17,31 +17,30 @@ class NutritionRepository with ChangeNotifier{
   DateTime get day => _day;
 
   NutritionRepository.instance(User user, DateTime day, Map<String, dynamic> nutritionData){
-    user = _user;
-    print('test/${user.uid}');
-    _db = FirebaseFirestore.instance.collection('users/test/calendar/');
+    _user = user;
+    print('test/${_user.uid}');
+    _db = FirebaseFirestore.instance.collection('users/test/2021-06-21/');
 
     _day = day;
     _dateString = '${day.year}-${day.month}-${day.day}';
 
     _meals = [];
-    nutritionData.forEach((key, value){
-      _meals.add(new Meal.fromJson(value));
-    });
+    for(Map<String, dynamic> raw in nutritionData["data"]){
+      _meals.add(new Meal(raw["name"],raw["url"],raw["description"]));
+    }
   }
 
-  Future<void> addMeal(String name, String imagePath) async{
+  Future<void> addMeal(String name, String description, String imagePath) async{
     final file = File(imagePath);
-
     TaskSnapshot snapshot = await FirebaseStorage
-        .instance.ref("test")
+        .instance.ref("8-2021/test")
+        .child(new DateTime.now().millisecondsSinceEpoch.toString())
         .putFile(file);
 
     if(snapshot.state == TaskState.success){
       final String downloadUrl = await snapshot.ref.getDownloadURL();
-      _db.doc(_dateString).set({name: downloadUrl}, SetOptions(merge: true));
-
-      _meals.add(new Meal(name, imagePath));
+      _meals.add(new Meal(name, downloadUrl, description));
+      _db.doc("nutrition").set({"data": _meals.map((h)=> h.toJson()).toList()}, SetOptions(merge: true));
       notifyListeners();
     }else{
       print("Error");

@@ -8,6 +8,7 @@ import 'package:xuan_fitness/pages/fitness/workout_list.dart';
 import 'package:xuan_fitness/pages/splash.dart';
 import 'package:xuan_fitness/repositories/calendar_repository.dart';
 import 'package:xuan_fitness/repositories/habits_repository.dart';
+import 'package:xuan_fitness/repositories/nutrition_repository.dart';
 import 'package:xuan_fitness/repositories/user_repository.dart';
 import 'package:xuan_fitness/widgets/calendar/calendar_widget.dart';
 import 'package:xuan_fitness/pages/nutrition/nutrition_home.dart';
@@ -86,7 +87,10 @@ class _TaskBarState extends State<TaskBar> {
                 ),
                 ChangeNotifierProvider(
                   create: (_) => HabitRepository.instance(user.user, _date,  _dayData.data['habits']),
-                )
+                ),
+                ChangeNotifierProvider(
+                  create: (_) => NutritionRepository.instance(user.user, _date,  _dayData.data['nutrition']),
+                ),
               ],
               child: Scaffold(
                 body: _renderTabBody(),
