@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:xuan_fitness/pages/habits/habit_widget.dart';
+import 'package:xuan_fitness/widgets/habit/habit_widget.dart';
 import 'package:xuan_fitness/repositories/habits_repository.dart';
 
 class HabitsHome extends StatefulWidget {
