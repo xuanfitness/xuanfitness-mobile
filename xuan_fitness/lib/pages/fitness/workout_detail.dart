@@ -7,8 +7,18 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:xuan_fitness/widgets/workout/workouts.dart';
 
+import 'WorkoutData.dart';
+
 class WorkoutDetail extends StatefulWidget {
-  WorkoutDetail({Key key}) : super(key: key);
+  //require the page to accept a WorkoutData object;
+  // final WorkoutData workoutData;
+  String text;
+
+  String getText() {
+    return text;
+  }
+
+  WorkoutDetail({Key key, this.text}) : super(key: key);
 
   final String title = "Workouts";
 
@@ -16,6 +26,7 @@ class WorkoutDetail extends StatefulWidget {
   _WorkoutDetailState createState() => _WorkoutDetailState();
 }
 
+//class
 class _WorkoutDetailState extends State<WorkoutDetail> {
   bool _hasBeenPressed = false;
   bool _hasBeenPressed1 = false;
@@ -27,6 +38,9 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
 
   String formattedDate = DateFormat('MM-dd-yyyy').format(DateTime.now());
   YoutubePlayerController _controller;
+
+  WorkoutDetail workoutDetail = new WorkoutDetail();
+  // String text = WorkoutDetail.getText();
 
   void initState() {
     super.initState();
@@ -49,7 +63,8 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
                       padding: EdgeInsets.fromLTRB(5, 25, 5, 0),
                       color: Colors.white,
                       child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Container(
                               margin: EdgeInsets.all(8.0),
@@ -72,7 +87,7 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
                                     Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                        'Workouts',
+                                        'Workout',
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                           fontFamily: 'cabin',
@@ -84,7 +99,27 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(height: 30),
+
+                                    //button to navigate back to the previous page
+                                    FlatButton(
+                                      color: Colors.white,
+                                      child: Text("Back",
+                                          style: TextStyle(
+                                              color: Color(0xFF6A8D73))),
+                                      onPressed: () {
+                                        // Navigate back to first route when tapped.
+                                        Navigator.pop(context);
+                                      },
+                                      shape: RoundedRectangleBorder(
+                                          side: BorderSide(
+                                              color: Color(0xFF6A8D73),
+                                              width: 1,
+                                              style: BorderStyle.solid),
+                                          borderRadius:
+                                              BorderRadius.circular(50)),
+                                    ),
+
+                                    //Ask what we want to put here
                                     Text('Leg Day',
                                         style: TextStyle(
                                           fontFamily: 'cabin',
@@ -99,18 +134,10 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
                                           fontWeight: FontWeight.bold,
                                           color: Color(0xFF6A8D73),
                                         )),
-                                    SizedBox(height: 15),
-                                    FlatButton(
-                                      color: Color(0xFF6A8D73),
-                                      child: Text("Back",
-                                          style:
-                                              TextStyle(color: Colors.white)),
-                                      onPressed: () {
-                                        // Navigate back to first route when tapped.
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                    Text('Squats',
+                                    SizedBox(height: 20),
+
+                                    //should say the name of the workout
+                                    Text('Mountain Climbers',
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                           fontFamily: 'cabin',
