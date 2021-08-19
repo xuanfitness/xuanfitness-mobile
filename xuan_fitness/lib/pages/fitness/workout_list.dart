@@ -8,9 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:xuan_fitness/pages/fitness/workout_detail.dart';
 import 'package:xuan_fitness/pages/fitness/workout_circuit.dart';
+import 'package:xuan_fitness/pages/fitness/workout_superset.dart';
 import 'package:xuan_fitness/widgets/week_view.dart';
 
+import 'WorkoutData.dart';
+
 class WorkoutList extends StatefulWidget {
+  //require the page to accept a WorkoutData object;
   WorkoutList({Key key}) : super(key: key);
 
   final String title = "Workouts";
@@ -43,7 +47,6 @@ class _WorkoutListState extends State<WorkoutList> {
   //four categories of workouts
   static String warmup = "Warm Up";
   static String workout = "Work Out";
-  static String circuit = "Cicuit";
   static String cooldown = "Cool Down";
 
   //the types of workouts
@@ -51,9 +54,11 @@ class _WorkoutListState extends State<WorkoutList> {
   static String jumpingJacks = "Jumping Jacks";
   static String stretch = "Strech";
   static String jog = "Jog in Place";
-  static String squats = "squats";
+  static String squats = "Squats";
   static String lunges = "Lunges";
   static String crunches = "Crunches";
+  static String circuit = "Circuit";
+  static String superSet = "Superset";
 
   //list of dates for a week
   final List<String> entries = <String>[
@@ -67,16 +72,28 @@ class _WorkoutListState extends State<WorkoutList> {
   ];
 
   //all elements in lists
-  final List<String> entries1 = <String>[warmup, workout, circuit, cooldown];
+  final List<String> entries1 = <String>[
+    warmup,
+    warmup,
+    warmup,
+    workout,
+    workout,
+    workout,
+    workout,
+    workout,
+    cooldown
+  ];
   final List<int> colorCodes = <int>[600, 500, 400, 300, 200, 100];
   final List<String> entriesWorkout = <String>[
     mountainClimbers,
     jumpingJacks,
-    stretch,
     jog,
+    circuit,
+    superSet,
     squats,
     lunges,
-    crunches
+    crunches,
+    stretch
   ];
 
   Widget build(BuildContext context) {
@@ -158,11 +175,28 @@ class _WorkoutListState extends State<WorkoutList> {
                                 // trailing: new Icon(FontAwesome.smile_o,
                                 //     color: Color(0xFF6A8D73)),
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => WorkoutDetail()),
-                                  );
+                                  if (entriesWorkout[index] == superSet) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              WorkoutSuperset()),
+                                    );
+                                  } else if (entriesWorkout[index] == circuit) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              WorkoutCircuit()),
+                                    );
+                                  } else {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              WorkoutDetail()),
+                                    );
+                                  }
                                 }));
                       },
                     )
