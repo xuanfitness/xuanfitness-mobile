@@ -24,7 +24,8 @@ class CalendarRepository with ChangeNotifier{
     months = [month];
     _events = {};
     if(temp.data() != null){
-      temp.data().forEach((key, value){
+      Map<dynamic, dynamic> tempMap = temp.data();
+      tempMap.forEach((key, value){
         DateTime parsedDate = DateTime.parse(key);
         _events.putIfAbsent(parsedDate, () => value);
       });
@@ -37,9 +38,10 @@ class CalendarRepository with ChangeNotifier{
     if(!months.contains(date)){
       print(date);
       months.add(date);
-      var temp = await _db.doc(date).get();
+      DocumentSnapshot temp = await _db.doc(date).get();
       if(temp.data() != null){
-        temp.data().forEach((key, value){
+        Map<dynamic, dynamic> tempMap = temp.data();
+        tempMap.forEach((key, value){
           DateTime parsedDate = DateTime.parse(key);
           _events.putIfAbsent(parsedDate, () => value);
         });
