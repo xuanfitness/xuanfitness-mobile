@@ -7,10 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:xuan_fitness/widgets/workout/workouts.dart';
 
-//import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-
-//import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-
 class WorkoutDetail extends StatefulWidget {
   WorkoutDetail({Key key}) : super(key: key);
 

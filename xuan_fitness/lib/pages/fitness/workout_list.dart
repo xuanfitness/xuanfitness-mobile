@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:xuan_fitness/pages/fitness/timer.dart';
 import 'package:xuan_fitness/pages/fitness/workout_detail.dart';
 import 'package:xuan_fitness/pages/fitness/workout_circuit.dart';
 import 'package:xuan_fitness/widgets/week_view.dart';
@@ -65,7 +66,16 @@ class _WorkoutListState extends State<WorkoutList> {
   ];
 
   //all elements in lists
-  final List<String> entries1 = <String>[warmup, workout, circuit, cooldown];
+  final List<String> entries1 = <String>[
+    warmup,
+    workout,
+    circuit,
+    cooldown,
+    warmup,
+    workout,
+    circuit,
+    cooldown
+  ];
   final List<int> colorCodes = <int>[600, 500, 400, 300, 200, 100];
   final List<String> entriesWorkout = <String>[
     mountainClimbers,
@@ -82,9 +92,35 @@ class _WorkoutListState extends State<WorkoutList> {
         //backgroundColor: Color(0xFFFFEB3),
         backgroundColor: Colors.white,
         body: SlidingUpPanel(
-          panel: Center(
-            child: Text("This is the sliding Widget"),
+          collapsed: Center(
+            child: Text(
+              'Timer',
+              style: TextStyle(
+                fontFamily: 'cabin',
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+
+                //fontWeight: w600
+              ),
+            ),
           ),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+          panel: Center(
+              child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              border: Border.all(
+                  color: Theme.of(context).primaryColor, // Set border color
+                  width: 3.0),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            ),
+            child: TimerWidget(),
+          )),
           body: SingleChildScrollView(
               physics: ScrollPhysics(),
               //backgroundColor: Color(0xFFFFEB3),
@@ -158,6 +194,25 @@ class _WorkoutListState extends State<WorkoutList> {
                                 // trailing: new Icon(FontAwesome.smile_o,
                                 //     color: Color(0xFF6A8D73)),
                                 onTap: () {
+                                  // if(entriesWorkout[index].type == superset){
+                                  //   Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) => WorkoutSuperset(entriesWorkout[index].type)),
+                                  //   );
+                                  // }else if(entriesWorkout[index].type == circuit){
+                                  //   Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) => WorkoutCircuit(entriesWorkout[index].type)),
+                                  //   );
+                                  // }else{
+                                  //   Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) => WorkoutDetail(entriesWorkout[index].type)),
+                                  //   );
+                                  // }
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
