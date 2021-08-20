@@ -50,7 +50,9 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: 'uZbig5yMlN8',
-      flags: const YoutubePlayerFlags(),
+      flags: const YoutubePlayerFlags(
+          autoPlay: false
+      ),
     );
   }
 
