@@ -21,6 +21,8 @@ class _CalendarWidgetState extends State<CalendarWidget>
   List _selectedEvents;
   AnimationController _animationController;
   CalendarController _calendarController;
+  String _panelTitle;
+  DateTime today;
 
   @override
   void initState() {
@@ -32,6 +34,8 @@ class _CalendarWidgetState extends State<CalendarWidget>
       duration: const Duration(milliseconds: 400),
     );
     _animationController.forward();
+    _panelTitle = "Today";
+    today = DateTime.now();
   }
 
   @override
@@ -44,6 +48,7 @@ class _CalendarWidgetState extends State<CalendarWidget>
   void _onDaySelected(DateTime day, List events, List holidays) {
     print('CALLBACK: _onDaySelected');
     setState(() {
+      _panelTitle = (today.year == day.year && today.month == day.month && today.day == day.day)? "Today": '${day.year}-${day.month}-${day.day}';
       _selectedEvents = events;
     });
   }
@@ -86,7 +91,7 @@ class _CalendarWidgetState extends State<CalendarWidget>
                     children: [
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-                        child: Text("Today",
+                        child: Text('$_panelTitle',
                             style: GoogleFonts.cabin(
                               textStyle: TextStyle(
                                   color: Colors.white,
@@ -124,7 +129,7 @@ class _CalendarWidgetState extends State<CalendarWidget>
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Today",
+                    Text("$_panelTitle",
                         style: GoogleFonts.cabin(
                           textStyle: TextStyle(
                               color: Colors.white,
