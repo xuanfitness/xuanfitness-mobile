@@ -102,6 +102,7 @@ class _WorkoutListState extends State<WorkoutList> {
         //backgroundColor: Color(0xFFFFEB3),
         backgroundColor: Colors.white,
         body: SlidingUpPanel(
+          minHeight: 60,
           collapsed: Center(
             child: Text(
               'Timer',
@@ -133,7 +134,6 @@ class _WorkoutListState extends State<WorkoutList> {
           )),
           body: SingleChildScrollView(
               physics: ScrollPhysics(),
-              //backgroundColor: Color(0xFFFFEB3),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -188,47 +188,60 @@ class _WorkoutListState extends State<WorkoutList> {
                     ),
 
                     //the listview of the workouts
-                    ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: entriesWorkout.length, // your List
-                      itemBuilder: (context, index) {
-                        return Card(
-                            color: Colors.white,
-                            child: ListTile(
-                                title: Text(entriesWorkout[index],
-                                    style: TextStyle(
-                                        color: Color(0xFF6A8D73),
-                                        fontWeight: FontWeight.bold)),
-                                subtitle: Text(entries1[index]),
-                                // trailing: new Icon(FontAwesome.smile_o,
-                                //     color: Color(0xFF6A8D73)),
-                                onTap: () {
-                                  if (entriesWorkout[index] == superSet) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              WorkoutSuperset()),
-                                    );
-                                  } else if (entriesWorkout[index] == circuit) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              WorkoutCircuit()),
-                                    );
-                                  } else {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              WorkoutDetail()),
-                                    );
-                                  }
-                                }));
-                      },
-                    )
+                    Container(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.grey[100],
+                          Colors.grey[300],
+                        ],
+                      )),
+                      child: ListView.builder(
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 275),
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: entriesWorkout.length, // your List
+                        itemBuilder: (context, index) {
+                          return Card(
+                              color: Colors.white,
+                              child: ListTile(
+                                  title: Text(entriesWorkout[index],
+                                      style: TextStyle(
+                                          color: Color(0xFF6A8D73),
+                                          fontWeight: FontWeight.bold)),
+                                  subtitle: Text(entries1[index]),
+                                  // trailing: new Icon(FontAwesome.smile_o,
+                                  //     color: Color(0xFF6A8D73)),
+                                  onTap: () {
+                                    if (entriesWorkout[index] == superSet) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                WorkoutSuperset()),
+                                      );
+                                    } else if (entriesWorkout[index] ==
+                                        circuit) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                WorkoutCircuit()),
+                                      );
+                                    } else {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                WorkoutDetail()),
+                                      );
+                                    }
+                                  }));
+                        },
+                      ),
+                    ),
                   ])),
         ));
   }
