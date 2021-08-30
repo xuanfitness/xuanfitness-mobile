@@ -6,7 +6,7 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:xuan_fitness/widgets/workout/workouts.dart';
-
+import 'package:xuan_fitness/pages/auth/summary.dart';
 import 'WorkoutData.dart';
 
 class WorkoutDetail extends StatefulWidget {
@@ -46,9 +46,7 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: 'uZbig5yMlN8',
-      flags: const YoutubePlayerFlags(
-        autoPlay: false
-      ),
+      flags: const YoutubePlayerFlags(autoPlay: false),
     );
   }
 
@@ -285,7 +283,7 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
                               ],
                             ),
                             Container(
-                              // padding: EdgeInsets.all(2.0),
+                              padding: EdgeInsets.all(2.0),
                               child: new Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -316,6 +314,25 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
                                 onPressed: () => {},
                                 //icon: Icon(Icons.home),
                                 child: Text('Submit',
+                                    style: TextStyle(color: Colors.white)),
+                              ),
+                            ),
+                            ButtonTheme(
+                              minWidth: 300,
+                              height: 40,
+                              //child: new Container(
+                              //padding: EdgeInsets.all(0),
+                              child: RaisedButton(
+                                color: Color(0xFF6A8D73),
+                                onPressed: () => {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => summary()),
+                                  ),
+                                },
+                                //icon: Icon(Icons.home),
+                                child: Text('Summary',
                                     style: TextStyle(color: Colors.white)),
                               ),
                             ),

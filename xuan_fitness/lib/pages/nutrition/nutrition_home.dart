@@ -18,7 +18,8 @@ class NutritionHomeState extends State<NutritionHome> {
   static String formattedDate = DateFormat('MM-dd-yyyy').format(DateTime.now());
   @override
   Widget build(BuildContext context) {
-    return Consumer(builder: (context, NutritionRepository nutritionRepository, _) {
+    return Consumer(
+        builder: (context, NutritionRepository nutritionRepository, _) {
       return Scaffold(
         //backgroundColor: Color(0xFFFFEB3),
         backgroundColor: Colors.white,
@@ -39,9 +40,11 @@ class NutritionHomeState extends State<NutritionHome> {
                     ),
                   ],
                 ),
-                //color: Colors.green,
+
                 padding: const EdgeInsets.only(bottom: 8),
                 //child: Scrollbar(isAlwaysShown:true, controller:_scrollController,)
+
+                //HEADER
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -78,13 +81,15 @@ class NutritionHomeState extends State<NutritionHome> {
                     ]),
               ),
               // SizedBox(height: 50),
+
+              //PICTURES FOR NUTRITION
               ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: nutritionRepository.meals.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return new MealCard(nutritionRepository.meals[index]);
-                  },
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: nutritionRepository.meals.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return new MealCard(nutritionRepository.meals[index]);
+                },
               ),
               ButtonTheme(
                 minWidth: 200.0,
@@ -97,12 +102,13 @@ class NutritionHomeState extends State<NutritionHome> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NutritionDetail(nutritionRepository),
+                        builder: (context) =>
+                            NutritionDetail(nutritionRepository),
                       ),
                     );
                   },
-                  child:
-                  Text('Add new meal', style: TextStyle(color: Colors.white)),
+                  child: Text('Add new meal',
+                      style: TextStyle(color: Colors.white)),
                 ),
               ),
               //)
@@ -110,7 +116,6 @@ class NutritionHomeState extends State<NutritionHome> {
           ),
         ),
       );
-      }
-    );
+    });
   }
 }
