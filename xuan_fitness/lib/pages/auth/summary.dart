@@ -125,7 +125,22 @@ class _summaryState extends State<summary> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 30),
+                        FlatButton(
+                          color: Colors.white,
+                          child: Text("Back",
+                              style: TextStyle(color: Color(0xFF6A8D73))),
+                          onPressed: () {
+                            // Navigate back to first route when tapped.
+                            Navigator.pop(context);
+                          },
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  color: Color(0xFF6A8D73),
+                                  width: 1,
+                                  style: BorderStyle.solid),
+                              borderRadius: BorderRadius.circular(50)),
+                        ),
+                        SizedBox(height: 5),
                         Text('$formattedDate',
                             style: TextStyle(
                               fontFamily: 'cabin',

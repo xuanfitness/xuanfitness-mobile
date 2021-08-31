@@ -50,9 +50,7 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: 'uZbig5yMlN8',
-      flags: const YoutubePlayerFlags(
-          autoPlay: false
-      ),
+      flags: const YoutubePlayerFlags(autoPlay: false),
     );
   }
 
@@ -69,8 +67,9 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                       padding: EdgeInsets.fromLTRB(5, 25, 5, 0),
                       color: Colors.white,
                       child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          // crossAxisAlignment: CrossAxisAlignment.start,
                           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Container(
                               margin: EdgeInsets.all(8.0),
@@ -143,24 +142,19 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                     SizedBox(height: 20),
 
                                     //should say the name of the workout
-                                    Text('Mountain Climbers',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontFamily: 'cabin',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        )),
                                   ]),
                             ),
+
+                            //EXERCISE A
+                            Text('A. Mountain Climbers',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: 'cabin',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                )),
                             Center(
-                              // child: Container(
-                              //   margin: const EdgeInsets.all(1),
-                              //   color: Colors.amber[600],
-                              //   width: 1000,
-                              //   height: 200.0,
-                              //   child: Text('Video should be here'),
-                              // ),
                               child: Container(
                                 child: YoutubePlayerBuilder(
                                     player: YoutubePlayer(
@@ -171,9 +165,31 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                     }),
                               ),
                             ),
+
+                            //EXERCISE B
+                            Text('B. Crunches',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: 'cabin',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                )),
+                            Center(
+                              child: Container(
+                                child: YoutubePlayerBuilder(
+                                    player: YoutubePlayer(
+                                      controller: _controller,
+                                    ),
+                                    builder: (context, player) {
+                                      return player;
+                                    }),
+                              ),
+                            ),
+                            SizedBox(height: 10),
                             Container(
                               width: 1000,
-                              height: 100,
+                              height: 80,
                               child: Text(
                                   'Remember to keep your feet shoulder width apart!',
                                   textAlign: TextAlign.center,
@@ -187,15 +203,71 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                               decoration: BoxDecoration(
                                 color: Color(0xFFCFE8D5),
                                 borderRadius: BorderRadius.circular(20),
-                                /*boxShadow: [
-                        BoxShadow(
-                          color: Colors.red,
-                          blurRadius: 4,
-                          offset: Offset(4, 8), // Shadow position
-                        ),
-                      ],*/
                               ),
                             ),
+                            SizedBox(height: 10),
+
+                            //EXERCISE C
+                            Text('C. Lunges',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: 'cabin',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                )),
+                            Center(
+                              child: Container(
+                                child: YoutubePlayerBuilder(
+                                    player: YoutubePlayer(
+                                      controller: _controller,
+                                    ),
+                                    builder: (context, player) {
+                                      return player;
+                                    }),
+                              ),
+                            ),
+
+                            //EXERCISE D
+                            Text('D. Spider Jumps',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: 'cabin',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                )),
+                            Center(
+                              child: Container(
+                                child: YoutubePlayerBuilder(
+                                    player: YoutubePlayer(
+                                      controller: _controller,
+                                    ),
+                                    builder: (context, player) {
+                                      return player;
+                                    }),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Container(
+                              width: 1000,
+                              height: 80,
+                              child: Text(
+                                  'Remember to keep your feet shoulder width apart!',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontFamily: 'cabin',
+                                      fontSize: 15,
+                                      height: 4,
+                                      color: Color(0xFF6A8D73)
+                                      //fontWeight: FontWeight.bold,
+                                      )),
+                              decoration: BoxDecoration(
+                                color: Color(0xFFCFE8D5),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            SizedBox(height: 10),
                             Row(
                                 //mainAxisAlignment:
                                 // MainAxisAlignment.spaceEvenly,
@@ -288,6 +360,7 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                 //not sure why but all the buttons are changing colors at the same time
                               ],
                             ),
+                            SizedBox(height: 15),
                             Container(
                               // padding: EdgeInsets.all(2.0),
                               child: new Column(
@@ -325,81 +398,5 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                             ),
                           ])))));
     });
-    // backgroundColor: Color(0xFFFFEB3),
-    // child: Container(
-    //   color: Colors.white,
-    //   child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //       children: [
-    //         Text("hello"),
-    //     Container(
-    //       margin: EdgeInsets.all(8.0),
-    //
-    //       decoration: BoxDecoration(
-    //         boxShadow: <BoxShadow>[
-    //           BoxShadow(
-    //             color: Colors.white,
-    //             blurRadius: 1,
-    //             //offset: Offset(0, 2),
-    //           ),
-    //         ],
-    //       ),
-    //       //color: Colors.green,
-    //       padding: const EdgeInsets.only(bottom: 8),
-    //       //child: Scrollbar(isAlwaysShown:true, controller:_scrollController,)
-    //       child: Column(
-    //           crossAxisAlignment: CrossAxisAlignment.start,
-    //           children: <Widget>[
-    //             Align(
-    //               alignment: Alignment.centerLeft,
-    //               child: Text(
-    //                 'Workouts',
-    //                 textAlign: TextAlign.left,
-    //                 style: TextStyle(
-    //                   fontFamily: 'cabin',
-    //                   fontSize: 40,
-    //                   fontWeight: FontWeight.bold,
-    //                   color: Color(0xFF6A8D73),
-    //
-    //                   //fontWeight: w600
-    //                 ),
-    //               ),
-    //             ),
-    //             SizedBox(height: 30),
-    //             Text('Today',
-    //                 style: TextStyle(
-    //                   fontFamily: 'cabin',
-    //                   fontSize: 20,
-    //                   fontWeight: FontWeight.bold,
-    //                   color: Color(0xFFA2C2A9),
-    //                 )),
-    //             Text('$formattedDate',
-    //                 style: TextStyle(
-    //                   fontFamily: 'cabin',
-    //                   fontSize: 20,
-    //                   fontWeight: FontWeight.bold,
-    //                   color: Color(0xFF6A8D73),
-    //                 )),
-    //           ]),
-    //     ),
-    //     new ListView.builder(
-    //       padding: const EdgeInsets.all(20),
-    //       itemCount: entries.length,
-    //       itemBuilder: (BuildContext context, int index) {
-    //         return Card(
-    //           elevation: 5,
-    //           child: Padding(
-    //             padding: const EdgeInsets.all(100),
-    //             child: ListTile(
-    //               title: Text('${entries[index]}'),
-    //               subtitle: Text('${subentries[index]}'),
-    //             ),
-    //           ),
-    //           color: Colors.green[colorCodes[index]],
-    //         );
-    //       },
-    //     ),
-    //   ]),
-    // ));
   }
 }

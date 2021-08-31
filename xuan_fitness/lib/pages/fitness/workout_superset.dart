@@ -50,9 +50,7 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: 'uZbig5yMlN8',
-      flags: const YoutubePlayerFlags(
-          autoPlay: false
-      ),
+      flags: const YoutubePlayerFlags(autoPlay: false),
     );
   }
 
@@ -142,24 +140,20 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                                     SizedBox(height: 20),
 
                                     //should say the name of the workout
-                                    Text("A. Squat",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontFamily: 'cabin',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        )),
                                   ]),
                             ),
+
+                            //exercise A
+                            Text("A. Squat",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: 'cabin',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                )),
+                            //youtube player A
                             Center(
-                              // child: Container(
-                              //   margin: const EdgeInsets.all(1),
-                              //   color: Colors.amber[600],
-                              //   width: 1000,
-                              //   height: 200.0,
-                              //   child: Text('Video should be here'),
-                              // ),
                               child: Container(
                                 child: YoutubePlayerBuilder(
                                     player: YoutubePlayer(
@@ -170,10 +164,33 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                                     }),
                               ),
                             ),
+                            //exercise B
+                            Text("B. Lunges",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: 'cabin',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                )),
+                            //youtube player B
+                            Center(
+                              child: Container(
+                                child: YoutubePlayerBuilder(
+                                    player: YoutubePlayer(
+                                      controller: _controller,
+                                    ),
+                                    builder: (context, player) {
+                                      return player;
+                                    }),
+                              ),
+                            ),
+
                             SizedBox(height: 30),
+
                             Container(
                               width: 1000,
-                              height: 100,
+                              height: 80,
                               child: Text(
                                   'Remember to keep your feet shoulder width apart!',
                                   textAlign: TextAlign.center,
@@ -187,31 +204,11 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                               decoration: BoxDecoration(
                                 color: Color(0xFFCFE8D5),
                                 borderRadius: BorderRadius.circular(20),
-                                /*boxShadow: [
-                        BoxShadow(
-                          color: Colors.red,
-                          blurRadius: 4,
-                          offset: Offset(4, 8), // Shadow position
-                        ),
-                      ],*/
                               ),
                             ),
-                            Row(
-                                //mainAxisAlignment:
-                                // MainAxisAlignment.spaceEvenly,
+                            SizedBox(height: 10),
 
-                                children: <Widget>[
-                                  Text('Sets',
-                                      textAlign: TextAlign.left,
-                                      //textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: 'cabin',
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      )),
-                                  SizedBox(width: 250),
-                                ]),
+                            //the sets stuff
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
@@ -390,6 +387,7 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                                 ),
                               ],
                             ),
+                            SizedBox(height: 15),
                             Container(
                               // padding: EdgeInsets.all(2.0),
                               child: new Column(
@@ -427,81 +425,5 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                             ),
                           ])))));
     });
-    // backgroundColor: Color(0xFFFFEB3),
-    // child: Container(
-    //   color: Colors.white,
-    //   child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //       children: [
-    //         Text("hello"),
-    //     Container(
-    //       margin: EdgeInsets.all(8.0),
-    //
-    //       decoration: BoxDecoration(
-    //         boxShadow: <BoxShadow>[
-    //           BoxShadow(
-    //             color: Colors.white,
-    //             blurRadius: 1,
-    //             //offset: Offset(0, 2),
-    //           ),
-    //         ],
-    //       ),
-    //       //color: Colors.green,
-    //       padding: const EdgeInsets.only(bottom: 8),
-    //       //child: Scrollbar(isAlwaysShown:true, controller:_scrollController,)
-    //       child: Column(
-    //           crossAxisAlignment: CrossAxisAlignment.start,
-    //           children: <Widget>[
-    //             Align(
-    //               alignment: Alignment.centerLeft,
-    //               child: Text(
-    //                 'Workouts',
-    //                 textAlign: TextAlign.left,
-    //                 style: TextStyle(
-    //                   fontFamily: 'cabin',
-    //                   fontSize: 40,
-    //                   fontWeight: FontWeight.bold,
-    //                   color: Color(0xFF6A8D73),
-    //
-    //                   //fontWeight: w600
-    //                 ),
-    //               ),
-    //             ),
-    //             SizedBox(height: 30),
-    //             Text('Today',
-    //                 style: TextStyle(
-    //                   fontFamily: 'cabin',
-    //                   fontSize: 20,
-    //                   fontWeight: FontWeight.bold,
-    //                   color: Color(0xFFA2C2A9),
-    //                 )),
-    //             Text('$formattedDate',
-    //                 style: TextStyle(
-    //                   fontFamily: 'cabin',
-    //                   fontSize: 20,
-    //                   fontWeight: FontWeight.bold,
-    //                   color: Color(0xFF6A8D73),
-    //                 )),
-    //           ]),
-    //     ),
-    //     new ListView.builder(
-    //       padding: const EdgeInsets.all(20),
-    //       itemCount: entries.length,
-    //       itemBuilder: (BuildContext context, int index) {
-    //         return Card(
-    //           elevation: 5,
-    //           child: Padding(
-    //             padding: const EdgeInsets.all(100),
-    //             child: ListTile(
-    //               title: Text('${entries[index]}'),
-    //               subtitle: Text('${subentries[index]}'),
-    //             ),
-    //           ),
-    //           color: Colors.green[colorCodes[index]],
-    //         );
-    //       },
-    //     ),
-    //   ]),
-    // ));
   }
 }
