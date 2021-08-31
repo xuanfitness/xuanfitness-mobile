@@ -190,7 +190,7 @@ class _summaryState extends State<summary> {
                   ]),
 
                   ListView.builder(
-                    padding: EdgeInsets.fromLTRB(0, 0, 0, 250),
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: entriesHabits.length, // your List
@@ -208,7 +208,6 @@ class _summaryState extends State<summary> {
                           ));
                     },
                   ),
-                  // SizedBox(height: 20),
 
                   /***************************** NUTRITION ********************************/
                   Row(children: [
@@ -219,7 +218,7 @@ class _summaryState extends State<summary> {
                           fontWeight: FontWeight.bold,
                           fontFamily: 'cabin',
                           color: Color(0xFF6A8D73)),
-                    )
+                    ),
                   ]),
 
                   //YOU CAN INSERT YOUR DATABASE STUFF HERE -- WONT WORK FOR ME
