@@ -35,6 +35,9 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
   bool _hasBeenPressed = false;
   bool _hasBeenPressed1 = false;
   bool _hasBeenPressed2 = false;
+  bool _hasBeenPressed3 = false;
+  bool _hasBeenPressed4 = false;
+  bool _hasBeenPressed5 = false;
 
   final List<String> entries = <String>['insert videos here'];
   final List<String> subentries = <String>['idk honestly'];
@@ -299,6 +302,8 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                                     //not sure why but all the buttons are changing colors at the same time
                                   ],
                                 ),
+
+                                //SET B COLUMN
                                 Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -319,14 +324,14 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                                           child: new Text('12 reps'),
                                           textColor: Color(0xFF6A8D73),
                                           // 2
-                                          color: _hasBeenPressed
+                                          color: _hasBeenPressed3
                                               ? Color(0xFFCFE8D5)
                                               : Colors.white,
                                           // 3
                                           onPressed: () => {
                                                 setState(() {
-                                                  _hasBeenPressed =
-                                                      !_hasBeenPressed;
+                                                  _hasBeenPressed3 =
+                                                      !_hasBeenPressed3;
                                                 })
                                               }),
                                     ),
@@ -337,14 +342,14 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                                           child: new Text('12 reps'),
                                           textColor: Color(0xFF6A8D73),
                                           // 2
-                                          color: _hasBeenPressed1
+                                          color: _hasBeenPressed4
                                               ? Color(0xFFCFE8D5)
                                               : Colors.white,
                                           // 3
                                           onPressed: () => {
                                                 setState(() {
-                                                  _hasBeenPressed1 =
-                                                      !_hasBeenPressed1;
+                                                  _hasBeenPressed4 =
+                                                      !_hasBeenPressed4;
                                                 })
                                               }),
                                     ),
@@ -356,14 +361,14 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                                           child: new Text('12 reps'),
                                           textColor: Color(0xFF6A8D73),
                                           // 2
-                                          color: _hasBeenPressed2
+                                          color: _hasBeenPressed5
                                               ? Color(0xFFCFE8D5)
                                               : Colors.white,
                                           // 3
                                           onPressed: () => {
                                                 setState(() {
-                                                  _hasBeenPressed2 =
-                                                      !_hasBeenPressed2;
+                                                  _hasBeenPressed5 =
+                                                      !_hasBeenPressed5;
                                                 })
                                               }),
                                     ),
