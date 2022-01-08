@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:xuan_fitness/pages/fitness/workout_home.dart';
 import 'package:xuan_fitness/pages/fitness/workout_list.dart';
 import 'package:xuan_fitness/widgets/calendar/calendar_widget.dart';
 import 'package:xuan_fitness/pages/nutrition/nutrition_home.dart';
@@ -17,7 +18,7 @@ class _TaskBarState extends State<TaskBar> {
   Color _selectedColor= Colors.amber;
   Color _unSelectedColor = Colors.black;
   List<Widget> _widgetOptions = <Widget>[
-    WorkoutList(),
+    WorkoutHome(),
     HabitsHome(),
     NutritionHome(),
   ];

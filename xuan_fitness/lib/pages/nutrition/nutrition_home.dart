@@ -15,7 +15,7 @@ class NutritionHome extends StatefulWidget {
 }
 
 class NutritionHomeState extends State<NutritionHome> {
-  static String formattedDate = DateFormat('MM-dd-yyyy').format(DateTime.now());
+  static String formattedDate = DateFormat('EEEE, MMMM dd yyyy').format(DateTime.now());
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, NutritionRepository nutritionRepository, _) {

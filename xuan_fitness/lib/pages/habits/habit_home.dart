@@ -11,8 +11,8 @@ class HabitsHome extends StatefulWidget {
 }
 
 class HabitsHomeState extends State<HabitsHome> {
-  static String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-  static final dateFormatter = DateFormat('yyyy-MM-dd');
+  static String formattedDate = DateFormat('EEEE, MMMM dd yyyy').format(DateTime.now());
+  static final dateFormatter = DateFormat('EEEE, MMMM dd yyyy');
 
   @override
   Widget build(BuildContext context) {

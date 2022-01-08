@@ -4,56 +4,35 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:xuan_fitness/models/fitness/exercise.dart';
+import 'package:xuan_fitness/models/fitness/superset.dart';
+import 'package:xuan_fitness/pages/fitness/set.dart';
+import 'package:xuan_fitness/pages/fitness/workout_list.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:xuan_fitness/widgets/workout/workouts.dart';
 
-import 'WorkoutData.dart';
-
-//import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-
-//import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-
 class WorkoutSuperset extends StatefulWidget {
-  //require the page to accept a WorkoutData object;
-  // final WorkoutData workoutData;
-  String text;
-
-  String getText() {
-    return text;
-  }
-
-  WorkoutSuperset({Key key, this.text}) : super(key: key);
-
-  final String title = "Workouts";
+  final Superset superset;
+  Function setScreen;
+  WorkoutSuperset(this.superset, this.setScreen);
 
   @override
   _WorkoutSupersetState createState() => _WorkoutSupersetState();
 }
 
-//class
 class _WorkoutSupersetState extends State<WorkoutSuperset> {
-  bool _hasBeenPressed = false;
-  bool _hasBeenPressed1 = false;
-  bool _hasBeenPressed2 = false;
-
-  final List<String> entries = <String>['insert videos here'];
-  final List<String> subentries = <String>['idk honestly'];
-  final List<int> colorCodes = <int>[700];
-
-  String formattedDate = DateFormat('MM-dd-yyyy').format(DateTime.now());
-  YoutubePlayerController _controller;
-
-  WorkoutSuperset workoutDetail = new WorkoutSuperset();
-  // String text = WorkoutDetail.getText();
+  String formattedDate =
+      DateFormat('EEEE, MMMM dd yyyy').format(DateTime.now());
+  List<YoutubePlayerController> _controllers;
 
   void initState() {
     super.initState();
-    _controller = YoutubePlayerController(
-      initialVideoId: 'uZbig5yMlN8',
-      flags: const YoutubePlayerFlags(
-          autoPlay: false
-      ),
-    );
+    _controllers = widget.superset.exercises
+        .map((exercise) => YoutubePlayerController(
+              initialVideoId: YoutubePlayer.convertUrlToId(exercise.url),
+              flags: const YoutubePlayerFlags(autoPlay: false),
+            ))
+        .toList();
   }
 
   @override
@@ -62,33 +41,39 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
         builder: (BuildContext context, BoxConstraints viewportConstraints) {
       return Material(
           child: SingleChildScrollView(
+              physics: ScrollPhysics(),
               child: ConstrainedBox(
                   constraints:
                       BoxConstraints(minHeight: viewportConstraints.maxHeight),
                   child: Container(
-                      padding: EdgeInsets.fromLTRB(5, 25, 5, 0),
-                      color: Colors.white,
+                      padding: EdgeInsets.fromLTRB(20, 25, 20, 300),
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.white,
+                          Colors.grey[300],
+                        ],
+                      )),
                       child: Column(
-                          // crossAxisAlignment: CrossAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Container(
-                              margin: EdgeInsets.all(8.0),
-
                               decoration: BoxDecoration(
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
                                     color: Colors.white,
                                     blurRadius: 1,
-                                    //offset: Offset(0, 2),
                                   ),
                                 ],
                               ),
-                              //color: Colors.green,
-                              padding: const EdgeInsets.only(bottom: 8),
-                              //child: Scrollbar(isAlwaysShown:true, controller:_scrollController,)
-                              child: Column(
+                              padding: const EdgeInsets.only(bottom: 8, top: 8),
+                              child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     Align(
                                       alignment: Alignment.centerLeft,
@@ -113,8 +98,8 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                                           style: TextStyle(
                                               color: Color(0xFF6A8D73))),
                                       onPressed: () {
-                                        // Navigate back to first route when tapped.
-                                        Navigator.pop(context);
+                                        widget.setScreen(
+                                            WorkoutList(widget.setScreen));
                                       },
                                       shape: RoundedRectangleBorder(
                                           side: BorderSide(
@@ -124,272 +109,137 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                                           borderRadius:
                                               BorderRadius.circular(50)),
                                     ),
-                                    //Ask what we want to put here
-                                    Text('Leg Day',
-                                        style: TextStyle(
-                                          fontFamily: 'cabin',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xFFA2C2A9),
-                                        )),
-                                    Text('$formattedDate',
-                                        style: TextStyle(
-                                          fontFamily: 'cabin',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xFF6A8D73),
-                                        )),
-                                    SizedBox(height: 20),
-
-                                    //should say the name of the workout
-                                    Text("A. Squat",
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontFamily: 'cabin',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        )),
                                   ]),
                             ),
                             Center(
-                              // child: Container(
-                              //   margin: const EdgeInsets.all(1),
-                              //   color: Colors.amber[600],
-                              //   width: 1000,
-                              //   height: 200.0,
-                              //   child: Text('Video should be here'),
-                              // ),
-                              child: Container(
-                                child: YoutubePlayerBuilder(
-                                    player: YoutubePlayer(
-                                      controller: _controller,
-                                    ),
-                                    builder: (context, player) {
-                                      return player;
-                                    }),
-                              ),
-                            ),
-                            SizedBox(height: 30),
-                            Container(
-                              width: 1000,
-                              height: 100,
-                              child: Text(
-                                  'Remember to keep your feet shoulder width apart!',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: 'cabin',
-                                      fontSize: 15,
-                                      height: 4,
-                                      color: Color(0xFF6A8D73)
-                                      //fontWeight: FontWeight.bold,
-                                      )),
-                              decoration: BoxDecoration(
-                                color: Color(0xFFCFE8D5),
-                                borderRadius: BorderRadius.circular(20),
-                                /*boxShadow: [
-                        BoxShadow(
-                          color: Colors.red,
-                          blurRadius: 4,
-                          offset: Offset(4, 8), // Shadow position
-                        ),
-                      ],*/
-                              ),
-                            ),
+                                child: Column(
+                                    children: widget.superset.exercises
+                                        .asMap()
+                                        .entries
+                                        .map((entry) => Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                    "${entry.key + 1}. ${entry.value.name}",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontFamily: 'cabin',
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black,
+                                                    )),
+                                                Container(
+                                                  child: YoutubePlayerBuilder(
+                                                      player: YoutubePlayer(
+                                                        controller:
+                                                            _controllers[
+                                                                entry.key],
+                                                      ),
+                                                      builder:
+                                                          (context, player) {
+                                                        return player;
+                                                      }),
+                                                ),
+                                                Container(
+                                                  width: double.infinity,
+                                                  margin: EdgeInsets.fromLTRB(
+                                                      0, 10, 0, 10),
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      15, 30, 15, 30),
+                                                  child: Text(
+                                                      'Remember to keep your feet shoulder width apart!',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontFamily: 'cabin',
+                                                          fontSize: 15,
+                                                          color:
+                                                              Color(0xFF6A8D73)
+                                                          //fontWeight: FontWeight.bold,
+                                                          )),
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xFFCFE8D5),
+                                                    // borderRadius: BorderRadius.circular(20),
+                                                  ),
+                                                )
+                                              ],
+                                            ))
+                                        .toList())),
                             Row(
-                                //mainAxisAlignment:
-                                // MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: widget.superset.exercises
+                                    .asMap()
+                                    .entries
+                                    .map((entry) => Expanded(
+                                          child: Column(
+                                              children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                children: [
+                                              Text('Sets ${entry.key + 1}',
+                                                  textAlign: TextAlign.left,
+                                                  //textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    fontFamily: 'cabin',
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  )),
+                                              ButtonTheme(
+                                                height: 20,
+                                                  shape:
+                                                      RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(2),
+                                                      ),
 
-                                children: <Widget>[
-                                  Text('Sets',
-                                      textAlign: TextAlign.left,
-                                      //textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: 'cabin',
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      )),
-                                  SizedBox(width: 250),
-                                ]),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    Text('Set A:',
-                                        textAlign: TextAlign.left,
-                                        //textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontFamily: 'cabin',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        )),
-                                    ButtonTheme(
-                                      minWidth: 100,
-                                      height: 30,
-                                      child: RaisedButton(
-                                          child: new Text('12 reps'),
-                                          textColor: Color(0xFF6A8D73),
-                                          // 2
-                                          color: _hasBeenPressed
-                                              ? Color(0xFFCFE8D5)
-                                              : Colors.white,
-                                          // 3
-                                          onPressed: () => {
-                                                setState(() {
-                                                  _hasBeenPressed =
-                                                      !_hasBeenPressed;
-                                                })
-                                              }),
-                                    ),
-                                    ButtonTheme(
-                                      minWidth: 100,
-                                      height: 30,
-                                      child: RaisedButton(
-                                          child: new Text('12 reps'),
-                                          textColor: Color(0xFF6A8D73),
-                                          // 2
-                                          color: _hasBeenPressed1
-                                              ? Color(0xFFCFE8D5)
-                                              : Colors.white,
-                                          // 3
-                                          onPressed: () => {
-                                                setState(() {
-                                                  _hasBeenPressed1 =
-                                                      !_hasBeenPressed1;
-                                                })
-                                              }),
-                                    ),
-                                    SizedBox(width: 10),
-                                    ButtonTheme(
-                                      minWidth: 100,
-                                      height: 30,
-                                      child: RaisedButton(
-                                          child: new Text('12 reps'),
-                                          textColor: Color(0xFF6A8D73),
-                                          // 2
-                                          color: _hasBeenPressed2
-                                              ? Color(0xFFCFE8D5)
-                                              : Colors.white,
-                                          // 3
-                                          onPressed: () => {
-                                                setState(() {
-                                                  _hasBeenPressed2 =
-                                                      !_hasBeenPressed2;
-                                                })
-                                              }),
-                                    ),
-                                    ButtonTheme(
-                                      minWidth: 20,
-                                      height: 40,
-                                      //child: new Container(
-                                      //padding: EdgeInsets.all(0),
-                                      child: RaisedButton.icon(
-                                        color: Color(0xFF6A8D73),
-                                        onPressed: () => {},
-                                        icon: Icon(Icons.video_call_rounded,
-                                            color: Colors.white),
-                                        label: Text('Film Set',
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                      ),
-                                    ),
-
-                                    //not sure why but all the buttons are changing colors at the same time
-                                  ],
-                                ),
-                                Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    Text('Set B:',
-                                        textAlign: TextAlign.left,
-                                        //textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontFamily: 'cabin',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        )),
-                                    ButtonTheme(
-                                      minWidth: 100,
-                                      height: 30,
-                                      child: RaisedButton(
-                                          child: new Text('12 reps'),
-                                          textColor: Color(0xFF6A8D73),
-                                          // 2
-                                          color: _hasBeenPressed
-                                              ? Color(0xFFCFE8D5)
-                                              : Colors.white,
-                                          // 3
-                                          onPressed: () => {
-                                                setState(() {
-                                                  _hasBeenPressed =
-                                                      !_hasBeenPressed;
-                                                })
-                                              }),
-                                    ),
-                                    ButtonTheme(
-                                      minWidth: 100,
-                                      height: 30,
-                                      child: RaisedButton(
-                                          child: new Text('12 reps'),
-                                          textColor: Color(0xFF6A8D73),
-                                          // 2
-                                          color: _hasBeenPressed1
-                                              ? Color(0xFFCFE8D5)
-                                              : Colors.white,
-                                          // 3
-                                          onPressed: () => {
-                                                setState(() {
-                                                  _hasBeenPressed1 =
-                                                      !_hasBeenPressed1;
-                                                })
-                                              }),
-                                    ),
-                                    SizedBox(width: 10),
-                                    ButtonTheme(
-                                      minWidth: 100,
-                                      height: 30,
-                                      child: RaisedButton(
-                                          child: new Text('12 reps'),
-                                          textColor: Color(0xFF6A8D73),
-                                          // 2
-                                          color: _hasBeenPressed2
-                                              ? Color(0xFFCFE8D5)
-                                              : Colors.white,
-                                          // 3
-                                          onPressed: () => {
-                                                setState(() {
-                                                  _hasBeenPressed2 =
-                                                      !_hasBeenPressed2;
-                                                })
-                                              }),
-                                    ),
-                                    ButtonTheme(
-                                      minWidth: 20,
-                                      height: 40,
-                                      //child: new Container(
-                                      //padding: EdgeInsets.all(0),
-                                      child: RaisedButton.icon(
-                                        color: Color(0xFF6A8D73),
-                                        onPressed: () => {},
-                                        icon: Icon(Icons.video_call_rounded,
-                                            color: Colors.white),
-                                        label: Text('Film Set',
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                      ),
-                                    ),
-                                    //not sure why but all the buttons are changing colors at the same time
-                                  ],
-                                ),
-                              ],
-                            ),
+                                                //child: new Container(
+                                                //padding: EdgeInsets.all(0),
+                                                child: RaisedButton.icon(
+                                                  color: Color(0xFF6A8D73),
+                                                  onPressed: () => {},
+                                                  icon: Icon(Icons.video_call_rounded,
+                                                      color: Colors.white),
+                                                  label: Text('Film Set',
+                                                      style:
+                                                      TextStyle(color: Colors.white)),
+                                                ),
+                                              ),
+                                            ]),
+                                            ListView.builder(
+                                                shrinkWrap: true,
+                                                // scrollDirection: Axis.vertical,
+                                                itemCount: widget
+                                                    .superset.exercises[entry.key].setCount,
+                                                itemBuilder: (ctx, int) {
+                                                  return SetButton(
+                                                      (bool state) {
+                                                    if (!state) {
+                                                      widget
+                                                          .superset
+                                                          .exercises[entry.key]
+                                                          .setComplete--;
+                                                    } else {
+                                                      widget
+                                                          .superset
+                                                          .exercises[entry.key]
+                                                          .setComplete++;
+                                                    }
+                                                  },
+                                                      int + 1 <=
+                                                          widget
+                                                              .superset
+                                                              .exercises[
+                                                                  entry.key]
+                                                              .setComplete,
+                                                      '${widget.superset.exercises[entry.key].setWeight} x ${widget.superset.exercises[entry.key].setReps} reps');
+                                                }),
+                                          ]),
+                                        ))
+                                    .toList()),
                             Container(
                               // padding: EdgeInsets.all(2.0),
                               child: new Column(
@@ -427,81 +277,5 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                             ),
                           ])))));
     });
-    // backgroundColor: Color(0xFFFFEB3),
-    // child: Container(
-    //   color: Colors.white,
-    //   child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //       children: [
-    //         Text("hello"),
-    //     Container(
-    //       margin: EdgeInsets.all(8.0),
-    //
-    //       decoration: BoxDecoration(
-    //         boxShadow: <BoxShadow>[
-    //           BoxShadow(
-    //             color: Colors.white,
-    //             blurRadius: 1,
-    //             //offset: Offset(0, 2),
-    //           ),
-    //         ],
-    //       ),
-    //       //color: Colors.green,
-    //       padding: const EdgeInsets.only(bottom: 8),
-    //       //child: Scrollbar(isAlwaysShown:true, controller:_scrollController,)
-    //       child: Column(
-    //           crossAxisAlignment: CrossAxisAlignment.start,
-    //           children: <Widget>[
-    //             Align(
-    //               alignment: Alignment.centerLeft,
-    //               child: Text(
-    //                 'Workouts',
-    //                 textAlign: TextAlign.left,
-    //                 style: TextStyle(
-    //                   fontFamily: 'cabin',
-    //                   fontSize: 40,
-    //                   fontWeight: FontWeight.bold,
-    //                   color: Color(0xFF6A8D73),
-    //
-    //                   //fontWeight: w600
-    //                 ),
-    //               ),
-    //             ),
-    //             SizedBox(height: 30),
-    //             Text('Today',
-    //                 style: TextStyle(
-    //                   fontFamily: 'cabin',
-    //                   fontSize: 20,
-    //                   fontWeight: FontWeight.bold,
-    //                   color: Color(0xFFA2C2A9),
-    //                 )),
-    //             Text('$formattedDate',
-    //                 style: TextStyle(
-    //                   fontFamily: 'cabin',
-    //                   fontSize: 20,
-    //                   fontWeight: FontWeight.bold,
-    //                   color: Color(0xFF6A8D73),
-    //                 )),
-    //           ]),
-    //     ),
-    //     new ListView.builder(
-    //       padding: const EdgeInsets.all(20),
-    //       itemCount: entries.length,
-    //       itemBuilder: (BuildContext context, int index) {
-    //         return Card(
-    //           elevation: 5,
-    //           child: Padding(
-    //             padding: const EdgeInsets.all(100),
-    //             child: ListTile(
-    //               title: Text('${entries[index]}'),
-    //               subtitle: Text('${subentries[index]}'),
-    //             ),
-    //           ),
-    //           color: Colors.green[colorCodes[index]],
-    //         );
-    //       },
-    //     ),
-    //   ]),
-    // ));
   }
 }

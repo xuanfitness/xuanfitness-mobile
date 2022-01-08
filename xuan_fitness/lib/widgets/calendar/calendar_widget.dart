@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:xuan_fitness/pages/splash.dart';
 import 'package:xuan_fitness/repositories/calendar_repository.dart';
 import 'package:xuan_fitness/widgets/calendar/calendar_card.dart';
 
@@ -68,6 +69,8 @@ class _CalendarWidgetState extends State<CalendarWidget>
         DateTime nowParsed = DateTime(now.year, now.month, now.day);
         _selectedEvents = calendarRepo.calendar[nowParsed] ?? [];
       }
+      if(calendarRepo.calendar == null)
+        return Splash();
 
       return Container(
         color: Theme.of(context).primaryColorDark,
@@ -107,7 +110,12 @@ class _CalendarWidgetState extends State<CalendarWidget>
                                   TextStyle(color: Colors.white, fontSize: 16),
                             )),
                       ),
-                      Expanded(child: _buildCards())
+                      Expanded(child: _buildCards()),
+                      (_selectedEvents.contains("Comment"))?
+                      FlatButton(
+                            child: Text("Review")
+                          ):
+                      Container()
                     ])),
           ),
           maxHeight: 300,

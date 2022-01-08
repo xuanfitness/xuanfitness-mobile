@@ -4,12 +4,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:xuan_fitness/models/day.dart';
+import 'package:xuan_fitness/models/fitness/workout.dart';
+import 'package:xuan_fitness/pages/fitness/workout_home.dart';
 import 'package:xuan_fitness/pages/fitness/workout_list.dart';
 import 'package:xuan_fitness/pages/splash.dart';
 import 'package:xuan_fitness/repositories/calendar_repository.dart';
 import 'package:xuan_fitness/repositories/habits_repository.dart';
 import 'package:xuan_fitness/repositories/nutrition_repository.dart';
 import 'package:xuan_fitness/repositories/user_repository.dart';
+import 'package:xuan_fitness/repositories/workout_repository.dart';
 import 'package:xuan_fitness/widgets/calendar/calendar_widget.dart';
 import 'package:xuan_fitness/pages/nutrition/nutrition_home.dart';
 import 'package:xuan_fitness/pages/habits/habit_home.dart';
@@ -33,14 +36,13 @@ class _TaskBarState extends State<TaskBar> {
   String _dateString;
 
   Day _dayData;
-  Future<dynamic> initData;
 
   @override
   void initState() {
     super.initState();
 
     //initialize widget state
-    _widgetOptions = [WorkoutList(), HabitsHome(), NutritionHome()];
+    _widgetOptions = [WorkoutHome(), HabitsHome(), NutritionHome()];
     _colorList = [
       _unSelectedColor,
       _unSelectedColor,
@@ -53,7 +55,7 @@ class _TaskBarState extends State<TaskBar> {
     _date = DateTime.now();
     _dateString = '${_date.year}-${_date.month}-${_date.day}';
     _dayData = Day(_date);
-    initData = _dayData.initData();
+    // initData = _dayData.initData();
   }
 
   void _onNavBarItemTapped(int index) {
@@ -75,7 +77,7 @@ class _TaskBarState extends State<TaskBar> {
   Widget build(BuildContext context) {
     final user = Provider.of<UserRepository>(context);
     return FutureBuilder(
-      future: initData,
+      future: _dayData.initData(user.user),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
         if(_dayData.data == null){
           return Splash();
@@ -84,6 +86,9 @@ class _TaskBarState extends State<TaskBar> {
               providers: [
                 ChangeNotifierProvider(
                   create: (_) => CalendarRepository.instance(user.user),
+                ),
+                ChangeNotifierProvider(
+                  create: (_) => WorkoutRepository.instance(user.user, _date,  _dayData.data['fitness']),
                 ),
                 ChangeNotifierProvider(
                   create: (_) => HabitRepository.instance(user.user, _date,  _dayData.data['habits']),

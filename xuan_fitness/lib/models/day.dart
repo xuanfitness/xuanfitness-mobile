@@ -1,28 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 class Day{
-  // Map<String, dynamic> _fitness, _habits, _nutrition;
+  static DateFormat _dateFormat = new DateFormat('yyyy-MM-dd');
   Map<String, dynamic> _data;
   DateTime _date;
   String _dateString;
+  String _weekString;
+  User _user;
 
   Map<String, dynamic> get data => _data;
 
   Day(DateTime date){
-    // this._dateString = _dateString = '${date.year}-${date.month}-${date.day}';
-    this._dateString = '2021-06-21';
+    this._date = date;
+    this._dateString = _dateFormat.format(date);
+    DateTime weekStart = DateTime(date.year, date.month, date.day - (date.weekday - 1));
+    this._weekString = 'W${_dateFormat.format(weekStart)}';
     this._data = null;
   }
 
-  Future initData() async{
+  Future initData(User user) async{
     print("GET DATA");
-    var rawData = await FirebaseFirestore.instance.collection('users/test/$_dateString').get();
-    this._data = {};
-    if(rawData.docs.isNotEmpty) {
-      for (QueryDocumentSnapshot q in rawData.docs) {
-        this._data[q.id] = q.data();
+    this._user = user;
+    if(this._data == {} || this._data == null){
+      print("FIREBASE CALL");
+      var rawData = await FirebaseFirestore.instance.doc('users/${_user.uid}/$_weekString/$_dateString').get();
+      print('users/${_user.uid}/$_weekString/$_dateString');
+      this._data = {};
+      if(rawData.exists){
+        this._data = rawData.data();
       }
-      print(this._data);
+      print(rawData.data());
     }
   }
 }
