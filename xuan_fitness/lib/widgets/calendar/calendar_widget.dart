@@ -7,6 +7,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:xuan_fitness/pages/splash.dart';
 import 'package:xuan_fitness/repositories/calendar_repository.dart';
 import 'package:xuan_fitness/widgets/calendar/calendar_card.dart';
+import 'package:xuan_fitness/pages/auth/summary.dart';
 
 class CalendarWidget extends StatefulWidget {
   CalendarWidget({Key key, this.title}) : super(key: key);
@@ -49,7 +50,11 @@ class _CalendarWidgetState extends State<CalendarWidget>
   void _onDaySelected(DateTime day, List events, List holidays) {
     print('CALLBACK: _onDaySelected');
     setState(() {
-      _panelTitle = (today.year == day.year && today.month == day.month && today.day == day.day)? "Today": '${day.year}-${day.month}-${day.day}';
+      _panelTitle = (today.year == day.year &&
+              today.month == day.month &&
+              today.day == day.day)
+          ? "Today"
+          : '${day.year}-${day.month}-${day.day}';
       _selectedEvents = events;
     });
   }
@@ -161,7 +166,6 @@ class _CalendarWidgetState extends State<CalendarWidget>
                   color: Theme.of(context).primaryColorDark,
                 ),
               ),
-
             ],
           ),
         ),
@@ -293,7 +297,20 @@ class _CalendarWidgetState extends State<CalendarWidget>
         FontAwesomeIcons.solidHeart));
     cards.add(CalendarCard("Nutrition", _selectedEvents.contains("Nutrition"),
         FontAwesomeIcons.utensils));
+
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround, children: cards);
+  }
+
+  Widget button() {
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => summary()),
+        );
+      },
+      child: const Text('summary'),
+    );
   }
 }

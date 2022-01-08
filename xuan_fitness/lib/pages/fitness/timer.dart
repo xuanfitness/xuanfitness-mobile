@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class TimerWidget extends StatefulWidget {
-
   @override
   _State createState() => _State();
 }
@@ -41,65 +40,66 @@ class _State extends State<TimerWidget> {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            /// Display stop watch time
-            Padding(
-              padding: const EdgeInsets.only(bottom: 0),
-              child: StreamBuilder<int>(
-                stream: _stopWatchTimer.rawTime,
-                initialData: _stopWatchTimer.rawTime.value,
-                builder: (context, snap) {
-                  final value = snap.data;
-                  final displayTime =
-                  StopWatchTimer.getDisplayTime(value, hours: _isHours);
-                  return Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          displayTime,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 40,
-                              fontFamily: 'Helvetica',
-                              fontWeight: FontWeight.bold),
-                        ),
-                      )
-                    ],
-                  );
-                },
-              ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          /// Display stop watch time
+          Padding(
+            padding: const EdgeInsets.only(bottom: 0),
+            child: StreamBuilder<int>(
+              stream: _stopWatchTimer.rawTime,
+              initialData: _stopWatchTimer.rawTime.value,
+              builder: (context, snap) {
+                final value = snap.data;
+                final displayTime =
+                    StopWatchTimer.getDisplayTime(value, hours: _isHours);
+                return Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        displayTime,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 40,
+                            fontFamily: 'Helvetica',
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
+                );
+              },
             ),
-            /// Lap time.
-            Container(
-              height: 120,
-              margin: const EdgeInsets.all(8),
-              child: StreamBuilder<List<StopWatchRecord>>(
-                stream: _stopWatchTimer.records,
-                initialData: _stopWatchTimer.records.value,
-                builder: (context, snap) {
-                  final value = snap.data;
-                  if (value.isEmpty) {
-                    return Container();
-                  }
-                  Future.delayed(const Duration(milliseconds: 100), () {
-                    _scrollController.animateTo(
-                        _scrollController.position.maxScrollExtent,
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.easeOut);
-                  });
-                  print('Listen records. $value');
-                  return ListView.builder(
-                    controller: _scrollController,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (BuildContext context, int index) {
-                      final data = value[index];
-                      return Column(
-                        children: <Widget>[
-                          Padding(
+          ),
+
+          /// Lap time.
+          Container(
+            height: 120,
+            margin: const EdgeInsets.all(8),
+            child: StreamBuilder<List<StopWatchRecord>>(
+              stream: _stopWatchTimer.records,
+              initialData: _stopWatchTimer.records.value,
+              builder: (context, snap) {
+                final value = snap.data;
+                if (value.isEmpty) {
+                  return Container();
+                }
+                Future.delayed(const Duration(milliseconds: 100), () {
+                  _scrollController.animateTo(
+                      _scrollController.position.maxScrollExtent,
+                      duration: const Duration(milliseconds: 200),
+                      curve: Curves.easeOut);
+                });
+                print('Listen records. $value');
+                return ListView.builder(
+                  controller: _scrollController,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (BuildContext context, int index) {
+                    final data = value[index];
+                    return Column(
+                      children: <Widget>[
+                        Padding(
                             padding: const EdgeInsets.all(8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -120,195 +120,193 @@ class _State extends State<TimerWidget> {
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],
-                            )
-                          ),
-                          const Divider(
-                            height: 1,
-                          )
-                        ],
-                      );
-                    },
-                    itemCount: value.length,
-                  );
-                },
-              ),
+                            )),
+                        const Divider(
+                          height: 1,
+                        )
+                      ],
+                    );
+                  },
+                  itemCount: value.length,
+                );
+              },
             ),
+          ),
 
-            /// Button
-            Padding(
-              padding: const EdgeInsets.all(2),
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: RaisedButton(
-                            padding: const EdgeInsets.all(4),
-                            color: Color(0xFF475D4D),
-                            shape: const StadiumBorder(),
-                            onPressed: () async {
-                              _stopWatchTimer.onExecute
-                                  .add(StopWatchExecute.start);
-                            },
-                            child: const Text(
-                              'Start',
-                              style: TextStyle(color: Colors.white),
-                            ),
+          /// Button
+          Padding(
+            padding: const EdgeInsets.all(2),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: RaisedButton(
+                          padding: const EdgeInsets.all(4),
+                          color: Color(0xFF475D4D),
+                          shape: const StadiumBorder(),
+                          onPressed: () async {
+                            _stopWatchTimer.onExecute
+                                .add(StopWatchExecute.start);
+                          },
+                          child: const Text(
+                            'Start',
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: RaisedButton(
-                            padding: const EdgeInsets.all(4),
-                            color: Color(0xFF475D4D),
-                            shape: const StadiumBorder(),
-                            onPressed: () async {
-                              _stopWatchTimer.onExecute
-                                  .add(StopWatchExecute.stop);
-                            },
-                            child: const Text(
-                              'Stop',
-                              style: TextStyle(color: Colors.white),
-                            ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: RaisedButton(
+                          padding: const EdgeInsets.all(4),
+                          color: Color(0xFF475D4D),
+                          shape: const StadiumBorder(),
+                          onPressed: () async {
+                            _stopWatchTimer.onExecute
+                                .add(StopWatchExecute.stop);
+                          },
+                          child: const Text(
+                            'Stop',
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: RaisedButton(
-                            padding: const EdgeInsets.all(4),
-                            color: Color(0xFF475D4D),
-                            shape: const StadiumBorder(),
-                            onPressed: () async {
-                              _stopWatchTimer.onExecute
-                                  .add(StopWatchExecute.reset);
-                            },
-                            child: const Text(
-                              'Reset',
-                              style: TextStyle(color: Colors.white),
-                            ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: RaisedButton(
+                          padding: const EdgeInsets.all(4),
+                          color: Color(0xFF475D4D),
+                          shape: const StadiumBorder(),
+                          onPressed: () async {
+                            _stopWatchTimer.onExecute
+                                .add(StopWatchExecute.reset);
+                          },
+                          child: const Text(
+                            'Reset',
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(0).copyWith(right: 8),
-                          child: RaisedButton(
-                            padding: const EdgeInsets.all(4),
-                            color: Color(0xFF475D4D),
-                            shape: const StadiumBorder(),
-                            onPressed: () async {
-                              _stopWatchTimer.onExecute
-                                  .add(StopWatchExecute.lap);
-                            },
-                            child: const Text(
-                              'Lap',
-                              style: TextStyle(color: Colors.white),
-                            ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(0).copyWith(right: 8),
+                        child: RaisedButton(
+                          padding: const EdgeInsets.all(4),
+                          color: Color(0xFF475D4D),
+                          shape: const StadiumBorder(),
+                          onPressed: () async {
+                            _stopWatchTimer.onExecute.add(StopWatchExecute.lap);
+                          },
+                          child: const Text(
+                            'Lap',
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(0),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.center,
-                  //     children: <Widget>[
-                  //       Padding(
-                  //         padding: const EdgeInsets.symmetric(horizontal: 4),
-                  //         child: RaisedButton(
-                  //           padding: const EdgeInsets.all(4),
-                  //           color: Colors.pinkAccent,
-                  //           shape: const StadiumBorder(),
-                  //           onPressed: () async {
-                  //             _stopWatchTimer.setPresetHoursTime(1);
-                  //           },
-                  //           child: const Text(
-                  //             'Set Hours',
-                  //             style: TextStyle(color: Colors.white),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       Padding(
-                  //         padding: const EdgeInsets.symmetric(horizontal: 4),
-                  //         child: RaisedButton(
-                  //           padding: const EdgeInsets.all(4),
-                  //           color: Colors.pinkAccent,
-                  //           shape: const StadiumBorder(),
-                  //           onPressed: () async {
-                  //             _stopWatchTimer.setPresetMinuteTime(59);
-                  //           },
-                  //           child: const Text(
-                  //             'Set Minute',
-                  //             style: TextStyle(color: Colors.white),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       Padding(
-                  //         padding: const EdgeInsets.symmetric(horizontal: 4),
-                  //         child: RaisedButton(
-                  //           padding: const EdgeInsets.all(4),
-                  //           color: Colors.pinkAccent,
-                  //           shape: const StadiumBorder(),
-                  //           onPressed: () async {
-                  //             _stopWatchTimer.setPresetSecondTime(10);
-                  //           },
-                  //           child: const Text(
-                  //             'Set Second',
-                  //             style: TextStyle(color: Colors.white),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 4),
-                  //   child: RaisedButton(
-                  //     padding: const EdgeInsets.all(4),
-                  //     color: Colors.pinkAccent,
-                  //     shape: const StadiumBorder(),
-                  //     onPressed: () async {
-                  //       _stopWatchTimer.setPresetTime(mSec: 3599 * 1000);
-                  //     },
-                  //     child: const Text(
-                  //       'Set PresetTime',
-                  //       style: TextStyle(color: Colors.white),
-                  //     ),
-                  //   ),
-                  // ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 4),
-                  //   child: ElevatedButton(
-                  //     style: ElevatedButton.styleFrom(
-                  //       primary: Colors.pinkAccent,
-                  //       onPrimary: Colors.white,
-                  //       shape: const StadiumBorder(),
-                  //     ),
-                  //     onPressed: () async {
-                  //       _stopWatchTimer.clearPresetTime();
-                  //     },
-                  //     child: const Text(
-                  //       'Clear PresetTime',
-                  //       style: TextStyle(color: Colors.white),
-                  //     ),
-                  //   ),
-                  // ),
-                ],
-              ),
-            )
-          ],
-        ),
-      );
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: <Widget>[
+                //       Padding(
+                //         padding: const EdgeInsets.symmetric(horizontal: 4),
+                //         child: RaisedButton(
+                //           padding: const EdgeInsets.all(4),
+                //           color: Colors.pinkAccent,
+                //           shape: const StadiumBorder(),
+                //           onPressed: () async {
+                //             _stopWatchTimer.setPresetHoursTime(1);
+                //           },
+                //           child: const Text(
+                //             'Set Hours',
+                //             style: TextStyle(color: Colors.white),
+                //           ),
+                //         ),
+                //       ),
+                //       Padding(
+                //         padding: const EdgeInsets.symmetric(horizontal: 4),
+                //         child: RaisedButton(
+                //           padding: const EdgeInsets.all(4),
+                //           color: Colors.pinkAccent,
+                //           shape: const StadiumBorder(),
+                //           onPressed: () async {
+                //             _stopWatchTimer.setPresetMinuteTime(59);
+                //           },
+                //           child: const Text(
+                //             'Set Minute',
+                //             style: TextStyle(color: Colors.white),
+                //           ),
+                //         ),
+                //       ),
+                //       Padding(
+                //         padding: const EdgeInsets.symmetric(horizontal: 4),
+                //         child: RaisedButton(
+                //           padding: const EdgeInsets.all(4),
+                //           color: Colors.pinkAccent,
+                //           shape: const StadiumBorder(),
+                //           onPressed: () async {
+                //             _stopWatchTimer.setPresetSecondTime(10);
+                //           },
+                //           child: const Text(
+                //             'Set Second',
+                //             style: TextStyle(color: Colors.white),
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 4),
+                //   child: RaisedButton(
+                //     padding: const EdgeInsets.all(4),
+                //     color: Colors.pinkAccent,
+                //     shape: const StadiumBorder(),
+                //     onPressed: () async {
+                //       _stopWatchTimer.setPresetTime(mSec: 3599 * 1000);
+                //     },
+                //     child: const Text(
+                //       'Set PresetTime',
+                //       style: TextStyle(color: Colors.white),
+                //     ),
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 4),
+                //   child: ElevatedButton(
+                //     style: ElevatedButton.styleFrom(
+                //       primary: Colors.pinkAccent,
+                //       onPrimary: Colors.white,
+                //       shape: const StadiumBorder(),
+                //     ),
+                //     onPressed: () async {
+                //       _stopWatchTimer.clearPresetTime();
+                //     },
+                //     child: const Text(
+                //       'Clear PresetTime',
+                //       style: TextStyle(color: Colors.white),
+                //     ),
+                //   ),
+                // ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
