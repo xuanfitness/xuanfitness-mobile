@@ -12,8 +12,8 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class WorkoutDetail extends StatefulWidget {
   final Exercise exercise;
-  Function setScreen;
-  WorkoutDetail(this.exercise, this.setScreen);
+  Function setScreen, setSavable;
+  WorkoutDetail(this.exercise, this.setScreen, this.setSavable);
 
   @override
   _WorkoutDetailState createState() => _WorkoutDetailState();
@@ -38,6 +38,7 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
     } else {
       widget.exercise.setComplete++;
     }
+    widget.setSavable();
   }
 
   @override
@@ -187,7 +188,7 @@ class _WorkoutDetailState extends State<WorkoutDetail> {
                                     return SetButton(
                                         changeSet,
                                         int + 1 <= widget.exercise.setComplete,
-                                        '${widget.exercise.setWeight} x ${widget.exercise.setReps} reps');
+                                        '${widget.exercise.setWeight} x ${widget.exercise.setReps} ${widget.exercise.repUnits}');
                                   }),
                             ),
                             Container(

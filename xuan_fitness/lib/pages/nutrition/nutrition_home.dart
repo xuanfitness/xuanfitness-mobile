@@ -15,7 +15,8 @@ class NutritionHome extends StatefulWidget {
 }
 
 class NutritionHomeState extends State<NutritionHome> {
-  static String formattedDate = DateFormat('EEEE, MMMM dd yyyy').format(DateTime.now());
+  static String formattedDate =
+      DateFormat('EEEE, MMMM dd yyyy').format(DateTime.now());
   @override
   Widget build(BuildContext context) {
     return Consumer(
@@ -83,34 +84,83 @@ class NutritionHomeState extends State<NutritionHome> {
               // SizedBox(height: 50),
 
               //PICTURES FOR NUTRITION
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: nutritionRepository.meals.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return new MealCard(nutritionRepository.meals[index]);
-                },
-              ),
-              ButtonTheme(
-                minWidth: 200.0,
-                // color: Colors.white,
-                //child: new Container(
-                //padding: EdgeInsets.all(0),
-                child: RaisedButton(
-                  color: Color(0xFF6A8D73),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            NutritionDetail(nutritionRepository),
-                      ),
-                    );
+              Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.white,
+                    Colors.grey[300],
+                  ],
+                )),
+                child: ListView.builder(
+                  padding: EdgeInsets.fromLTRB(10, 0, 8, 375),
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: nutritionRepository.meals.length + 1,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index == nutritionRepository.meals.length) {
+                      return FractionallySizedBox(
+                          widthFactor: 1,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Color(0xFF6A8D73))),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => NutritionDetail(
+                                            nutritionRepository),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text("New Meal")),
+                              OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  primary: Color(0xFF6A8D73),
+                                ),
+                                onPressed: (nutritionRepository.completed)
+                                    ? null
+                                    : () {
+                                        print("Mark Complete");
+                                        nutritionRepository.markComplete();
+                                      },
+                                child: const Text('Mark Complete'),
+                              ),
+                            ],
+                          ));
+                    } else {
+                      return new MealCard(nutritionRepository.meals[index]);
+                    }
                   },
-                  child: Text('Add new meal',
-                      style: TextStyle(color: Colors.white)),
                 ),
               ),
+              // ButtonTheme(
+              //   minWidth: 200.0,
+              //   // color: Colors.white,
+              //   //child: new Container(
+              //   //padding: EdgeInsets.all(0),
+              //   child: RaisedButton(
+              //     color: Color(0xFF6A8D73),
+              //     onPressed: () {
+              //       Navigator.push(
+              //         context,
+              //         MaterialPageRoute(
+              //           builder: (context) =>
+              //               NutritionDetail(nutritionRepository),
+              //         ),
+              //       );
+              //     },
+              //     child: Text('Add new meal',
+              //         style: TextStyle(color: Colors.white)),
+              //   ),
+              // ),
               //)
             ],
           ),

@@ -10,12 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:xuan_fitness/pages/fitness/timer.dart';
-import 'package:xuan_fitness/pages/fitness/workout_detail.dart';
+// import 'package:xuan_fitness/pages/fitness/workout_detail.dart';
 import 'package:xuan_fitness/pages/fitness/workout_circuit.dart';
 import 'package:xuan_fitness/pages/fitness/workout_superset.dart';
 import 'package:xuan_fitness/widgets/week_view.dart';
-import 'package:xuan_fitness/pages/fitness/WorkoutData.dart';
-import 'package:timelines/timelines.dart';
+// import 'package:xuan_fitness/pages/fitness/WorkoutData.dart';
+// import 'package:timelines/timelines.dart';
 import 'package:xuan_fitness/repositories/nutrition_repository.dart';
 import 'package:xuan_fitness/widgets/nutrition/meal_widget.dart';
 

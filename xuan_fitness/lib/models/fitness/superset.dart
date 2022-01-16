@@ -13,6 +13,16 @@ class Superset extends SectionEntry{
     this.exercises = list.map((i) => Exercise.fromJson(i)).toList();
   }
 
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      "exercises": exercises.map((h) => h.toJson()).toList(),
+      "id": id,
+      "name": name,
+      "type": type
+    };
+  }
+
   int countComplete(){
     int count = 0;
     this.exercises.forEach((exercise) {
@@ -23,7 +33,7 @@ class Superset extends SectionEntry{
   }
 
   @override
-  Widget listBuild(Function setScreen) {
+  Widget listBuild(Function setScreen, Function setSavable) {
     return Card(
         color: Colors.white,
         child: ListTile(
@@ -35,7 +45,7 @@ class Superset extends SectionEntry{
           trailing: (countComplete() == this.exercises.length)? new Icon(FontAwesome.smile_o,
                 color: Color(0xFF6A8D73)) : Text('${countComplete()}/${this.exercises.length}'),
           onTap: () {
-            setScreen(WorkoutSuperset(this, setScreen));
+            setScreen(WorkoutSuperset(this, setScreen, setSavable));
           }
         ));
   }

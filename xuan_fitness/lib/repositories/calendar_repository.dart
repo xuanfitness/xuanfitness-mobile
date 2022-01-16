@@ -10,8 +10,7 @@ class CalendarRepository with ChangeNotifier{
 
   CalendarRepository.instance(User user){
     user = user;
-    print('test/${user.uid}');
-    _db = FirebaseFirestore.instance.collection('users/test/calendar/');
+    _db = FirebaseFirestore.instance.collection('users/${user.uid}/calendar/');
 
     final today = DateTime.now();
     initCalendar('${today.year}-${today.month<10?'0'+today.month.toString():today.month}');
@@ -29,8 +28,8 @@ class CalendarRepository with ChangeNotifier{
         DateTime parsedDate = DateTime.parse(key);
         _events.putIfAbsent(parsedDate, () => value);
       });
-      notifyListeners();
     }
+    notifyListeners();
   }
 
   Future<void> addMonth(DateTime monthDate) async{
@@ -65,5 +64,10 @@ class CalendarRepository with ChangeNotifier{
       notifyListeners();
     }
     return null;
+  }
+
+  List<dynamic> getDay(DateTime day){
+    day = DateTime(day.year, day.month, day.day);
+    return _events[day];
   }
 }

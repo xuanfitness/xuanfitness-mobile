@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:xuan_fitness/models/habit.dart';
 
 class HabitCard extends StatelessWidget {
-  HabitCard(this.habit, this.index);
+  HabitCard(this.habit, this.index, this.makeSavable);
   final Habit habit;
   final int index;
+  final Function makeSavable;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,10 @@ class HabitCard extends StatelessWidget {
                     //(habit.response == null)?new TextField():Text(habit.response),
                     child: TextFormField(
                   initialValue: habit.response == null ? "" : habit.response,
-                  onChanged: (response) => {habit.update(response)},
+                  onChanged: (response) {
+                    habit.update(response);
+                    makeSavable();
+                  },
                 )),
               ],
             ),

@@ -6,10 +6,10 @@ import 'package:xuan_fitness/models/fitness/section_entry.dart';
 import 'package:xuan_fitness/models/fitness/superset.dart';
 
 class Section {
-  String _title;
+  String _title, _id;
   List<SectionEntry> _entries;
 
-  Section(this._title, dynamic entryData) {
+  Section(this._title, dynamic entryData, this._id,) {
     this._entries = [];
     for(dynamic raw in entryData){
       if(raw["type"] == "exercise"){
@@ -21,7 +21,14 @@ class Section {
       }
     }
   }
-  Widget build(Function setScreen){
+  Map<String, dynamic> toJson() {
+    return {
+      "title": _title,
+      "id": _id,
+      "entries":_entries.map((h) => h.toJson()).toList(),
+    };
+  }
+  Widget build(Function setScreen, Function setSavable){
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +45,7 @@ class Section {
             shrinkWrap: true,
             itemCount: _entries.length,
             itemBuilder: (context, index){
-                return _entries[index].listBuild(setScreen);
+                return _entries[index].listBuild(setScreen, setSavable);
             }
           )
         ],

@@ -17,7 +17,19 @@ class Circuit extends SectionEntry{
   }
 
   @override
-  Widget listBuild(Function setScreen) {
+  Map<String, dynamic> toJson() {
+    return {
+      "sets": sets.toString(),
+      "setsComplete": setsComplete.toString(),
+      "exercises": exercises.map((h) => h.toJson()).toList(),
+      "id": id,
+      "name": name,
+      "type": type
+    };
+  }
+
+  @override
+  Widget listBuild(Function setScreen, Function setSavable) {
     return Card(
         color: Colors.white,
         child: ListTile(
@@ -29,7 +41,7 @@ class Circuit extends SectionEntry{
             trailing: (this.setsComplete == this.sets)? new Icon(FontAwesome.smile_o,
                 color: Color(0xFF6A8D73)) : Text('${this.setsComplete}/${this.sets}'),
             onTap: () {
-              setScreen(WorkoutCircuit(this, setScreen));
+              setScreen(WorkoutCircuit(this, setScreen, setSavable));
             }
         ));
   }

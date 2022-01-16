@@ -12,8 +12,8 @@ import 'package:xuan_fitness/widgets/workout/workouts.dart';
 
 class WorkoutCircuit extends StatefulWidget {
   final Circuit circuit;
-  Function setScreen;
-  WorkoutCircuit(this.circuit, this.setScreen);
+  Function setScreen, setSavable;
+  WorkoutCircuit(this.circuit, this.setScreen, this.setSavable);
 
   @override
   _WorkoutCircuitState createState() => _WorkoutCircuitState();

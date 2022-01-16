@@ -7,5 +7,6 @@ abstract class SectionEntry{
       id = json["id"],
       name = json["name"],
       type = json["type"];
-  Widget listBuild(Function setScreen);
+  Map<String, dynamic> toJson();
+  Widget listBuild(Function setScreen, Function setSavable);
 }

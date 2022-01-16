@@ -87,14 +87,17 @@ class _TaskBarState extends State<TaskBar> {
                 ChangeNotifierProvider(
                   create: (_) => CalendarRepository.instance(user.user),
                 ),
-                ChangeNotifierProvider(
-                  create: (_) => WorkoutRepository.instance(user.user, _date,  _dayData.data['fitness']),
+                ChangeNotifierProxyProvider <CalendarRepository, WorkoutRepository>(
+                  create: (context) => WorkoutRepository.instance(user.user, _date,  _dayData.data['fitness']),
+                  update: (_, calendarRepo, workoutRepo) => workoutRepo.update(calendarRepo.addEvent, calendarRepo.getDay(_date)),
                 ),
-                ChangeNotifierProvider(
+                ChangeNotifierProxyProvider<CalendarRepository, HabitRepository>(
                   create: (_) => HabitRepository.instance(user.user, _date,  _dayData.data['habits']),
+                  update: (_, calendarRepo, habitRepo) => habitRepo.update(calendarRepo.addEvent, calendarRepo.getDay(_date)),
                 ),
-                ChangeNotifierProvider(
+                ChangeNotifierProxyProvider<CalendarRepository, NutritionRepository>(
                   create: (_) => NutritionRepository.instance(user.user, _date,  _dayData.data['nutrition']),
+                  update: (_, calendarRepo, nutritionRepo) => nutritionRepo.update(calendarRepo.addEvent, calendarRepo.getDay(_date)),
                 ),
               ],
               child: Scaffold(

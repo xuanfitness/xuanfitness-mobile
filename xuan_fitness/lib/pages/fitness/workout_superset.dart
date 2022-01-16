@@ -13,8 +13,8 @@ import 'package:xuan_fitness/widgets/workout/workouts.dart';
 
 class WorkoutSuperset extends StatefulWidget {
   final Superset superset;
-  Function setScreen;
-  WorkoutSuperset(this.superset, this.setScreen);
+  Function setScreen, setSavable;
+  WorkoutSuperset(this.superset, this.setScreen, this.setSavable);
 
   @override
   _WorkoutSupersetState createState() => _WorkoutSupersetState();

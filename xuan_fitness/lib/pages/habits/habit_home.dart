@@ -11,7 +11,8 @@ class HabitsHome extends StatefulWidget {
 }
 
 class HabitsHomeState extends State<HabitsHome> {
-  static String formattedDate = DateFormat('EEEE, MMMM dd yyyy').format(DateTime.now());
+  static String formattedDate =
+      DateFormat('EEEE, MMMM dd yyyy').format(DateTime.now());
   static final dateFormatter = DateFormat('EEEE, MMMM dd yyyy');
 
   @override
@@ -76,28 +77,72 @@ class HabitsHomeState extends State<HabitsHome> {
                             )),
                       ]),
                 ),
-
-                Ink(color: Color(0xFFCFE8D5)),
-                ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: habitRepo.habits.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return new HabitCard(habitRepo.habits[index], index);
-                  },
-                ),
-
-                new Card(
-                  color: Colors.white,
-                  //child: new Container(
-                  //padding: EdgeInsets.all(0),
-                  child: RaisedButton(
-                    color: Color(0xFF6A8D73),
-                    onPressed: () => {habitRepo.saveHabits()},
-                    child:
-                        Text('Submit', style: TextStyle(color: Colors.white)),
+                Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.white,
+                      Colors.grey[300],
+                    ],
+                  )),
+                  child: ListView.builder(
+                    padding: EdgeInsets.fromLTRB(10, 0, 8, 375),
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: habitRepo.habits.length + 1,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index == habitRepo.habits.length) {
+                        return FractionallySizedBox(
+                            widthFactor: 1,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                        MaterialStateProperty.all(
+                                            Color(0xFF6A8D73))),
+                                    onPressed: (habitRepository.savable)
+                                        ? () {
+                                            print("save");
+                                            habitRepository.saveHabits();
+                                          }
+                                        : null,
+                                    child: const Text("Save")),
+                                OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                    primary: Color(0xFF6A8D73),
+                                  ),
+                                  onPressed: (habitRepository.completed)
+                                      ? null
+                                      : () {
+                                          print("Mark Complete");
+                                          habitRepository.markComplete();
+                                        },
+                                  child: const Text('Mark Complete'),
+                                ),
+                              ],
+                            ));
+                      } else {
+                        return new HabitCard(habitRepo.habits[index], index, habitRepo.makeSavable);
+                      }
+                    },
                   ),
                 ),
+
+                // new Card(
+                //   color: Colors.white,
+                //   //child: new Container(
+                //   //padding: EdgeInsets.all(0),
+                //   child: RaisedButton(
+                //     color: Color(0xFF6A8D73),
+                //     onPressed: () => {habitRepo.saveHabits()},
+                //     child:
+                //         Text('Submit', style: TextStyle(color: Colors.white)),
+                //   ),
+                // ),
                 // ),
               ]),
         ),
