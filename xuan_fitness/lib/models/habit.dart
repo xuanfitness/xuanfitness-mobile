@@ -1,13 +1,15 @@
 class Habit{
-  String question, response;
-  Habit(this.question, this.response);
+  String question, response, feedback;
+  Habit(this.question, this.response, this.feedback);
   Habit.fromJson(Map<String, dynamic>json):
         question = json["question"],
-        response = json["response"]??"";
+        response = json["response"]??"",
+        feedback = json["feedback"]??"";
   Map<String, dynamic> toJson(){
     return {
       "question" : question,
-      "response" : response
+      "response" : response,
+      "feedback" : feedback,
     };
   }
   // String toJson(){

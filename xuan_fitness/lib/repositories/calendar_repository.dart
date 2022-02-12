@@ -6,17 +6,19 @@ class CalendarRepository with ChangeNotifier{
   CollectionReference _db;
   Map<DateTime, List> _events;
   List<String> months;
-  User user;
+  User _user;
+  Function refreshData;
 
-  CalendarRepository.instance(User user){
-    user = user;
+  CalendarRepository.instance(User user, Function refreshData){
+    _user = user;
     _db = FirebaseFirestore.instance.collection('users/${user.uid}/calendar/');
-
+    this.refreshData = refreshData;
     final today = DateTime.now();
     initCalendar('${today.year}-${today.month<10?'0'+today.month.toString():today.month}');
   }
 
   Map<DateTime, List> get calendar => _events;
+  User get user => _user;
 
   Future<void> initCalendar(String month) async{
     var temp = await _db.doc(month).get();

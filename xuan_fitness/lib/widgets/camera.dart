@@ -9,16 +9,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
 class Camera extends StatefulWidget {
-  Camera({Key key, this.title}) : super(key: key);
+  Camera({Key key, this.title, this.image, this.video}) : super(key: key);
 
   final String title;
+  final bool image, video;
 
   @override
   _CameraState createState() => _CameraState();
 }
 
 class _CameraState extends State<Camera> {
-  PickedFile _imageFile;
+  PickedFile _imageFile, _pickedFile;
   dynamic _pickImageError;
   bool isVideo = false;
   VideoPlayerController _controller;
@@ -26,10 +27,6 @@ class _CameraState extends State<Camera> {
   String _retrieveDataError;
 
   final ImagePicker _picker = ImagePicker();
-  final TextEditingController maxWidthController = TextEditingController();
-  final TextEditingController maxHeightController = TextEditingController();
-  final TextEditingController qualityController = TextEditingController();
-
   Future<void> _playVideo(PickedFile file) async {
     if (file != null && mounted) {
       await _disposeVideoController();
@@ -59,26 +56,24 @@ class _CameraState extends State<Camera> {
     if (isVideo) {
       final PickedFile file = await _picker.getVideo(
           source: source, maxDuration: const Duration(seconds: 10));
+      setState(() {
+        _pickedFile = file;
+      });
       await _playVideo(file);
     } else {
-      await _displayPickImageDialog(context,
-              (double maxWidth, double maxHeight, int quality) async {
-            try {
-              final pickedFile = await _picker.getImage(
-                source: source,
-                maxWidth: maxWidth,
-                maxHeight: maxHeight,
-                imageQuality: quality,
-              );
-              setState(() {
-                _imageFile = pickedFile;
-              });
-            } catch (e) {
-              setState(() {
-                _pickImageError = e;
-              });
-            }
-          });
+      try {
+        final pickedFile = await _picker.getImage(
+          source: source,
+        );
+        setState(() {
+          _pickedFile = pickedFile;
+          _imageFile = pickedFile;
+        });
+      } catch (e) {
+        setState(() {
+          _pickImageError = e;
+        });
+      }
     }
   }
 
@@ -94,9 +89,6 @@ class _CameraState extends State<Camera> {
   @override
   void dispose() {
     _disposeVideoController();
-    maxWidthController.dispose();
-    maxHeightController.dispose();
-    qualityController.dispose();
     super.dispose();
   }
 
@@ -173,6 +165,71 @@ class _CameraState extends State<Camera> {
     }
   }
 
+  List<Widget> renderButtons() {
+    List<Widget> buttons = List<Widget>();
+    if (widget.image) {
+      buttons.add(Semantics(
+        label: 'image_picker_example_from_gallery',
+        child: FloatingActionButton(
+          onPressed: () {
+            isVideo = false;
+            _onImageButtonPressed(ImageSource.gallery, context: context);
+          },
+          heroTag: 'image0',
+          tooltip: 'Pick Image from gallery',
+          child: const Icon(Icons.photo_library),
+        ),
+      ));
+      buttons.add(
+        Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: FloatingActionButton(
+            onPressed: () {
+              isVideo = false;
+              _onImageButtonPressed(ImageSource.camera, context: context);
+            },
+            heroTag: 'image1',
+            tooltip: 'Take a Photo',
+            child: const Icon(Icons.camera_alt),
+          ),
+        ),
+      );
+    }
+    if (widget.video) {
+      buttons.add(
+        Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: FloatingActionButton(
+            backgroundColor: Colors.red,
+            onPressed: () {
+              isVideo = true;
+              _onImageButtonPressed(ImageSource.gallery);
+            },
+            heroTag: 'video0',
+            tooltip: 'Pick Video from gallery',
+            child: const Icon(Icons.video_library),
+          ),
+        ),
+      );
+      buttons.add(
+        Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: FloatingActionButton(
+            backgroundColor: Colors.red,
+            onPressed: () {
+              isVideo = true;
+              _onImageButtonPressed(ImageSource.camera);
+            },
+            heroTag: 'video1',
+            tooltip: 'Take a Video',
+            child: const Icon(Icons.videocam),
+          ),
+        ),
+      );
+    }
+    return buttons;
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -187,7 +244,7 @@ class _CameraState extends State<Camera> {
           actions: [
             IconButton(
               icon: new Icon(Icons.check),
-              onPressed: () => Navigator.of(context).pop(_imageFile),
+              onPressed: () => Navigator.of(context).pop(_pickedFile),
             ),
             IconButton(
               icon: new Icon(Icons.delete),
@@ -198,88 +255,90 @@ class _CameraState extends State<Camera> {
         body: Center(
           child: !kIsWeb && defaultTargetPlatform == TargetPlatform.android
               ? FutureBuilder<void>(
-            future: retrieveLostData(),
-            builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                case ConnectionState.waiting:
-                  return const Text(
-                    'You have not yet picked an image.',
-                    textAlign: TextAlign.center,
-                  );
-                case ConnectionState.done:
-                  return isVideo ? _previewVideo() : _previewImage();
-                default:
-                  if (snapshot.hasError) {
-                    return Text(
-                      'Pick image/video error: ${snapshot.error}}',
-                      textAlign: TextAlign.center,
-                    );
-                  } else {
-                    return const Text(
-                      'You have not yet picked an image.',
-                      textAlign: TextAlign.center,
-                    );
-                  }
-              }
-            },
-          )
+                  future: retrieveLostData(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<void> snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                        return const Text(
+                          'You have not yet picked an image.',
+                          textAlign: TextAlign.center,
+                        );
+                      case ConnectionState.done:
+                        return isVideo ? _previewVideo() : _previewImage();
+                      default:
+                        if (snapshot.hasError) {
+                          return Text(
+                            'Pick image/video error: ${snapshot.error}}',
+                            textAlign: TextAlign.center,
+                          );
+                        } else {
+                          return const Text(
+                            'You have not yet picked an image.',
+                            textAlign: TextAlign.center,
+                          );
+                        }
+                    }
+                  },
+                )
               : (isVideo ? _previewVideo() : _previewImage()),
         ),
         floatingActionButton: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Semantics(
-              label: 'image_picker_example_from_gallery',
-              child: FloatingActionButton(
-                onPressed: () {
-                  isVideo = false;
-                  _onImageButtonPressed(ImageSource.gallery, context: context);
-                },
-                heroTag: 'image0',
-                tooltip: 'Pick Image from gallery',
-                child: const Icon(Icons.photo_library),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: FloatingActionButton(
-                onPressed: () {
-                  isVideo = false;
-                  _onImageButtonPressed(ImageSource.camera, context: context);
-                },
-                heroTag: 'image1',
-                tooltip: 'Take a Photo',
-                child: const Icon(Icons.camera_alt),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: FloatingActionButton(
-                backgroundColor: Colors.red,
-                onPressed: () {
-                  isVideo = true;
-                  _onImageButtonPressed(ImageSource.gallery);
-                },
-                heroTag: 'video0',
-                tooltip: 'Pick Video from gallery',
-                child: const Icon(Icons.video_library),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: FloatingActionButton(
-                backgroundColor: Colors.red,
-                onPressed: () {
-                  isVideo = true;
-                  _onImageButtonPressed(ImageSource.camera);
-                },
-                heroTag: 'video1',
-                tooltip: 'Take a Video',
-                child: const Icon(Icons.videocam),
-              ),
-            ),
-          ],
+          children: renderButtons(),
+          // <Widget>[
+          //   Semantics(
+          //     label: 'image_picker_example_from_gallery',
+          //     child: FloatingActionButton(
+          //       onPressed: () {
+          //         isVideo = false;
+          //         _onImageButtonPressed(ImageSource.gallery, context: context);
+          //       },
+          //       heroTag: 'image0',
+          //       tooltip: 'Pick Image from gallery',
+          //       child: const Icon(Icons.photo_library),
+          //     ),
+          //   ),
+          //   Padding(
+          //     padding: const EdgeInsets.only(top: 16.0),
+          //     child: FloatingActionButton(
+          //       onPressed: () {
+          //         isVideo = false;
+          //         _onImageButtonPressed(ImageSource.camera, context: context);
+          //       },
+          //       heroTag: 'image1',
+          //       tooltip: 'Take a Photo',
+          //       child: const Icon(Icons.camera_alt),
+          //     ),
+          //   ),
+          //   Padding(
+          //     padding: const EdgeInsets.only(top: 16.0),
+          //     child: FloatingActionButton(
+          //       backgroundColor: Colors.red,
+          //       onPressed: () {
+          //         isVideo = true;
+          //         _onImageButtonPressed(ImageSource.gallery);
+          //       },
+          //       heroTag: 'video0',
+          //       tooltip: 'Pick Video from gallery',
+          //       child: const Icon(Icons.video_library),
+          //     ),
+          //   ),
+          //   Padding(
+          //     padding: const EdgeInsets.only(top: 16.0),
+          //     child: FloatingActionButton(
+          //       backgroundColor: Colors.red,
+          //       onPressed: () {
+          //         isVideo = true;
+          //         _onImageButtonPressed(ImageSource.camera);
+          //       },
+          //       heroTag: 'video1',
+          //       tooltip: 'Take a Video',
+          //       child: const Icon(Icons.videocam),
+          //     ),
+          //   ),
+          // ],
         ),
       ),
     );
@@ -293,66 +352,7 @@ class _CameraState extends State<Camera> {
     }
     return null;
   }
-
-  Future<void> _displayPickImageDialog(
-      BuildContext context, OnPickImageCallback onPick) async {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Add optional parameters'),
-            content: Column(
-              children: <Widget>[
-                TextField(
-                  controller: maxWidthController,
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  decoration:
-                  InputDecoration(hintText: "Enter maxWidth if desired"),
-                ),
-                TextField(
-                  controller: maxHeightController,
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  decoration:
-                  InputDecoration(hintText: "Enter maxHeight if desired"),
-                ),
-                TextField(
-                  controller: qualityController,
-                  keyboardType: TextInputType.number,
-                  decoration:
-                  InputDecoration(hintText: "Enter quality if desired"),
-                ),
-              ],
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('CANCEL'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                  child: const Text('PICK'),
-                  onPressed: () {
-                    double width = maxWidthController.text.isNotEmpty
-                        ? double.parse(maxWidthController.text)
-                        : null;
-                    double height = maxHeightController.text.isNotEmpty
-                        ? double.parse(maxHeightController.text)
-                        : null;
-                    int quality = qualityController.text.isNotEmpty
-                        ? int.parse(qualityController.text)
-                        : null;
-                    onPick(width, height, quality);
-                    Navigator.of(context).pop();
-                  }),
-            ],
-          );
-        });
-  }
 }
-
-typedef void OnPickImageCallback(
-    double maxWidth, double maxHeight, int quality);
 
 class AspectRatioVideo extends StatefulWidget {
   AspectRatioVideo(this.controller);

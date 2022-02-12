@@ -21,10 +21,12 @@ class _SetState extends State<SetButton> {
       child: RaisedButton(
         child: Text(widget.text, textAlign: TextAlign.center,),
         onPressed: () {
-          widget.changeSet(!this.complete);
-          setState(() {
-            this.complete = !this.complete;
-          });
+          if(widget.changeSet!=null) {
+            widget.changeSet(!this.complete);
+            setState(() {
+              this.complete = !this.complete;
+            });
+          }
         },
         textColor: complete ? Color(0xFF6A8D73) : Colors.black,
         color: complete ? Color(0xFFCFE8D5) : Colors.white,

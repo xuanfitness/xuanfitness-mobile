@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 class Day{
   static DateFormat _dateFormat = new DateFormat('yyyy-MM-dd');
   Map<String, dynamic> _data;
-  DateTime _date;
+  DateTime date;
   String _dateString;
   String _weekString;
   User _user;
@@ -13,7 +13,7 @@ class Day{
   Map<String, dynamic> get data => _data;
 
   Day(DateTime date){
-    this._date = date;
+    this.date = date;
     this._dateString = _dateFormat.format(date);
     DateTime weekStart = DateTime(date.year, date.month, date.day - (date.weekday - 1));
     this._weekString = 'W${_dateFormat.format(weekStart)}';
@@ -33,5 +33,17 @@ class Day{
       }
       print(rawData.data());
     }
+  }
+
+  Future refreshData(User user) async{
+    print("REFRESH DATA");
+    print("FIREBASE CALL");
+    var rawData = await FirebaseFirestore.instance.doc('users/${_user.uid}/$_weekString/$_dateString').get();
+    print('users/${_user.uid}/$_weekString/$_dateString');
+    this._data = {};
+    if(rawData.exists){
+      this._data = rawData.data();
+    }
+    print(rawData.data());
   }
 }

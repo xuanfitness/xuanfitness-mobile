@@ -12,7 +12,7 @@ class NutritionRepository with ChangeNotifier{
   DocumentReference _db;
   List<Meal> _meals;
   DateTime _day;
-  String _dateString, _weekString;
+  String _dateString, _weekString, _monthString;
   User _user;
 
   Function addEvent;
@@ -29,14 +29,18 @@ class NutritionRepository with ChangeNotifier{
     _user = user;
     _day = date;
     this._dateString = _dateFormat.format(date);
+
+    DateFormat _monthFormat = new DateFormat('yyyy-MM');
+    this._monthString = _monthFormat.format(date);
+
     DateTime weekStart = DateTime(date.year, date.month, date.day - (date.weekday - 1));
     this._weekString = 'W${_dateFormat.format(weekStart)}';
-    this._db = FirebaseFirestore.instance.doc('users/${_user.uid}/$_weekString/$_dateString');
 
+    this._db = FirebaseFirestore.instance.doc('users/${_user.uid}/$_weekString/$_dateString');
     _meals = [];
     if(nutritionData != null){
       for(dynamic raw in nutritionData){
-        _meals.add(new Meal(raw["name"],raw["url"],raw["description"]));
+        _meals.add(new Meal(raw["name"],raw["url"],raw["description"], raw["feedback"]??""));
       }
     }
   }
@@ -60,15 +64,15 @@ class NutritionRepository with ChangeNotifier{
   Future<void> addMeal(String name, String description, String imagePath) async{
     final file = File(imagePath);
     TaskSnapshot snapshot = await FirebaseStorage
-        .instance.ref("8-2021/test")
+        .instance.ref('$_monthString/${_user.uid}/nutrition')
         .child(new DateTime.now().millisecondsSinceEpoch.toString())
         .putFile(file);
 
     if(snapshot.state == TaskState.success){
       final String downloadUrl = await snapshot.ref.getDownloadURL();
-      _meals.add(new Meal(name, downloadUrl, description));
-      // _db.doc("nutrition").set({"data": _meals.map((h)=> h.toJson()).toList()}, SetOptions(merge: true));
-      // notifyListeners();
+      _meals.add(new Meal(name, downloadUrl, description, ""));
+      await _db.update({"nutrition": _meals.map((h)=> h.toJson()).toList()});
+      notifyListeners();
     }else{
       print("Error");
     }

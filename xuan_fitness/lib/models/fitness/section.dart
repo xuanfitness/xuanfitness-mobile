@@ -9,6 +9,8 @@ class Section {
   String _title, _id;
   List<SectionEntry> _entries;
 
+  List<SectionEntry> get entries => _entries;
+
   Section(this._title, dynamic entryData, this._id,) {
     this._entries = [];
     for(dynamic raw in entryData){
@@ -52,4 +54,30 @@ class Section {
       ),
     );
   }
+
+  Widget buildSummary(){
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('$_title',
+              style: TextStyle(
+                fontFamily: 'cabin',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              )),
+          ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: _entries.length,
+              itemBuilder: (context, index){
+                return _entries[index].listBuildSummary(context);
+              }
+          )
+        ],
+      ),
+    );
+  }
+
 }

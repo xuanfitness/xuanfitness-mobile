@@ -11,26 +11,21 @@ import 'package:xuan_fitness/pages/fitness/workout_list.dart';
 import 'package:xuan_fitness/widgets/camera.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
-class WorkoutCircuit extends StatefulWidget {
+class WorkoutCircuitSummary extends StatefulWidget {
   final Circuit circuit;
-  Function setScreen, setSavable;
-  WorkoutCircuit(this.circuit, this.setScreen, this.setSavable);
+  WorkoutCircuitSummary(this.circuit);
 
   @override
   _WorkoutCircuitState createState() => _WorkoutCircuitState();
 }
 
-class _WorkoutCircuitState extends State<WorkoutCircuit> {
+class _WorkoutCircuitState extends State<WorkoutCircuitSummary> {
   String formattedDate =
       DateFormat('EEEE, MMMM dd yyyy').format(DateTime.now());
   List<YoutubePlayerController> _controllers;
-  String filmUrl;
-  PickedFile _pickedFile;
 
   void initState() {
     super.initState();
-    filmUrl = widget.circuit.filmURL;
-    _pickedFile = widget.circuit.pickedFile;
 
     _controllers = widget.circuit.exercises
         .map((exercise) => YoutubePlayerController(
@@ -104,8 +99,7 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                           style: TextStyle(
                                               color: Color(0xFF6A8D73))),
                                       onPressed: () {
-                                        widget.setScreen(
-                                            WorkoutList(widget.setScreen));
+                                        Navigator.pop(context);
                                       },
                                       shape: RoundedRectangleBorder(
                                           side: BorderSide(
@@ -137,7 +131,8 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                                       color: Colors.black,
                                                     )),
                                                 Container(
-                                                  padding: EdgeInsets.only(top: 5),
+                                                  padding:
+                                                      EdgeInsets.only(top: 5),
                                                   child: YoutubePlayerIFrame(
                                                     controller:
                                                         _controllers[entry.key],
@@ -191,39 +186,12 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                         color: Colors.black,
                                       )),
                                   (widget.circuit.film)
-                                      ? (_pickedFile == null && filmUrl == "")
+                                      ? (widget.circuit.filmURL == "")
                                           ? ButtonTheme(
                                               minWidth: 20,
                                               height: 30,
                                               child: RaisedButton.icon(
                                                 color: Color(0xFF6A8D73),
-                                                onPressed: () async {
-                                                  //Navigator.of(context).pop();
-                                                  var navigationResult =
-                                                      await Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Camera(
-                                                        title: "Film",
-                                                        image: false,
-                                                        video: true,
-                                                      ),
-                                                    ),
-                                                  );
-                                                  if (navigationResult !=
-                                                      null) {
-                                                    setState(() {
-                                                      _pickedFile =
-                                                          navigationResult;
-                                                      widget.circuit
-                                                              .pickedFile =
-                                                          navigationResult;
-                                                    });
-                                                    widget.setSavable();
-                                                  }
-                                                  // show the camera
-                                                },
                                                 icon: Icon(
                                                     Icons.video_call_rounded,
                                                     color: Colors.white),
@@ -253,14 +221,9 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                   scrollDirection: Axis.horizontal,
                                   itemCount: widget.circuit.sets,
                                   itemBuilder: (ctx, int) {
-                                    return SetButton((bool state) {
-                                      if (!state) {
-                                        widget.circuit.setsComplete--;
-                                      } else {
-                                        widget.circuit.setsComplete++;
-                                      }
-                                      widget.setSavable();
-                                    }, int + 1 <= widget.circuit.setsComplete,
+                                    return SetButton(
+                                        null,
+                                        int + 1 <= widget.circuit.setsComplete,
                                         '${int + 1}');
                                   }),
                             ),
@@ -282,11 +245,12 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                       )),
                                     ]),
                                     TextFormField(
-                                      initialValue: widget.circuit.comments == null ? "" : widget.circuit.comments,
-                                      onChanged: (comment) {
-                                        widget.circuit.comments = comment;
-                                        widget.setSavable();
-                                      },),
+                                      initialValue:
+                                          widget.circuit.comments == null
+                                              ? ""
+                                              : widget.circuit.comments,
+                                      readOnly: true,
+                                    ),
                                   ]),
                             ),
                             Column(
@@ -297,9 +261,7 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                         style: TextStyle(
                                             color: Color(0xFF6A8D73))),
                                     onPressed: () {
-                                      // Navigate back to first route when tapped.
-                                      widget.setScreen(
-                                          WorkoutList(widget.setScreen));
+                                      Navigator.pop(context);
                                     },
                                     shape: RoundedRectangleBorder(
                                         side: BorderSide(

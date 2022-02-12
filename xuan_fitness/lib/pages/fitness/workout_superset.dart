@@ -8,8 +8,8 @@ import 'package:xuan_fitness/models/fitness/exercise.dart';
 import 'package:xuan_fitness/models/fitness/superset.dart';
 import 'package:xuan_fitness/pages/fitness/set.dart';
 import 'package:xuan_fitness/pages/fitness/workout_list.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:xuan_fitness/widgets/workout/workouts.dart';
+import 'package:xuan_fitness/widgets/camera.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class WorkoutSuperset extends StatefulWidget {
   final Superset superset;
@@ -29,8 +29,9 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
     super.initState();
     _controllers = widget.superset.exercises
         .map((exercise) => YoutubePlayerController(
-              initialVideoId: YoutubePlayer.convertUrlToId(exercise.url),
-              flags: const YoutubePlayerFlags(autoPlay: false),
+              initialVideoId:
+                  YoutubePlayerController.convertUrlToId(exercise.url),
+              params: const YoutubePlayerParams(autoPlay: false),
             ))
         .toList();
   }
@@ -131,39 +132,42 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                                                       color: Colors.black,
                                                     )),
                                                 Container(
-                                                  child: YoutubePlayerBuilder(
-                                                      player: YoutubePlayer(
-                                                        controller:
-                                                            _controllers[
-                                                                entry.key],
-                                                      ),
-                                                      builder:
-                                                          (context, player) {
-                                                        return player;
-                                                      }),
-                                                ),
-                                                Container(
-                                                  width: double.infinity,
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      0, 10, 0, 10),
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      15, 30, 15, 30),
-                                                  child: Text(
-                                                      'Remember to keep your feet shoulder width apart!',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontFamily: 'cabin',
-                                                          fontSize: 15,
+                                                    child: YoutubePlayerIFrame(
+                                                  controller:
+                                                      _controllers[entry.key],
+                                                )),
+                                                (entry.value.cues == "")
+                                                    ? Padding(
+                                                        padding:
+                                                            EdgeInsets.all(10),
+                                                      )
+                                                    : Container(
+                                                        width: double.infinity,
+                                                        margin:
+                                                            EdgeInsets.fromLTRB(
+                                                                0, 10, 0, 10),
+                                                        padding:
+                                                            EdgeInsets.fromLTRB(
+                                                                15, 30, 15, 30),
+                                                        child: Text(
+                                                            '${entry.value.cues}',
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'cabin',
+                                                                fontSize: 15,
+                                                                color: Color(
+                                                                    0xFF6A8D73)
+                                                                //fontWeight: FontWeight.bold,
+                                                                )),
+                                                        decoration:
+                                                            BoxDecoration(
                                                           color:
-                                                              Color(0xFF6A8D73)
-                                                          //fontWeight: FontWeight.bold,
-                                                          )),
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xFFCFE8D5),
-                                                    // borderRadius: BorderRadius.circular(20),
-                                                  ),
-                                                )
+                                                              Color(0xFFCFE8D5),
+                                                          // borderRadius: BorderRadius.circular(20),
+                                                        ),
+                                                      )
                                               ],
                                             ))
                                         .toList())),
@@ -175,45 +179,74 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                                     .asMap()
                                     .entries
                                     .map((entry) => Expanded(
-                                          child: Column(
-                                              children: [
+                                          child: Column(children: [
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
                                                 children: [
-                                              Text('Sets ${entry.key + 1}',
-                                                  textAlign: TextAlign.left,
-                                                  //textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    fontFamily: 'cabin',
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black,
-                                                  )),
-                                              ButtonTheme(
-                                                height: 20,
-                                                  shape:
-                                                      RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(2),
-                                                      ),
-
-                                                //child: new Container(
-                                                //padding: EdgeInsets.all(0),
-                                                child: RaisedButton.icon(
-                                                  color: Color(0xFF6A8D73),
-                                                  onPressed: () => {},
-                                                  icon: Icon(Icons.video_call_rounded,
-                                                      color: Colors.white),
-                                                  label: Text('Film Set',
-                                                      style:
-                                                      TextStyle(color: Colors.white)),
-                                                ),
-                                              ),
-                                            ]),
+                                                  Text('Sets ${entry.key + 1}',
+                                                      textAlign: TextAlign.left,
+                                                      //textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        fontFamily: 'cabin',
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black,
+                                                      )),
+                                                  (widget.superset.film)
+                                                      ? ( entry.value.pickedFile == null && entry.value.filmURL == "")
+                                                      ? ButtonTheme(
+                                                    minWidth: 20,
+                                                    height: 30,
+                                                    child: RaisedButton.icon(
+                                                      color: Color(0xFF6A8D73),
+                                                      onPressed: () async{
+                                                        //Navigator.of(context).pop();
+                                                        var navigationResult = await Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) => Camera(title: "Film", image: false, video: true,),
+                                                          ),
+                                                        );
+                                                        if(navigationResult != null){
+                                                          setState(() {
+                                                            entry.value.pickedFile = navigationResult;
+                                                          });
+                                                          widget.setSavable();
+                                                        }
+                                                        // show the camera
+                                                      },
+                                                      icon: Icon(
+                                                          Icons.video_call_rounded,
+                                                          color: Colors.white),
+                                                      label: Text('Film Set',
+                                                          style: TextStyle(
+                                                              color: Colors.white)),
+                                                    ),
+                                                  )
+                                                      : TextButton.icon(
+                                                    icon: Icon(
+                                                      Icons.check,
+                                                      color: Colors.grey,
+                                                    ),
+                                                    label: Text(
+                                                      'Film Set',
+                                                      style: TextStyle(
+                                                          color: Colors.grey),
+                                                    ),
+                                                    onPressed: () {},
+                                                  )
+                                                      : Padding(padding: EdgeInsets.all(0)),
+                                                ]),
                                             ListView.builder(
                                                 shrinkWrap: true,
                                                 // scrollDirection: Axis.vertical,
                                                 itemCount: widget
-                                                    .superset.exercises[entry.key].setCount,
+                                                    .superset
+                                                    .exercises[entry.key]
+                                                    .setCount,
                                                 itemBuilder: (ctx, int) {
                                                   return SetButton(
                                                       (bool state) {
@@ -228,6 +261,7 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                                                           .exercises[entry.key]
                                                           .setComplete++;
                                                     }
+                                                    widget.setSavable();
                                                   },
                                                       int + 1 <=
                                                           widget
@@ -235,7 +269,7 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                                                               .exercises[
                                                                   entry.key]
                                                               .setComplete,
-                                                      '${widget.superset.exercises[entry.key].setWeight} x ${widget.superset.exercises[entry.key].setReps} reps');
+                                                      '${widget.superset.exercises[entry.key].setReps} ${widget.superset.exercises[entry.key].repUnits} @ ${widget.superset.exercises[entry.key].setWeight}');
                                                 }),
                                           ]),
                                         ))
@@ -257,24 +291,35 @@ class _WorkoutSupersetState extends State<WorkoutSuperset> {
                                             color: Color(0xFF6A8D73)),
                                       )),
                                     ]),
-                                    new TextField(
-                                        style: TextStyle(
-                                            color: Color(0xFF6A8D73))),
+                                    TextFormField(
+                                      initialValue: widget.superset.comments == null ? "" : widget.superset.comments,
+                                      onChanged: (comment) {
+                                        widget.superset.comments = comment;
+                                        widget.setSavable();
+                                      },)
                                   ]),
                             ),
-                            ButtonTheme(
-                              minWidth: 300,
-                              height: 40,
-                              //child: new Container(
-                              //padding: EdgeInsets.all(0),
-                              child: RaisedButton(
-                                color: Color(0xFF6A8D73),
-                                onPressed: () => {},
-                                //icon: Icon(Icons.home),
-                                child: Text('Submit',
-                                    style: TextStyle(color: Colors.white)),
-                              ),
-                            ),
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  FlatButton(
+                                    child: Text("Back",
+                                        style: TextStyle(
+                                            color: Color(0xFF6A8D73))),
+                                    onPressed: () {
+                                      // Navigate back to first route when tapped.
+                                      widget.setScreen(
+                                          WorkoutList(widget.setScreen));
+                                    },
+                                    shape: RoundedRectangleBorder(
+                                        side: BorderSide(
+                                            color: Color(0xFF6A8D73),
+                                            width: 1,
+                                            style: BorderStyle.solid),
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                  )
+                                ]),
                           ])))));
     });
   }

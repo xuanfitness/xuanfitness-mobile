@@ -200,7 +200,7 @@ class NutritionDetailState extends State<NutritionDetail> {
                             var navigationResult = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Camera(title: mealName??"Image for New Meal"),
+                                builder: (context) => Camera(title: mealName??"Image for New Meal", image: true, video: false,),
                               ),
                             );
                             if(navigationResult != null){
@@ -243,16 +243,4 @@ class NutritionDetailState extends State<NutritionDetail> {
       ),
     );
   }
-
-  // void createHabits(){
-  //     databaseReference.child("0").set({
-  //   'description': 'test-description',
-  //   'meal': 'breakfast'
-  //   'photoID' 'testID'
-  // });
-  // databaseReference.child("1").set({
-  //   'title': 'Flutter in Action',
-  //   'description': 'Complete Programming Guide to learn Flutter'
-  // });
-  // }
 }

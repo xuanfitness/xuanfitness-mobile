@@ -36,6 +36,7 @@ class _TaskBarState extends State<TaskBar> {
   String _dateString;
 
   Day _dayData;
+  Future<void> _dayFuture;
 
   @override
   void initState() {
@@ -56,6 +57,7 @@ class _TaskBarState extends State<TaskBar> {
     _dateString = '${_date.year}-${_date.month}-${_date.day}';
     _dayData = Day(_date);
     // initData = _dayData.initData();
+    reload = false;
   }
 
   void _onNavBarItemTapped(int index) {
@@ -72,20 +74,35 @@ class _TaskBarState extends State<TaskBar> {
     else
       return _widgetOptions.elementAt(_selectedIndex);
   }
+  bool reload;
+  void refreshData(){
+    Navigator.popAndPushNamed(context, '/');
+    // setState(() {
+    //   reload = true;
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserRepository>(context);
+    // print("_dayFuture before");
+    // print(_dayFuture);
+    // _dayFuture = _dayData.initData(user.user);
+    // print("_dayFuture");
+    // print(_dayFuture);
+    _dayFuture = (reload)? _dayData.refreshData(user.user): _dayData.initData(user.user);
+    reload = false;
     return FutureBuilder(
-      future: _dayData.initData(user.user),
+      future: _dayFuture,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
+        print("BUILD TASK BAR");
         if(_dayData.data == null){
           return Splash();
         } else{
           return MultiProvider(
               providers: [
                 ChangeNotifierProvider(
-                  create: (_) => CalendarRepository.instance(user.user),
+                  create: (_) => CalendarRepository.instance(user.user,refreshData),
                 ),
                 ChangeNotifierProxyProvider <CalendarRepository, WorkoutRepository>(
                   create: (context) => WorkoutRepository.instance(user.user, _date,  _dayData.data['fitness']),

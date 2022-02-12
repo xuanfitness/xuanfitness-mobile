@@ -35,7 +35,7 @@ class HabitRepository with ChangeNotifier{
 
     this._habits = [];
     for(dynamic raw in habitData){
-      this._habits.add(new Habit(raw["question"],raw["response"]??""));
+      this._habits.add(new Habit(raw["question"],raw["response"]??"", raw["feedback"]?? ""));
     }
   }
 

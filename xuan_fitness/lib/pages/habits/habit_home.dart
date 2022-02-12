@@ -66,7 +66,7 @@ class HabitsHomeState extends State<HabitsHome> {
                               fontFamily: 'cabin',
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFFCFE8D5),
+                              color: Color(0xFFA2C2A9),
                             )),
                         Text('$formattedDate',
                             style: TextStyle(

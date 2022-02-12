@@ -3,14 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:xuan_fitness/models/fitness/section.dart';
 import 'package:intl/intl.dart';
+import 'package:xuan_fitness/models/fitness/section_entry.dart';
 
 class WorkoutRepository with ChangeNotifier{
   static DateFormat _dateFormat = new DateFormat('yyyy-MM-dd');
   DocumentReference _db;
   List<Section> _sections;
   DateTime _day;
-  String _dateString;
-  String _weekString;
+  String _dateString, _weekString, _monthString;
   User _user;
   bool savable, completed;
   Function addEvent;
@@ -25,6 +25,9 @@ class WorkoutRepository with ChangeNotifier{
     this._user = user;
     this._day = date;
     this._dateString = _dateFormat.format(date);
+
+    DateFormat _monthFormat = new DateFormat('yyyy-MM');
+    this._monthString = _monthFormat.format(date);
 
     DateTime weekStart = DateTime(date.year, date.month, date.day - (date.weekday - 1));
     this._weekString = 'W${_dateFormat.format(weekStart)}';
@@ -62,6 +65,11 @@ class WorkoutRepository with ChangeNotifier{
   }
 
   Future<void> saveWorkout() async{
+    for(Section section in _sections){
+      for(SectionEntry se in section.entries){
+        await se.saveFilm('$_monthString/${_user.uid}/fitness');
+      }
+    }
     _db.set({"fitness": _sections.map((h)=> h.toJson()).toList()}, SetOptions(merge: true));
     this.savable = false;
     notifyListeners();

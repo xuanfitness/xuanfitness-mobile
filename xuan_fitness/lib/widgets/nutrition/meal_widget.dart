@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:xuan_fitness/models/meal.dart';
 
@@ -17,12 +18,24 @@ class MealCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8.0),
-                  topRight: Radius.circular(8.0),
-                ),
-                child: meal.img,
-              ),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8.0),
+                    topRight: Radius.circular(8.0),
+                  ),
+                  child:
+                      // Image.network(meal.imageURL)
+                      FadeInImage.assetNetwork(
+                    // here `bytes` is a Uint8List containing the bytes for the in-memory image
+                    placeholder: 'images/xuan_logo.png',
+                    image: meal.imageURL,
+                    imageErrorBuilder: (
+                      BuildContext context,
+                      Object error,
+                      StackTrace stackTrace,
+                    ) {
+                      return Container(height:200,color: Colors.black12,child: new Icon(Icons.error));
+                    },
+                  )),
               ListTile(
                 title: Text(
                   meal.title,
@@ -31,7 +44,7 @@ class MealCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                subtitle: Text(meal.description),
+                subtitle: Text(meal.description ?? ""),
               )
             ],
           ),

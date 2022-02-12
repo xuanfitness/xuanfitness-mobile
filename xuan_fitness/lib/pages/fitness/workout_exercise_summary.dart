@@ -5,40 +5,33 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:xuan_fitness/models/fitness/circuit.dart';
+import 'package:xuan_fitness/models/fitness/exercise.dart';
 import 'package:xuan_fitness/pages/fitness/set.dart';
 import 'package:xuan_fitness/pages/fitness/workout_list.dart';
 import 'package:xuan_fitness/widgets/camera.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
-class WorkoutCircuit extends StatefulWidget {
-  final Circuit circuit;
-  Function setScreen, setSavable;
-  WorkoutCircuit(this.circuit, this.setScreen, this.setSavable);
+class WorkoutDetailSummary extends StatefulWidget {
+  final Exercise exercise;
+  WorkoutDetailSummary(this.exercise);
 
   @override
-  _WorkoutCircuitState createState() => _WorkoutCircuitState();
+  _WorkoutDetailState createState() => _WorkoutDetailState();
 }
 
-class _WorkoutCircuitState extends State<WorkoutCircuit> {
+class _WorkoutDetailState extends State<WorkoutDetailSummary> {
   String formattedDate =
       DateFormat('EEEE, MMMM dd yyyy').format(DateTime.now());
-  List<YoutubePlayerController> _controllers;
-  String filmUrl;
-  PickedFile _pickedFile;
+  YoutubePlayerController _controller;
 
   void initState() {
     super.initState();
-    filmUrl = widget.circuit.filmURL;
-    _pickedFile = widget.circuit.pickedFile;
 
-    _controllers = widget.circuit.exercises
-        .map((exercise) => YoutubePlayerController(
-              initialVideoId:
-                  YoutubePlayerController.convertUrlToId(exercise.url),
-              params: const YoutubePlayerParams(autoPlay: false),
-            ))
-        .toList();
+    _controller = YoutubePlayerController(
+      initialVideoId:
+          YoutubePlayerController.convertUrlToId(widget.exercise.url),
+      params: const YoutubePlayerParams(autoPlay: false),
+    );
   }
 
   @override
@@ -64,7 +57,7 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                       )),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Container(
                               decoration: BoxDecoration(
@@ -84,7 +77,7 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                     Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                        'Circuit',
+                                        widget.exercise.name,
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                           fontFamily: 'cabin',
@@ -104,8 +97,7 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                           style: TextStyle(
                                               color: Color(0xFF6A8D73))),
                                       onPressed: () {
-                                        widget.setScreen(
-                                            WorkoutList(widget.setScreen));
+                                        Navigator.pop(context);
                                       },
                                       shape: RoundedRectangleBorder(
                                           side: BorderSide(
@@ -118,70 +110,39 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                   ]),
                             ),
                             Center(
-                                child: Column(
-                                    children: widget.circuit.exercises
-                                        .asMap()
-                                        .entries
-                                        .map((entry) => Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                    "${entry.key + 1}. ${entry.value.name} (${entry.value.setReps} ${entry.value.repUnits} @ ${entry.value.setWeight})",
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      fontFamily: 'cabin',
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black,
-                                                    )),
-                                                Container(
-                                                  padding: EdgeInsets.only(top: 5),
-                                                  child: YoutubePlayerIFrame(
-                                                    controller:
-                                                        _controllers[entry.key],
-                                                  ),
-                                                ),
-                                                (entry.value.cues == "")
-                                                    ? Padding(
-                                                        padding:
-                                                            EdgeInsets.all(10))
-                                                    : Container(
-                                                        width: double.infinity,
-                                                        margin:
-                                                            EdgeInsets.fromLTRB(
-                                                                0, 10, 0, 10),
-                                                        padding:
-                                                            EdgeInsets.fromLTRB(
-                                                                15, 30, 15, 30),
-                                                        child: Text(
-                                                            '${entry.value.cues}',
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'cabin',
-                                                                fontSize: 15,
-                                                                color: Color(
-                                                                    0xFF6A8D73)
-                                                                //fontWeight: FontWeight.bold,
-                                                                )),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              Color(0xFFCFE8D5),
-                                                          // borderRadius: BorderRadius.circular(20),
-                                                        ),
-                                                      )
-                                              ],
-                                            ))
-                                        .toList())),
+                              child: Container(
+                                child: YoutubePlayerIFrame(
+                                  controller: _controller,
+                                ),
+                              ),
+                            ),
+                            (widget.exercise.cues == "")
+                                ? Padding(padding: EdgeInsets.all(10))
+                                : Center(
+                                    child: Container(
+                                      width: double.infinity,
+                                      margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                      padding:
+                                          EdgeInsets.fromLTRB(15, 30, 15, 30),
+                                      child: Text('${widget.exercise.cues}',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontFamily: 'cabin',
+                                              fontSize: 15,
+                                              color: Color(0xFF6A8D73)
+                                              //fontWeight: FontWeight.bold,
+                                              )),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFCFE8D5),
+                                        // borderRadius: BorderRadius.circular(20),
+                                      ),
+                                    ),
+                                  ),
                             Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Text('Rounds',
+                                  Text('Sets',
                                       textAlign: TextAlign.left,
                                       //textAlign: TextAlign.left,
                                       style: TextStyle(
@@ -190,40 +151,13 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       )),
-                                  (widget.circuit.film)
-                                      ? (_pickedFile == null && filmUrl == "")
+                                  (widget.exercise.film)
+                                      ? (widget.exercise.filmURL == "")
                                           ? ButtonTheme(
                                               minWidth: 20,
                                               height: 30,
                                               child: RaisedButton.icon(
                                                 color: Color(0xFF6A8D73),
-                                                onPressed: () async {
-                                                  //Navigator.of(context).pop();
-                                                  var navigationResult =
-                                                      await Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Camera(
-                                                        title: "Film",
-                                                        image: false,
-                                                        video: true,
-                                                      ),
-                                                    ),
-                                                  );
-                                                  if (navigationResult !=
-                                                      null) {
-                                                    setState(() {
-                                                      _pickedFile =
-                                                          navigationResult;
-                                                      widget.circuit
-                                                              .pickedFile =
-                                                          navigationResult;
-                                                    });
-                                                    widget.setSavable();
-                                                  }
-                                                  // show the camera
-                                                },
                                                 icon: Icon(
                                                     Icons.video_call_rounded,
                                                     color: Colors.white),
@@ -251,21 +185,16 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                               child: ListView.builder(
                                   shrinkWrap: true,
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: widget.circuit.sets,
+                                  itemCount: widget.exercise.setCount,
                                   itemBuilder: (ctx, int) {
-                                    return SetButton((bool state) {
-                                      if (!state) {
-                                        widget.circuit.setsComplete--;
-                                      } else {
-                                        widget.circuit.setsComplete++;
-                                      }
-                                      widget.setSavable();
-                                    }, int + 1 <= widget.circuit.setsComplete,
-                                        '${int + 1}');
+                                    return SetButton(
+                                        null,
+                                        int + 1 <= widget.exercise.setComplete,
+                                        '${widget.exercise.setReps} ${widget.exercise.repUnits} @ ${widget.exercise.setWeight}');
                                   }),
                             ),
                             Container(
-                              // padding: EdgeInsets.all(2.0),
+                              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                               child: new Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -282,11 +211,9 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                       )),
                                     ]),
                                     TextFormField(
-                                      initialValue: widget.circuit.comments == null ? "" : widget.circuit.comments,
-                                      onChanged: (comment) {
-                                        widget.circuit.comments = comment;
-                                        widget.setSavable();
-                                      },),
+                                      readOnly: true,
+                                      initialValue: widget.exercise.comments == null ? "" : widget.exercise.comments,
+                                    ),
                                   ]),
                             ),
                             Column(
@@ -297,9 +224,7 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                         style: TextStyle(
                                             color: Color(0xFF6A8D73))),
                                     onPressed: () {
-                                      // Navigate back to first route when tapped.
-                                      widget.setScreen(
-                                          WorkoutList(widget.setScreen));
+                                      Navigator.pop(context);
                                     },
                                     shape: RoundedRectangleBorder(
                                         side: BorderSide(

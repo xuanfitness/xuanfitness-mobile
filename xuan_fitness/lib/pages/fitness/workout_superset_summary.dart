@@ -1,38 +1,32 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:xuan_fitness/models/fitness/circuit.dart';
+import 'package:xuan_fitness/models/fitness/exercise.dart';
+import 'package:xuan_fitness/models/fitness/superset.dart';
 import 'package:xuan_fitness/pages/fitness/set.dart';
 import 'package:xuan_fitness/pages/fitness/workout_list.dart';
 import 'package:xuan_fitness/widgets/camera.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
-class WorkoutCircuit extends StatefulWidget {
-  final Circuit circuit;
-  Function setScreen, setSavable;
-  WorkoutCircuit(this.circuit, this.setScreen, this.setSavable);
+class WorkoutSupersetSummary extends StatefulWidget {
+  final Superset superset;
+  WorkoutSupersetSummary(this.superset);
 
   @override
-  _WorkoutCircuitState createState() => _WorkoutCircuitState();
+  _WorkoutSupersetState createState() => _WorkoutSupersetState();
 }
 
-class _WorkoutCircuitState extends State<WorkoutCircuit> {
+class _WorkoutSupersetState extends State<WorkoutSupersetSummary> {
   String formattedDate =
       DateFormat('EEEE, MMMM dd yyyy').format(DateTime.now());
   List<YoutubePlayerController> _controllers;
-  String filmUrl;
-  PickedFile _pickedFile;
 
   void initState() {
     super.initState();
-    filmUrl = widget.circuit.filmURL;
-    _pickedFile = widget.circuit.pickedFile;
-
-    _controllers = widget.circuit.exercises
+    _controllers = widget.superset.exercises
         .map((exercise) => YoutubePlayerController(
               initialVideoId:
                   YoutubePlayerController.convertUrlToId(exercise.url),
@@ -84,7 +78,7 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                     Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                        'Circuit',
+                                        'Superset',
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                           fontFamily: 'cabin',
@@ -104,8 +98,7 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                           style: TextStyle(
                                               color: Color(0xFF6A8D73))),
                                       onPressed: () {
-                                        widget.setScreen(
-                                            WorkoutList(widget.setScreen));
+                                        Navigator.pop(context);
                                       },
                                       shape: RoundedRectangleBorder(
                                           side: BorderSide(
@@ -119,7 +112,7 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                             ),
                             Center(
                                 child: Column(
-                                    children: widget.circuit.exercises
+                                    children: widget.superset.exercises
                                         .asMap()
                                         .entries
                                         .map((entry) => Column(
@@ -127,7 +120,7 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                    "${entry.key + 1}. ${entry.value.name} (${entry.value.setReps} ${entry.value.repUnits} @ ${entry.value.setWeight})",
+                                                    "${entry.key + 1}. ${entry.value.name}",
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                       fontFamily: 'cabin',
@@ -137,16 +130,15 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                                       color: Colors.black,
                                                     )),
                                                 Container(
-                                                  padding: EdgeInsets.only(top: 5),
-                                                  child: YoutubePlayerIFrame(
-                                                    controller:
-                                                        _controllers[entry.key],
-                                                  ),
-                                                ),
+                                                    child: YoutubePlayerIFrame(
+                                                  controller:
+                                                      _controllers[entry.key],
+                                                )),
                                                 (entry.value.cues == "")
                                                     ? Padding(
                                                         padding:
-                                                            EdgeInsets.all(10))
+                                                            EdgeInsets.all(10),
+                                                      )
                                                     : Container(
                                                         width: double.infinity,
                                                         margin:
@@ -179,91 +171,78 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                         .toList())),
                             Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text('Rounds',
-                                      textAlign: TextAlign.left,
-                                      //textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        fontFamily: 'cabin',
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      )),
-                                  (widget.circuit.film)
-                                      ? (_pickedFile == null && filmUrl == "")
-                                          ? ButtonTheme(
-                                              minWidth: 20,
-                                              height: 30,
-                                              child: RaisedButton.icon(
-                                                color: Color(0xFF6A8D73),
-                                                onPressed: () async {
-                                                  //Navigator.of(context).pop();
-                                                  var navigationResult =
-                                                      await Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Camera(
-                                                        title: "Film",
-                                                        image: false,
-                                                        video: true,
-                                                      ),
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: widget.superset.exercises
+                                    .asMap()
+                                    .entries
+                                    .map((entry) => Expanded(
+                                          child: Column(children: [
+                                            Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  Text('Sets ${entry.key + 1}',
+                                                      textAlign: TextAlign.left,
+                                                      //textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        fontFamily: 'cabin',
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.black,
+                                                      )),
+                                                  (widget.superset.film)
+                                                      ? ( entry.value.pickedFile == null && entry.value.filmURL == "")
+                                                      ? ButtonTheme(
+                                                    minWidth: 20,
+                                                    height: 30,
+                                                    child: RaisedButton.icon(
+                                                      color: Color(0xFF6A8D73),
+                                                      icon: Icon(
+                                                          Icons.video_call_rounded,
+                                                          color: Colors.white),
+                                                      label: Text('Film Set',
+                                                          style: TextStyle(
+                                                              color: Colors.white)),
                                                     ),
-                                                  );
-                                                  if (navigationResult !=
-                                                      null) {
-                                                    setState(() {
-                                                      _pickedFile =
-                                                          navigationResult;
-                                                      widget.circuit
-                                                              .pickedFile =
-                                                          navigationResult;
-                                                    });
-                                                    widget.setSavable();
-                                                  }
-                                                  // show the camera
-                                                },
-                                                icon: Icon(
-                                                    Icons.video_call_rounded,
-                                                    color: Colors.white),
-                                                label: Text('Film Set',
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                              ),
-                                            )
-                                          : TextButton.icon(
-                                              icon: Icon(
-                                                Icons.check,
-                                                color: Colors.grey,
-                                              ),
-                                              label: Text(
-                                                'Film Set',
-                                                style: TextStyle(
-                                                    color: Colors.grey),
-                                              ),
-                                              onPressed: () {},
-                                            )
-                                      : Padding(padding: EdgeInsets.all(0)),
-                                ]),
-                            SizedBox(
-                              height: 90.0,
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: widget.circuit.sets,
-                                  itemBuilder: (ctx, int) {
-                                    return SetButton((bool state) {
-                                      if (!state) {
-                                        widget.circuit.setsComplete--;
-                                      } else {
-                                        widget.circuit.setsComplete++;
-                                      }
-                                      widget.setSavable();
-                                    }, int + 1 <= widget.circuit.setsComplete,
-                                        '${int + 1}');
-                                  }),
-                            ),
+                                                  )
+                                                      : TextButton.icon(
+                                                    icon: Icon(
+                                                      Icons.check,
+                                                      color: Colors.grey,
+                                                    ),
+                                                    label: Text(
+                                                      'Film Set',
+                                                      style: TextStyle(
+                                                          color: Colors.grey),
+                                                    ),
+                                                    onPressed: () {},
+                                                  )
+                                                      : Padding(padding: EdgeInsets.all(0)),
+                                                ]),
+                                            ListView.builder(
+                                                shrinkWrap: true,
+                                                // scrollDirection: Axis.vertical,
+                                                itemCount: widget
+                                                    .superset
+                                                    .exercises[entry.key]
+                                                    .setCount,
+                                                itemBuilder: (ctx, int) {
+                                                  return SetButton(
+                                                      null,
+                                                      int + 1 <=
+                                                          widget
+                                                              .superset
+                                                              .exercises[
+                                                                  entry.key]
+                                                              .setComplete,
+                                                      '${widget.superset.exercises[entry.key].setReps} ${widget.superset.exercises[entry.key].repUnits} @ ${widget.superset.exercises[entry.key].setWeight}');
+                                                }),
+                                          ]),
+                                        ))
+                                    .toList()),
                             Container(
                               // padding: EdgeInsets.all(2.0),
                               child: new Column(
@@ -282,11 +261,8 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                       )),
                                     ]),
                                     TextFormField(
-                                      initialValue: widget.circuit.comments == null ? "" : widget.circuit.comments,
-                                      onChanged: (comment) {
-                                        widget.circuit.comments = comment;
-                                        widget.setSavable();
-                                      },),
+                                      initialValue: widget.superset.comments == null ? "" : widget.superset.comments,
+                                      readOnly: true,)
                                   ]),
                             ),
                             Column(
@@ -297,9 +273,7 @@ class _WorkoutCircuitState extends State<WorkoutCircuit> {
                                         style: TextStyle(
                                             color: Color(0xFF6A8D73))),
                                     onPressed: () {
-                                      // Navigate back to first route when tapped.
-                                      widget.setScreen(
-                                          WorkoutList(widget.setScreen));
+                                      Navigator.pop(context);
                                     },
                                     shape: RoundedRectangleBorder(
                                         side: BorderSide(
